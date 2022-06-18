@@ -1,0 +1,10 @@
+.navcontainer {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navitems {
+  border: 0;
+  float: left;
+}

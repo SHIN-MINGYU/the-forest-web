@@ -1,34 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# THE FOREST with stranger
 
-## Getting Started
+<img src="public/main.png"  alt="with stranger"></img>
 
-First, run the development server:
+<h1>1.Indroduction</h1>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+### <span style="color:green">The Forest with stranger </span> is chatting web for people who stay home all the time
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Have you ever stayed home the whole time? then, hang out with us and make freinds!
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+<h1>2. Function</h1>
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+1. Public 1. Chat with stranger(1:1 chat) 2. Chat with strangers(group chat)
+   <br/>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+2. Private
+   1. Chat with friends(1:1 chat)
+   2. Chat with friends(group chat)
+   3. Video chat(video chat)
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<h1>3. Tech STACK </h1>
+</br>
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Typescipt-blue?style=flat-square&logo=Typescript&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Nodejs-green?style=flat-square&logo=Node.js&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Graphql-purple?style=flat-square&logo=Graphql&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/React.js-blue?style=flat-square&logo=React&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Next.js-white?style=flat-square&logo=Next.js&logoColor=black"/></a>
+<img src="https://img.shields.io/badge/Socket.io-010101?style=flat-square&logo=Socket.io&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white"/></a>
