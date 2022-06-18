@@ -10,8 +10,11 @@ Have you ever stayed home the whole time? then, hang out with us and make freind
 
 <h1>2. Function</h1>
 
-1. Public 1. Chat with stranger(1:1 chat) 2. Chat with strangers(group chat)
-   <br/>
+1. Public
+
+   1. Chat with stranger(1:1 chat)
+   2. Chat with strangers(group chat)
+      <br/>
 
 2. Private
    1. Chat with friends(1:1 chat)
@@ -22,7 +25,7 @@ Have you ever stayed home the whole time? then, hang out with us and make freind
 </br>
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Typescipt-blue?style=flat-square&logo=Typescript&logoColor=white"/></a>
-<img src="https://img.shields.io/badge/Nodejs-green?style=flat-square&logo=Node.js&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Node.js-green?style=flat-square&logo=Node.js&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Graphql-purple?style=flat-square&logo=Graphql&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/React.js-blue?style=flat-square&logo=React&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Next.js-white?style=flat-square&logo=Next.js&logoColor=black"/></a>
