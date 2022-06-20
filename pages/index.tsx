@@ -1,10 +1,26 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import styles from "../styles/Home.module.css";
+import { BsPeople } from "react-icons/bs";
+import Link from "next/link";
+import { gql, useQuery } from "@apollo/client";
+import client from "../apollo-client";
+
+const query = gql`
+  query {
+    ChatLog {
+      chat_room
+      uid
+      log
+    }
+  }
+`;
 
 const Home: NextPage = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { data, loading, error } = useQuery(query);
+  console.log(data);
   return (
     <div className={styles.container}>
       <Head>
@@ -20,14 +36,25 @@ const Home: NextPage = () => {
           <div className="text-center">
             <p className="text-white text-5xl">The Forest</p>
             <p className="text-white text-2xl  mt-1">with Stranger</p>
-            <button className="bg-gradient-to-r from-green-200 to-green-700 hover:from-pink-500 hover:to-yellow-500 delay-100 mt-4 px-4 py-2 ">
-              <span className="text-white font-bold">JOIN</span>
+            <button className="bg-gradient-to-r  hover:from-green-500 hover:to-green-900 delay-100 mt-4 px-16 py-4 ">
+              <span className="text-white font-bold text-2xl">
+                <Link href="/chat/public/oneonone">JOIN</Link>
+              </span>
             </button>
           </div>
         </div>
-        {
-          //main viedo
-        }
+        <h1 className="text-3xl font-bold text-center py-6">Public</h1>
+        <div className="grid grid-cols-3 grid-flow-col px-2">
+          <div className="h-80 px-10">
+            <div className="h-full flex flex-col justify-center items-center bg-green-400 rounded-md">
+              <BsPeople size={100}></BsPeople>
+              <p>Chat with stranger</p>
+              <p>1:1 chat</p>
+            </div>
+          </div>
+          <div className="h-80 bg-slate-600 px-3"></div>
+          <div className="h-80 bg-slate-800 px-3"></div>
+        </div>
       </main>
     </div>
   );
