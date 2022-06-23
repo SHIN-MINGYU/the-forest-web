@@ -1,26 +1,25 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useRef } from "react";
+import { RefObject, useRef } from "react";
 import styles from "../styles/Home.module.css";
 import { BsPeople } from "react-icons/bs";
 import Link from "next/link";
 import { gql, useQuery } from "@apollo/client";
-import client from "../apollo-client";
 
-const query = gql`
+const SEARCH_ROOM = gql`
   query {
-    ChatLog {
-      chat_room
-      uid
-      log
+    SearchRoom {
+      _id
     }
   }
 `;
 
 const Home: NextPage = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const { data, loading, error } = useQuery(query);
-  console.log(data);
+  const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
+  const onClick: () => void = () => {
+    const { data, loading, error } = useQuery(SEARCH_ROOM);
+    console.log(data);
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -29,31 +28,40 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={"min-h-screen"}>
-        <video className="relative" ref={videoRef} loop autoPlay muted>
+        <video
+          className="relative min-w-full"
+          ref={videoRef}
+          loop
+          autoPlay
+          muted>
           <source src="videos/mainVideo.mp4"></source>
         </video>
         <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
           <div className="text-center">
             <p className="text-white text-5xl">The Forest</p>
             <p className="text-white text-2xl  mt-1">with Stranger</p>
-            <button className="bg-gradient-to-r  hover:from-green-500 hover:to-green-900 delay-100 mt-4 px-16 py-4 ">
+            <button
+              onClick={onClick}
+              className="bg-gradient-to-r  hover:from-green-500 hover:to-green-900 delay-100 mt-4 px-16 py-4 ">
               <span className="text-white font-bold text-2xl">
                 <Link href="/chat/public/oneonone">JOIN</Link>
               </span>
             </button>
           </div>
         </div>
-        <h1 className="text-3xl font-bold text-center py-6">Public</h1>
-        <div className="grid grid-cols-3 grid-flow-col px-2">
-          <div className="h-80 px-10">
-            <div className="h-full flex flex-col justify-center items-center bg-green-400 rounded-md">
-              <BsPeople size={100}></BsPeople>
-              <p>Chat with stranger</p>
-              <p>1:1 chat</p>
+        <div className="bg-white dark:bg-black text-black dark:text-white">
+          <h1 className="text-3xl font-bold text-center py-6">Public</h1>
+          <div className="grid grid-cols-3 grid-flow-col px-2">
+            <div className="h-80 px-10">
+              <div className="h-full flex flex-col justify-center items-center bg-green-400 rounded-md">
+                <BsPeople size={100}></BsPeople>
+                <p>Chat with stranger</p>
+                <p>1:1 chat</p>
+              </div>
             </div>
+            <div className="h-80 bg-slate-600 px-3"></div>
+            <div className="h-80 bg-slate-800 px-3"></div>
           </div>
-          <div className="h-80 bg-slate-600 px-3"></div>
-          <div className="h-80 bg-slate-800 px-3"></div>
         </div>
       </main>
     </div>

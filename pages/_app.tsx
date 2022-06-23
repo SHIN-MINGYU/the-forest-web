@@ -21,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     } else {
       document.documentElement.classList.remove("dark");
     }
+    userCheck();
   }, [theme]);
 
   return (
@@ -33,5 +34,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     </div>
   );
 }
+
+const userCheck = () => {
+  if (true) {
+    sessionStorage.setItem("user", Math.random().toString(36).slice(2));
+  } else {
+  }
+};
 
 export default wrapper.withRedux(MyApp);
