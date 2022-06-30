@@ -14,6 +14,7 @@ export default function useInput(
     setValue(e.target.value);
   };
   const reset = useCallback(() => {
+    //initailState reset function
     setValue(initialValue);
   }, [initialValue]);
   return { value, onChange, reset };

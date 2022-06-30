@@ -1,16 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
-import { useRef, useState } from "react";
-import useInput from "../../hooks/useInput";
-const SEND_CHAT = gql`
-  mutation onSendChat(
-    $chat_room: ID!
-    $log: String
-    $uid: ID
-    $createAt: Date
-  ) {
-    SendChat(chat_room: $chat_room, log: $log, uid: $uid, createAt: $createAt)
-  }
-`;
+import { useRef } from "react";
+import useInput from "@hooks/useInput";
+import { SEND_CHAT } from "@query/publicChatQuery";
 
 function ChatInput({ chatRoom }: { chatRoom: string }) {
   const { reset, ...message } = useInput("");

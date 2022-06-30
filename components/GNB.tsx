@@ -2,13 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BsEmojiSunglassesFill, BsEmojiSunglasses } from "react-icons/bs";
-import { getLocalStorage, setLocalStorage } from "../hooks/LocalStorage";
+import { getLocalStorage, setLocalStorage } from "@hooks/LocalStorage";
 
 const LightModeIcon = ({ setTheme }: any) => {
+  //LightModeIcon component
   return (
     <BsEmojiSunglassesFill
       style={{ cursor: "pointer" }}
       onMouseDown={(e) => e.preventDefault()}
+      //for prevent click with another
       onClick={() => {
         setLocalStorage("theme", "dark");
         setTheme("dark");
@@ -17,6 +19,7 @@ const LightModeIcon = ({ setTheme }: any) => {
   );
 };
 const DarkModeIcon = ({ setTheme }: any) => {
+  //DarkModeIcon component
   return (
     <BsEmojiSunglasses
       color="white"
@@ -37,6 +40,8 @@ const ThemeIcon = () => {
     if (theme === "dark") {
       setIcon(<DarkModeIcon setTheme={setTheme}></DarkModeIcon>);
       document.documentElement.classList.toggle("dark");
+      //if our website's body tag has dark class, this do delete that
+      //if it is not exist, add class what is dark
     } else {
       setIcon(<LightModeIcon setTheme={setTheme}></LightModeIcon>);
       document.documentElement.classList.toggle("dark");

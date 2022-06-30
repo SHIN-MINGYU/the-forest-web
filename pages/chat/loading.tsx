@@ -1,29 +1,26 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { SEARCH_ROOM } from "../../query/publicChatQuery";
 
 type query = {
   type: string;
   myId: string;
 };
 
-const SEARCH_ROOM = gql`
-  mutation ($uid: ID, $type: String) {
-    SearchRoom(uid: $uid, type: $type)
-  }
-`;
-
 function Loading({ type, myId }: query) {
   const [searchRoom, { data, loading, error }] = useMutation(SEARCH_ROOM);
   const router = useRouter();
   useEffect(() => {
     if (!data && type && myId) {
-      searchRoom({
-        variables: {
-          type,
-          uid: myId,
-        },
-      });
+      setTimeout(() => {
+        searchRoom({
+          variables: {
+            type,
+            uid: myId,
+          },
+        });
+      }, 3000);
     }
     if (data) {
       router.push(

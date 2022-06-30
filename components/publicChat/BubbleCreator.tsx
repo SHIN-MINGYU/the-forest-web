@@ -1,6 +1,6 @@
 import ChatBubble from "./ChatBubble";
 import { useEffect } from "react";
-import { ChatLog } from "../../type/chatType";
+import { ChatLog } from "@type/chatType";
 
 function BubbleCreator({
   subscribeToNewChat,

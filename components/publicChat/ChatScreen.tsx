@@ -1,33 +1,16 @@
-import { gql, useQuery } from "@apollo/client";
-import { ChatLog } from "../../type/chatType";
+import { useQuery } from "@apollo/client";
+import { ChatLog } from "@type/chatType";
+import { CHECK_CHAT_ACTION, SEARCH_CHAT_LOG } from "@query/publicChatQuery";
 import BubbleCreator from "./BubbleCreator";
 
-const SEARCH_CHAT_LOG = gql`
-  query ($chatRoom: ID!) {
-    ChatLog(chat_room: $chatRoom) {
-      log
-      createAt
-    }
-  }
-`;
-
-const CHECK_CHAT_ACTION = gql`
-  subscription ($chatRoom: ID!) {
-    CheckChat(chat_room: $chatRoom) {
-      log
-      createAt
-    }
-  }
-`;
 function ChatScreen({ chatRoom }: { chatRoom: string }) {
   const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG, {
     variables: { chatRoom: chatRoom },
   });
+
   //subscribeToMore is working
   //if mutaition is occur, subscription is catch about that,
   //then update is detected because of subscription, then query is update
-  console.log(result);
-
   return (
     <>
       <BubbleCreator
