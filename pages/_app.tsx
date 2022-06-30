@@ -8,20 +8,23 @@ import { useSelector } from "react-redux";
 import { pageType } from "../type/reduxType";
 import { ApolloProvider } from "@apollo/client";
 import client from "../apollo-client";
+import { ObjectId } from "bson";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const theme = useSelector(({ page }: pageType) => page.theme);
   useEffect(() => {
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
+    if (typeof window !== "undefined") {
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      userCheck();
     }
-    userCheck();
   }, [theme]);
 
   return (
@@ -36,9 +39,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 const userCheck = () => {
-  if (true) {
-    sessionStorage.setItem("user", Math.random().toString(36).slice(2));
+  if (!sessionStorage.getItem("user")) {
+    sessionStorage.setItem("user", new ObjectId().toString());
   } else {
+    console.log("aleady exist");
   }
 };
 

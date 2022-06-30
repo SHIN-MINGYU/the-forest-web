@@ -1,11 +1,14 @@
-function ChatBubble({ log }: any) {
+import { ChatLog } from "../../type/chatType";
+
+function ChatBubble({ chatLog }: { chatLog: ChatLog }) {
+  //Chat Bubble Component
   return (
-    <div className="pl-3">
+    <div className="pl-3 flex flex-col justify-end">
       <p className="font-bold text-lg">username</p>
-      <div className="flex w-fit max-w-lg bg-blue-700 px-5 py-2 rounded-xl text-white">
-        {log}
-      </div>
-      <span>asdfafd</span>
+      <p className="w-fit max-w-lg bg-green-700 px-5 py-2 rounded-xl text-white">
+        {chatLog.log}
+      </p>
+      <span>{chatLog.createAt.toString()}</span>
     </div>
   );
 }

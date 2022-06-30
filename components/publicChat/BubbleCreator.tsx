@@ -1,16 +1,24 @@
 import ChatBubble from "./ChatBubble";
 import { useEffect } from "react";
+import { ChatLog } from "../../type/chatType";
 
-function BubbleCreator(props: any) {
+function BubbleCreator({
+  subscribeToNewChat,
+  data,
+}: {
+  subscribeToNewChat: any;
+  data: { ChatLog: [ChatLog] };
+}) {
   useEffect(() => {
-    props.subscribeToNewChat();
+    subscribeToNewChat();
+    // it is work for connect mutationn and query at subscription
   }, []);
-  console.log(props.data);
+
   return (
     <>
-      {props.data &&
-        props.data!.ChatLog.map((el: any, index: any) => (
-          <ChatBubble key={index} log={el.log}></ChatBubble>
+      {data &&
+        data!.ChatLog.map((el: ChatLog, index: number) => (
+          <ChatBubble key={index} chatLog={el}></ChatBubble>
         ))}
     </>
   );

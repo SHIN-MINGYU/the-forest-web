@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
-import { ObjectId } from "bson";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import useInput from "../../hooks/useInput";
 const SEND_CHAT = gql`
   mutation onSendChat(
     $chat_room: ID!
@@ -13,29 +13,41 @@ const SEND_CHAT = gql`
 `;
 
 function ChatInput({ chatRoom }: { chatRoom: string }) {
-  const [message, setMessage] = useState<string>("");
+  const { reset, ...message } = useInput("");
+  const sendButton = useRef<HTMLButtonElement>(null);
   const [sendChat, { data, loading, error }] = useMutation(SEND_CHAT);
+  //sendChat mutation
   if (error) {
     console.log(error);
   }
   return (
     <>
       <input
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        className="h-full w-5/6"
-        placeholder="asdfadfs"></input>
+        {...message}
+        /* 
+        value = value
+        onChange = onChange
+        */
+        className="w-5/6 h-full focus:outline-none"
+        onKeyDown={(e) => {
+          let key = e.key || e.keyCode;
+          if (key === "Enter" || key === 13) {
+            if (sendButton.current) sendButton?.current.click();
+          }
+        }}
+        placeholder="input some massage"></input>
       <button
+        ref={sendButton}
         onClick={() => {
           sendChat({
             variables: {
               chat_room: chatRoom,
-              log: message,
-              uid: new ObjectId().toString(),
+              log: message.value,
+              uid: sessionStorage.getItem("user"),
               createAt: new Date().toISOString(),
             },
           });
-          setMessage("");
+          reset();
         }}
         className="h-full w-1/6  bg-green-200">
         send
