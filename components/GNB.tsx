@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BsEmojiSunglassesFill, BsEmojiSunglasses } from "react-icons/bs";
 import { getLocalStorage, setLocalStorage } from "@hooks/LocalStorage";
-
+import { Router, useRouter } from "next/router";
 const LightModeIcon = ({ setTheme }: any) => {
   //LightModeIcon component
   return (
@@ -47,12 +47,14 @@ const ThemeIcon = () => {
       document.documentElement.classList.toggle("dark");
     }
   }, [theme]);
+
   return icon;
 };
 
 function GNB() {
+  const router = useRouter();
   return (
-    <div className="flex justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
+    <div className="flex shadow-lg shadow-white dark:shadow-black justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
       <Link href="/">
         <div className="flex items-center" style={{ cursor: "pointer" }}>
           <Image
@@ -80,7 +82,9 @@ function GNB() {
               <ThemeIcon></ThemeIcon>
             </p>
           </li>
-          <li className="float-left mr-4">Welcom Stranger!</li>
+          <li className="float-left mr-4">
+            <button onClick={() => router.push("/signup")}>SingIn</button>
+          </li>
         </ul>
       </div>
     </div>

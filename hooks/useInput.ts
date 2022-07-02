@@ -1,14 +1,17 @@
 import React, { useCallback, useState } from "react";
 
-type CustomInputElement<T> = {
+export interface CustomInputElement<T> {
   value: T;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+interface CustomInputElementHooks<T> extends CustomInputElement<T> {
   reset: () => void;
-};
+}
 
 export default function useInput(
   initialValue: string
-): CustomInputElement<string> {
+): CustomInputElementHooks<string> {
   const [value, setValue] = useState<string>(initialValue);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);

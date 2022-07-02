@@ -46,7 +46,7 @@ function Hello({ chatRoom }: query) {
     <div
       className="w-full bg-[url('/images/chat_background.jpg')] flex overflow-y-hidden"
       style={{ height: "90vh" }}>
-      <div className="w-1/4 flex justify-center items-center">
+      <div className="w-1/4  flex justify-center items-center">
         <div className="w-1/2 h-1/2 bg-white text-center">
           <Image
             src="/images/profile.png"

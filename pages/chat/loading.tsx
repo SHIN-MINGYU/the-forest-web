@@ -1,6 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import useInterval from "../../hooks/useInterval";
 import { SEARCH_ROOM } from "../../query/publicChatQuery";
 
 type query = {
@@ -10,7 +11,11 @@ type query = {
 
 function Loading({ type, myId }: query) {
   const [searchRoom, { data, loading, error }] = useMutation(SEARCH_ROOM);
+  const [matchTime, setMatchTime] = useState<number>(0);
   const router = useRouter();
+  useInterval(() => {
+    setMatchTime(matchTime + 1);
+  }, 1000);
   useEffect(() => {
     if (!data && type && myId) {
       setTimeout(() => {
@@ -54,6 +59,7 @@ function Loading({ type, myId }: query) {
       </svg>
       Loading...
       <p>we are searching who do chat with you</p>
+      <p>{matchTime}s</p>
     </div>
   );
 }

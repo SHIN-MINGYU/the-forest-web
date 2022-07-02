@@ -1,5 +1,6 @@
 export const getLocalStorage = (key: string) => {
   if (typeof window !== "undefined") {
+    //if window is undefined, our application cant find localStorage
     return localStorage.getItem(key);
   }
   return null;
