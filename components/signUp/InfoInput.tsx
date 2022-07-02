@@ -1,10 +1,11 @@
 import { IconType } from "react-icons";
-import { CustomInputElement } from "@hooks/useInput";
+import { CustomInputElementAddReset } from "@hooks/useInput";
+import { useEffect } from "react";
 type props = {
   Icon: IconType;
-  stateHandler: CustomInputElement<string>;
+  stateHandler: CustomInputElementAddReset<string>;
   label: string;
-  required: boolean;
+  required?: boolean;
   waringMassage?: string;
 };
 
@@ -15,12 +16,13 @@ function InfoInput({
   required,
   waringMassage,
 }: props) {
+  const { reset, ...state } = stateHandler;
   return (
     <div className="relative">
       <div className="flex justify-center items-center">
         <Icon size={20}></Icon>
         <input
-          {...stateHandler}
+          {...state}
           type={"text"}
           className="peer h-10
                 pl-2

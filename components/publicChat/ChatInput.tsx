@@ -4,7 +4,7 @@ import useInput from "@hooks/useInput";
 import { SEND_CHAT } from "@query/publicChatQuery";
 
 function ChatInput({ chatRoom }: { chatRoom: string }) {
-  const { reset, ...message } = useInput("");
+  const { reset, ...message } = useInput("", true);
   const sendButton = useRef<HTMLButtonElement>(null);
   const [sendChat, { data, loading, error }] = useMutation(SEND_CHAT);
   //sendChat mutation

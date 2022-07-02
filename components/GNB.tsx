@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BsEmojiSunglassesFill, BsEmojiSunglasses } from "react-icons/bs";
 import { getLocalStorage, setLocalStorage } from "@hooks/LocalStorage";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 const LightModeIcon = ({ setTheme }: any) => {
   //LightModeIcon component
   return (
@@ -83,7 +83,7 @@ function GNB() {
             </p>
           </li>
           <li className="float-left mr-4">
-            <button onClick={() => router.push("/signup")}>SingIn</button>
+            <button onClick={() => router.push("/login")}>Login</button>
           </li>
         </ul>
       </div>

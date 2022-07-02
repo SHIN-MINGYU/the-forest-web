@@ -1,8 +1,16 @@
 import { FaRegUserCircle } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { AiOutlineMail } from "react-icons/ai";
-import InfoInput from "../components/signUp/InfoInput";
-import useInput from "../hooks/useInput";
+import InfoInput from "@components/signUp/InfoInput";
+import useInput from "@hooks/useInput";
+import { gql, useMutation } from "@apollo/client";
+import Head from "next/head";
+
+const SIGN_UP = gql`
+  mutation ($username: String!, $nickname: String!, $password: String!) {
+    SignUp(username: $username, nickname: $nickname, password: $password)
+  }
+`;
 
 function SignUp() {
   const username = useInput("");
@@ -10,8 +18,14 @@ function SignUp() {
   const password = useInput("");
   const checkPassword = useInput("");
   const verificationCode = useInput("");
+  const [signUp] = useMutation(SIGN_UP);
   return (
     <div className="h-screen min-w-screen bg-[url('/images/chat_background.jpg')]  flex flex-col justify-center items-center">
+      <Head>
+        <title>Sign Up</title>
+        <meta name="description" content="main page" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div
         className="
         bg-white p-10 w-screen md:w-1/2 
@@ -91,46 +105,23 @@ function SignUp() {
             stateHandler={verificationCode}
             label="vertification code"
             required={false}></InfoInput>
-          {/*  <div className="relative">
-            <div className="flex justify-center items-center">
-              <RiLockPasswordLine size={20}></RiLockPasswordLine>
-              <input
-                type={"text"}
-                className="peer h-10
-                pl-2
-            w-full bg-transparent border-b-2 border-black
-            placeholder-transparent
-            text-sm
-            focus:ring-0
-            focus:outline-none focus:border-green-400"
-                placeholder="verification code"></input>
-              <label
-                className="absolute
-              left-8 top-3 transition-all
-             text-gray-600 text-sm
-             transform -translate-y-4
-             scale-75 z-10 origin-[0]
-             peer-focus:text-green-400
-             peer-placeholder-shown:scale-100
-             peer-placeholder-shown:translate-y-0
-             peer-focus:scale-75
-             peer-focus:-translate-y-4
-             ">
-                verification code
-              </label>
-            </div>
-          </div> */}
         </div>
-
         <button
-          onClick={() => {}}
+          onClick={() => {
+            signUp({
+              variables: {
+                username: username.value,
+                nickname: nickname.value,
+                password: password.value,
+              },
+            });
+          }}
           className="
             bg-cyan-500 w-1/3 shadow-md shadow-cyan-500
               font-bold rounded-2xl hover:bg-cyan-700
               p-4">
           Sign Up For Free!
         </button>
-        <p className="text-blue-600">forgot your password?</p>
       </div>
     </div>
   );

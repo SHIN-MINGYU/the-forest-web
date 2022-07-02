@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import GNB from "../components/GNB";
+import GNB from "@components/GNB";
 import Footer from "@components/Footer";
 import wrapper from "../redux/store";
 import { useEffect } from "react";

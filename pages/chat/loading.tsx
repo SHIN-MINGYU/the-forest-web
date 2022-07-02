@@ -1,8 +1,8 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useInterval from "../../hooks/useInterval";
-import { SEARCH_ROOM } from "../../query/publicChatQuery";
+import useInterval from "@hooks/useInterval";
+import { SEARCH_ROOM } from "@query/publicChatQuery";
 
 type query = {
   type: string;

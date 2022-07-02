@@ -5,13 +5,13 @@ export interface CustomInputElement<T> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-interface CustomInputElementHooks<T> extends CustomInputElement<T> {
+export interface CustomInputElementAddReset<T> extends CustomInputElement<T> {
   reset: () => void;
 }
 
 export default function useInput(
   initialValue: string
-): CustomInputElementHooks<string> {
+): CustomInputElementAddReset<string> {
   const [value, setValue] = useState<string>(initialValue);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
