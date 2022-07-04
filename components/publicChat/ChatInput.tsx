@@ -1,16 +1,15 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRef } from "react";
 import useInput from "@hooks/useInput";
 import { SEND_CHAT } from "@query/publicChatQuery";
 
 function ChatInput({ chatRoom }: { chatRoom: string }) {
-  const { reset, ...message } = useInput("", true);
+  const { reset, ...message } = useInput("");
+  const username: string = "Stranger";
   const sendButton = useRef<HTMLButtonElement>(null);
   const [sendChat, { data, loading, error }] = useMutation(SEND_CHAT);
   //sendChat mutation
-  if (error) {
-    console.log(error);
-  }
+
   return (
     <>
       <input
@@ -35,6 +34,7 @@ function ChatInput({ chatRoom }: { chatRoom: string }) {
               chat_room: chatRoom,
               log: message.value,
               uid: sessionStorage.getItem("user"),
+              username,
               createAt: new Date().toISOString(),
             },
           });

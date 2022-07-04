@@ -1,9 +1,9 @@
 import ChatScreen from "@components/publicChat/ChatScreen";
 import ChatInput from "@components/publicChat/ChatInput";
-import { useEffect } from "react";
-import { gql, useMutation, useSubscription } from "@apollo/client";
+import { useCallback, useEffect } from "react";
+import { useMutation, useSubscription } from "@apollo/client";
 import Image from "next/image";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { CHECK_ROOM, LEAVE_ROOM } from "../../../query/publicChatQuery";
 
 type query = {
@@ -14,31 +14,37 @@ type query = {
 let timeOutCancleToken: NodeJS.Timeout;
 
 function Hello({ chatRoom }: query) {
+  const router = useRouter();
+
   const [leaveRoom] = useMutation(LEAVE_ROOM, {
     variables: {
       chatRoom,
       uid: typeof window ? sessionStorage.getItem("user") : "",
     },
   });
+
   const { data, loading, error } = useSubscription(CHECK_ROOM, {
     variables: { chatRoom: chatRoom },
   });
-  const cleanUp = () => {
+  const cleanUp = useCallback(() => {
     if (timeOutCancleToken) {
       clearTimeout(timeOutCancleToken);
     }
     leaveRoom();
-  };
+  }, [leaveRoom]);
+
+  //when some user exit from the room
   useEffect(() => {
     if (data?.CheckRoom.leave) {
       timeOutCancleToken = setTimeout(() => {
-        Router.back();
+        router.back();
       }, 5000);
     }
-  }, [data]);
+  }, [data, router]);
+
   useEffect(() => {
     return () => cleanUp();
-  }, []);
+  }, [cleanUp]);
   onbeforeunload = () => {
     cleanUp();
   };
@@ -52,7 +58,8 @@ function Hello({ chatRoom }: query) {
             src="/images/profile.png"
             width={50}
             height={50}
-            layout="responsive"></Image>
+            layout="responsive"
+            alt="user profile"></Image>
           <p className="">username</p>
           <p>age</p>
           <p>
@@ -77,7 +84,8 @@ function Hello({ chatRoom }: query) {
             src="/images/profile.png"
             width={50}
             height={50}
-            layout="responsive"></Image>
+            layout="responsive"
+            alt="user profile"></Image>
           <p className="">username</p>
           <p>age</p>
           <p>

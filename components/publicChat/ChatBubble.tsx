@@ -11,11 +11,15 @@ function ChatBubble({ chatLog }: { chatLog: ChatLog }) {
         <></>
       ) : (
         <div className="bg-image">
-          <Image src="/images/profile.png" width={50} height={50}></Image>
+          <Image
+            src="/images/profile.png"
+            width={50}
+            height={50}
+            alt={"user profile"}></Image>
         </div>
       )}
       <div className={"flex flex-col " + (MY_CHAT ? "items-end" : "")}>
-        <p className="font-bold text-lg">{chatLog.uid}</p>
+        <p className="font-bold text-lg">{chatLog.username}</p>
         <p
           className={
             "w-fit max-w-lg px-5 py-2 rounded-xl text-white " +
@@ -27,7 +31,11 @@ function ChatBubble({ chatLog }: { chatLog: ChatLog }) {
       </div>
       {MY_CHAT ? (
         <div className="bg-image">
-          <Image src="/images/profile.png" width={50} height={50}></Image>
+          <Image
+            src="/images/profile.png"
+            width={50}
+            height={50}
+            alt="user profile"></Image>
         </div>
       ) : (
         <></>

@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { RefObject, useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import { BsPeople } from "react-icons/bs";
 import { useRouter } from "next/router";
 

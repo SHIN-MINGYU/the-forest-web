@@ -6,6 +6,7 @@ export const SEARCH_CHAT_LOG = gql`
       log
       createAt
       uid
+      username
     }
   }
 `;
@@ -14,8 +15,9 @@ export const CHECK_CHAT_ACTION = gql`
   subscription ($chatRoom: ID!) {
     CheckChat(chat_room: $chatRoom) {
       log
-      createAt
       uid
+      createAt
+      username
     }
   }
 `;
@@ -25,9 +27,16 @@ export const SEND_CHAT = gql`
     $chat_room: ID!
     $log: String
     $uid: ID
+    $username: String
     $createAt: Date
   ) {
-    SendChat(chat_room: $chat_room, log: $log, uid: $uid, createAt: $createAt)
+    SendChat(
+      chat_room: $chat_room
+      log: $log
+      uid: $uid
+      username: $username
+      createAt: $createAt
+    )
   }
 `;
 export const CHECK_ROOM = gql`

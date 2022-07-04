@@ -11,12 +11,17 @@ import { createClient } from "graphql-ws";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities";
 
+type httpLink = HttpLink | null;
 type wsLink = GraphQLWsLink | null;
-type splitLink = ApolloLink | undefined;
+type splitLink = ApolloLink | null;
 
-const httpLink: HttpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql",
-});
+const httpLink: httpLink =
+  typeof window !== "undefined"
+    ? new HttpLink({
+        uri: "http://localhost:4000/graphql",
+        credentials: "include",
+      })
+    : null;
 
 const wsLink: wsLink =
   typeof window !== "undefined"
@@ -38,9 +43,9 @@ const splitLink: splitLink =
           );
         },
         wsLink!,
-        httpLink
+        httpLink!
       )
-    : httpLink;
+    : null;
 
 const client: ApolloClient<ApolloClientOptions<InMemoryCache>> =
   new ApolloClient<ApolloClientOptions<InMemoryCache>>({

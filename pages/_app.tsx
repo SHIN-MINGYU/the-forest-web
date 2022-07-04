@@ -17,11 +17,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div className="flex flex-col">
-      <GNB></GNB>
       <ApolloProvider client={client}>
+        <GNB></GNB>
+
         <Component {...pageProps} />
+
+        <Footer></Footer>
       </ApolloProvider>
-      <Footer></Footer>
     </div>
   );
 }

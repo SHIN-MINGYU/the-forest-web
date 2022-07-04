@@ -12,6 +12,7 @@ function BubbleCreator({
   useEffect(() => {
     subscribeToNewChat();
     // it is work for connect mutationn and query at subscription
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

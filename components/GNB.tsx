@@ -1,37 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { BsEmojiSunglassesFill, BsEmojiSunglasses } from "react-icons/bs";
-import { getLocalStorage, setLocalStorage } from "@hooks/LocalStorage";
+import { getLocalStorage } from "@hooks/LocalStorage";
 import { useRouter } from "next/router";
-const LightModeIcon = ({ setTheme }: any) => {
-  //LightModeIcon component
-  return (
-    <BsEmojiSunglassesFill
-      style={{ cursor: "pointer" }}
-      onMouseDown={(e) => e.preventDefault()}
-      //for prevent click with another
-      onClick={() => {
-        setLocalStorage("theme", "dark");
-        setTheme("dark");
-      }}
-    />
-  );
-};
-const DarkModeIcon = ({ setTheme }: any) => {
-  //DarkModeIcon component
-  return (
-    <BsEmojiSunglasses
-      color="white"
-      style={{ cursor: "pointer" }}
-      onMouseDown={(e) => e.preventDefault()}
-      onClick={() => {
-        setLocalStorage("theme", "light");
-        setTheme("light");
-      }}
-    />
-  );
-};
+import DarkModeIcon from "./icon/DarkModeIcon";
+import LightModeIcon from "./icon/LightModeIcon";
+import { useMutation } from "@apollo/client";
+import { LOG_OUT } from "../query/userQuery";
 
 const ThemeIcon = () => {
   const [theme, setTheme] = useState(getLocalStorage("theme"));
@@ -53,6 +28,7 @@ const ThemeIcon = () => {
 
 function GNB() {
   const router = useRouter();
+  const [LogOut, { data, loading, error }] = useMutation(LOG_OUT);
   return (
     <div className="flex shadow-lg shadow-white dark:shadow-black justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
       <Link href="/">
@@ -83,6 +59,7 @@ function GNB() {
             </p>
           </li>
           <li className="float-left mr-4">
+            <button onClick={() => LogOut()}>Logout</button>
             <button onClick={() => router.push("/login")}>Login</button>
           </li>
         </ul>
