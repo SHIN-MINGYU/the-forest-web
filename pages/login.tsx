@@ -1,6 +1,7 @@
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { KeyboardEvent } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import InfoInput from "../components/signUp/InfoInput";
 import { setLocalStorage } from "../hooks/LocalStorage";
@@ -17,6 +18,25 @@ const Login: NextPage = () => {
   const username = useInput("");
   const password = useInput("");
   const [autificate] = useLazyQuery(LOGIN);
+
+  const sendLoginMutation = async () => {
+    try {
+      const res = await autificate({
+        variables: { username: username.value, password: password.value },
+      });
+      setLocalStorage("accessToken", res.data.Login);
+      router.push("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      sendLoginMutation();
+    }
+  };
+
   return (
     <div className="w-screen h-screen bg-white bg-[url('/images/chat_background.jpg')] flex flex-col justify-center items-center">
       <div
@@ -35,17 +55,11 @@ const Login: NextPage = () => {
         <InfoInput
           Icon={FaRegUserCircle}
           label={"password"}
-          stateHandler={password}></InfoInput>
+          stateHandler={password}
+          onKeyDown={(e) => onKeyDown(e)}></InfoInput>
         <button
           onClick={() => {
-            autificate({
-              variables: { username: username.value, password: password.value },
-            })
-              .then((res) => {
-                setLocalStorage("accessToken", res.data.Login);
-                router.push("/");
-              })
-              .catch((err) => console.log(err));
+            sendLoginMutation();
           }}
           className="
             bg-emerald-500 w-1/3 shadow-md shadow-emerald-500

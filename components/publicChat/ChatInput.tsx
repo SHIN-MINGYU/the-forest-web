@@ -7,7 +7,7 @@ function ChatInput({ chatRoom }: { chatRoom: string }) {
   const { reset, ...message } = useInput("");
   const username: string = "Stranger";
   const sendButton = useRef<HTMLButtonElement>(null);
-  const [sendChat, { data, loading, error }] = useMutation(SEND_CHAT);
+  const [sendChat] = useMutation(SEND_CHAT);
   //sendChat mutation
 
   return (
@@ -20,8 +20,8 @@ function ChatInput({ chatRoom }: { chatRoom: string }) {
         */
         className="w-5/6 h-full focus:outline-none"
         onKeyDown={(e) => {
-          let key = e.key || e.keyCode;
-          if (key === "Enter" || key === 13) {
+          let key = e.key;
+          if (key === "Enter") {
             if (sendButton.current) sendButton?.current.click();
           }
         }}

@@ -26,10 +26,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 const userCheck = () => {
-  if (!sessionStorage.getItem("user")) {
-    sessionStorage.setItem("user", new ObjectId().toString());
-  } else {
-    console.log("aleady exist");
+  if (!localStorage.getItem("accessToken")) {
+    if (!sessionStorage.getItem("user")) {
+      sessionStorage.setItem("user", new ObjectId().toString());
+    } else {
+      console.log("aleady exist");
+    }
   }
 };
 

@@ -1,7 +1,13 @@
 import { BsEmojiSunglassesFill } from "react-icons/bs";
 import { setLocalStorage } from "@hooks/LocalStorage";
+import { useEffect } from "react";
 
 const LightModeIcon = ({ setTheme }: any) => {
+  useEffect(() => {
+    return () => {
+      document.documentElement.classList.toggle("dark");
+    };
+  }, []);
   //LightModeIcon component
   return (
     <BsEmojiSunglassesFill

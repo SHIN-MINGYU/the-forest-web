@@ -1,49 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { getLocalStorage } from "@hooks/LocalStorage";
-import { useRouter } from "next/router";
-import DarkModeIcon from "./icon/DarkModeIcon";
-import LightModeIcon from "./icon/LightModeIcon";
-import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import { GET_USER_NAME, LOG_OUT } from "../query/userQuery";
+import React from "react";
+import { useQuery } from "@apollo/client";
+import { GET_USER_NAME } from "@query/userQuery";
 
-const ThemeIcon = () => {
-  const [theme, setTheme] = useState(getLocalStorage("theme"));
-  const [icon, setIcon] = useState<JSX.Element>(<></>);
-  useEffect(() => {
-    if (theme === "dark") {
-      setIcon(<DarkModeIcon setTheme={setTheme}></DarkModeIcon>);
-      document.documentElement.classList.toggle("dark");
-      //if our website's body tag has dark class, this do delete that
-      //if it is not exist, add class what is dark
-    } else if (theme === "light") {
-      setIcon(<LightModeIcon setTheme={setTheme}></LightModeIcon>);
-      document.documentElement.classList.toggle("dark");
-    }
-  }, [theme]);
-
-  return icon;
-};
+import ThemeIcon from "./GNBComponent/icon/ThemeIcon";
+import GuestsButton from "./GNBComponent/button/GuestsButton";
+import UsersButton from "./GNBComponent/button/UsersButton";
 
 function GNB() {
-  const router = useRouter();
-  const [LogOut] = useMutation(LOG_OUT);
   const { data } = useQuery(GET_USER_NAME);
-
-  const buttonHandler = () => {
-    return data ? (
-      <button
-        onClick={() => {
-          LogOut();
-          localStorage.removeItem("accessToken");
-        }}>
-        Welcome {data.UserInfo.username} !
-      </button>
-    ) : (
-      <button onClick={() => router.push("/login")}>Hello Stranger!</button>
-    );
-  };
 
   return (
     <div className="flex shadow-lg shadow-white dark:shadow-black justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
@@ -74,7 +40,9 @@ function GNB() {
               <ThemeIcon></ThemeIcon>
             </p>
           </li>
-          <li className="float-left mr-4">{buttonHandler()}</li>
+          <li className="float-left mr-4">
+            {data ? <UsersButton data={data} /> : <GuestsButton />}
+          </li>
         </ul>
       </div>
     </div>

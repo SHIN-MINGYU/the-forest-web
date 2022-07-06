@@ -1,12 +1,13 @@
 import { IconType } from "react-icons";
 import { CustomInputElementAddReset } from "@hooks/useInput";
-import { useEffect } from "react";
+import { KeyboardEvent, useEffect } from "react";
 type props = {
   Icon: IconType;
   stateHandler: CustomInputElementAddReset<string>;
   label: string;
   required?: boolean;
   waringMassage?: string;
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
 };
 
 function InfoInput({
@@ -15,6 +16,7 @@ function InfoInput({
   label,
   required,
   waringMassage,
+  onKeyDown,
 }: props) {
   const { reset, ...state } = stateHandler;
   return (
@@ -31,7 +33,8 @@ function InfoInput({
             text-sm
             focus:ring-0
             focus:outline-none focus:border-green-400"
-          placeholder={`${label}`}></input>
+          placeholder={`${label}`}
+          onKeyDown={onKeyDown ? onKeyDown : () => {}}></input>
         <label
           className="absolute
               left-8 top-3 transition-all
