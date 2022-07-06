@@ -5,8 +5,8 @@ import { getLocalStorage } from "@hooks/LocalStorage";
 import { useRouter } from "next/router";
 import DarkModeIcon from "./icon/DarkModeIcon";
 import LightModeIcon from "./icon/LightModeIcon";
-import { useMutation } from "@apollo/client";
-import { LOG_OUT } from "../query/userQuery";
+import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
+import { GET_USER_NAME, LOG_OUT } from "../query/userQuery";
 
 const ThemeIcon = () => {
   const [theme, setTheme] = useState(getLocalStorage("theme"));
@@ -17,7 +17,7 @@ const ThemeIcon = () => {
       document.documentElement.classList.toggle("dark");
       //if our website's body tag has dark class, this do delete that
       //if it is not exist, add class what is dark
-    } else {
+    } else if (theme === "light") {
       setIcon(<LightModeIcon setTheme={setTheme}></LightModeIcon>);
       document.documentElement.classList.toggle("dark");
     }
@@ -28,7 +28,23 @@ const ThemeIcon = () => {
 
 function GNB() {
   const router = useRouter();
-  const [LogOut, { data, loading, error }] = useMutation(LOG_OUT);
+  const [LogOut] = useMutation(LOG_OUT);
+  const { data } = useQuery(GET_USER_NAME);
+
+  const buttonHandler = () => {
+    return data ? (
+      <button
+        onClick={() => {
+          LogOut();
+          localStorage.removeItem("accessToken");
+        }}>
+        Welcome {data.UserInfo.username} !
+      </button>
+    ) : (
+      <button onClick={() => router.push("/login")}>Hello Stranger!</button>
+    );
+  };
+
   return (
     <div className="flex shadow-lg shadow-white dark:shadow-black justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
       <Link href="/">
@@ -58,10 +74,7 @@ function GNB() {
               <ThemeIcon></ThemeIcon>
             </p>
           </li>
-          <li className="float-left mr-4">
-            <button onClick={() => LogOut()}>Logout</button>
-            <button onClick={() => router.push("/login")}>Login</button>
-          </li>
+          <li className="float-left mr-4">{buttonHandler()}</li>
         </ul>
       </div>
     </div>

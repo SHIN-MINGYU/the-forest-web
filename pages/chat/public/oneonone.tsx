@@ -19,7 +19,6 @@ function Hello({ chatRoom }: query) {
   const [leaveRoom] = useMutation(LEAVE_ROOM, {
     variables: {
       chatRoom,
-      uid: typeof window ? sessionStorage.getItem("user") : "",
     },
   });
 

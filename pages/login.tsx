@@ -1,7 +1,9 @@
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { FaRegUserCircle } from "react-icons/fa";
 import InfoInput from "../components/signUp/InfoInput";
+import { setLocalStorage } from "../hooks/LocalStorage";
 import useInput from "../hooks/useInput";
 
 const LOGIN = gql`
@@ -10,11 +12,11 @@ const LOGIN = gql`
   }
 `;
 
-function Login() {
+const Login: NextPage = () => {
   const router = useRouter();
   const username = useInput("");
   const password = useInput("");
-  const [login, { data, loading, error }] = useLazyQuery(LOGIN);
+  const [autificate] = useLazyQuery(LOGIN);
   return (
     <div className="w-screen h-screen bg-white bg-[url('/images/chat_background.jpg')] flex flex-col justify-center items-center">
       <div
@@ -36,10 +38,13 @@ function Login() {
           stateHandler={password}></InfoInput>
         <button
           onClick={() => {
-            login({
+            autificate({
               variables: { username: username.value, password: password.value },
             })
-              .then((res) => router.push("/"))
+              .then((res) => {
+                setLocalStorage("accessToken", res.data.Login);
+                router.push("/");
+              })
               .catch((err) => console.log(err));
           }}
           className="
@@ -52,6 +57,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

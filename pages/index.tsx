@@ -6,12 +6,11 @@ import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
-
   const router = useRouter();
   return (
     <div className="overflow-x-hidden">
       <Head>
-        <title>Create Next App</title>
+        <title>The Forest</title>
         <meta name="description" content="main page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

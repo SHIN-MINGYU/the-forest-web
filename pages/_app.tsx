@@ -2,7 +2,6 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import GNB from "@components/GNB";
 import Footer from "@components/Footer";
-import wrapper from "../redux/store";
 import { useEffect } from "react";
 import { ApolloProvider } from "@apollo/client";
 import client from "../apollo-client";
@@ -19,9 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <div className="flex flex-col">
       <ApolloProvider client={client}>
         <GNB></GNB>
-
         <Component {...pageProps} />
-
         <Footer></Footer>
       </ApolloProvider>
     </div>
@@ -36,4 +33,4 @@ const userCheck = () => {
   }
 };
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;

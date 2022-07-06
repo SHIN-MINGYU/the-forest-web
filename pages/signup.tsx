@@ -5,6 +5,7 @@ import InfoInput from "@components/signUp/InfoInput";
 import useInput from "@hooks/useInput";
 import { gql, useMutation } from "@apollo/client";
 import Head from "next/head";
+import { NextPage } from "next";
 
 const SIGN_UP = gql`
   mutation ($username: String!, $nickname: String!, $password: String!) {
@@ -12,7 +13,7 @@ const SIGN_UP = gql`
   }
 `;
 
-function SignUp() {
+const SignUp: NextPage = () => {
   const username = useInput("");
   const nickname = useInput("");
   const password = useInput("");
@@ -125,5 +126,5 @@ function SignUp() {
       </div>
     </div>
   );
-}
+};
 export default SignUp;

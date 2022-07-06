@@ -5,3 +5,11 @@ export const LOG_OUT = gql`
     LogOut
   }
 `;
+
+export const GET_USER_NAME = gql`
+  query {
+    UserInfo {
+      username
+    }
+  }
+`;

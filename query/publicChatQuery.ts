@@ -47,8 +47,8 @@ export const CHECK_ROOM = gql`
   }
 `;
 export const LEAVE_ROOM = gql`
-  mutation ($chatRoom: ID!, $uid: ID) {
-    LeaveRoom(chat_room: $chatRoom, uid: $uid)
+  mutation ($chatRoom: ID!) {
+    LeaveRoom(chat_room: $chatRoom)
   }
 `;
 
