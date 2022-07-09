@@ -14,6 +14,7 @@ const DarkModeIcon = ({ setTheme }: any) => {
       color="white"
       style={{ cursor: "pointer" }}
       onMouseDown={(e) => e.preventDefault()}
+      //for prevent click with another
       onClick={() => {
         setLocalStorage("theme", "light");
         setTheme("light");

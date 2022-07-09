@@ -1,43 +1,81 @@
 import { AiFillProfile, AiOutlineLogin } from "react-icons/ai";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { DropDownContainer, DropDownContent } from "./dropdown";
+import ProfileModal from "./ProfileModal";
+import { getLocalStorage } from "@hooks/LocalStorage";
+import Image from "next/image";
 
 const GuestsButton = () => {
-  const [clicked, setClicked] = useState<boolean>(false);
+  const [dropDownVisible, setDropDownVisible] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [nickname, setNickname] = useState<string>("Stranger");
+  const [profileImg, setProfileImg] = useState<string>("");
   const router = useRouter();
+
+  const transferToLoginPage = () => {
+    //dropdown divisible setting
+    setDropDownVisible(false);
+    //transfer to LoginPage
+    router.push("/login");
+  };
+  useEffect(() => {
+    const userInfoStr = getLocalStorage("userInfo");
+    if (userInfoStr) {
+      setNickname(JSON.parse(userInfoStr).nickname);
+      setProfileImg(JSON.parse(userInfoStr).img);
+    }
+    // if the website value in localStorage what key is userInfo
+    // set in state
+  }, []);
   return (
     <div>
       <button
-        onClick={
-          () => {
-            console.log(clicked);
-            setClicked(!clicked);
-          } /*  router.push("/login") */
-        }>
-        Hello Stranger!
+        className="flex justify-center items-center space-x-2"
+        onClick={() => {
+          setDropDownVisible(!dropDownVisible);
+        }}>
+        {/* 
+           dropdown toggler
+           */}
+        <span>Hello</span>
+        <span className="flex items-center font-bold text-green-600 text-md tracking-wider">
+          {nickname}!
+          {profileImg ? (
+            <Image
+              src={"data:" + profileImg}
+              width={20}
+              height={20}
+              layout={"intrinsic"}
+              alt={"profileImage"}
+            />
+          ) : (
+            <>
+              <Image
+                src="/images/profile.png"
+                width={20}
+                height={20}
+                layout={"intrinsic"}
+                alt={"profileImage"}></Image>
+            </>
+          )}
+        </span>
       </button>
-      <div
-        className={`absolute w-32 space-y-3 mt-3 text-black transition-all bg-white opacity-${
-          clicked ? 100 : 0
-        }`}>
-        <div className="flex text-center p-2">
-          <div className="w-1/5">
-            <AiFillProfile className="m-auto" size={20}></AiFillProfile>
-          </div>
-          <span className="m-auto">my profile</span>
-        </div>
-        <div
-          className="flex text-center p-2 cursor-pointer"
-          onClick={() => {
-            router.push("/login");
-            setClicked(false);
-          }}>
-          <div className="w-1/5">
-            <AiOutlineLogin className="m-auto" size={20} />
-          </div>
-          <span className="m-auto">Login</span>
-        </div>
-      </div>
+      <DropDownContainer visible={dropDownVisible}>
+        {/* container start */}
+        <DropDownContent
+          Icon={AiFillProfile}
+          content="my profile"
+          onClick={() => setModalVisible(true)}></DropDownContent>
+        <DropDownContent
+          Icon={AiOutlineLogin}
+          content="Login"
+          onClick={transferToLoginPage}></DropDownContent>
+        {/* container end */}
+      </DropDownContainer>
+      {modalVisible && (
+        <ProfileModal hide={() => setModalVisible(false)}></ProfileModal>
+      )}
     </div>
   );
 };

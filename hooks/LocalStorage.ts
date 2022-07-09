@@ -1,9 +1,12 @@
-export const getLocalStorage = (key: string) => {
+export const getLocalStorage = (key: string): string => {
   if (typeof window !== "undefined") {
+    const value = localStorage.getItem(key);
     //if window is undefined, our application cant find localStorage
-    return localStorage.getItem(key);
+    if (value !== null) {
+      return value;
+    }
   }
-  return null;
+  return "";
 };
 
 export const setLocalStorage = (key: string, value: string) => {

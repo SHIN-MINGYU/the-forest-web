@@ -3,9 +3,9 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { KeyboardEvent } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
-import InfoInput from "../components/signUp/InfoInput";
-import { setLocalStorage } from "../hooks/LocalStorage";
-import useInput from "../hooks/useInput";
+import InfoInput from "@components/signUp/InfoInput";
+import { setLocalStorage } from "@hooks/LocalStorage";
+import useInput from "@hooks/useInput";
 
 const LOGIN = gql`
   query ($username: String!, $password: String!) {

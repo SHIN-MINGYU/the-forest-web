@@ -10,7 +10,6 @@ const ThemeIcon = () => {
     if (theme) {
       if (theme === "dark") {
         setIcon(<DarkModeIcon setTheme={setTheme}></DarkModeIcon>);
-
         //if our website's body tag has dark class, this do delete that
         //if it is not exist, add class what is dark
       } else {

@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-x-auto">
       <ApolloProvider client={client}>
         <GNB></GNB>
         <Component {...pageProps} />

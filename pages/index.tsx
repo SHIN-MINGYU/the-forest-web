@@ -5,7 +5,7 @@ import { BsPeople } from "react-icons/bs";
 import { TiGroupOutline } from "react-icons/ti";
 import { CgScreen } from "react-icons/cg";
 import { useRouter } from "next/router";
-import ChatCategoryCard from "../components/Card/chatCategory";
+import ChatCategoryCard from "@components/Card/ChatCategory";
 
 const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);

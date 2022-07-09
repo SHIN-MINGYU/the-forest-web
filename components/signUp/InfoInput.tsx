@@ -1,6 +1,6 @@
 import { IconType } from "react-icons";
 import { CustomInputElementAddReset } from "@hooks/useInput";
-import { KeyboardEvent, useEffect } from "react";
+import { KeyboardEvent, useEffect, useRef } from "react";
 type props = {
   Icon: IconType;
   stateHandler: CustomInputElementAddReset<string>;
@@ -9,7 +9,6 @@ type props = {
   waringMassage?: string;
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
 };
-
 function InfoInput({
   Icon,
   stateHandler,
@@ -19,14 +18,16 @@ function InfoInput({
   onKeyDown,
 }: props) {
   const { reset, ...state } = stateHandler;
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="relative">
       <div className="flex justify-center items-center">
-        <Icon size={20}></Icon>
+        <Icon size={20} />
         <input
           {...state}
           type={"text"}
-          className="peer h-10
+          ref={inputRef}
+          className="peer p-0
                 pl-2
             w-full bg-transparent border-b-2 border-black
             placeholder-transparent
@@ -34,12 +35,18 @@ function InfoInput({
             focus:ring-0
             focus:outline-none focus:border-green-400"
           placeholder={`${label}`}
+          required={required}
           onKeyDown={onKeyDown ? onKeyDown : () => {}}></input>
         <label
+          onClick={(e) => {
+            e.preventDefault();
+            if (inputRef) inputRef.current?.focus();
+          }}
           className="absolute
-              left-8 top-3 transition-all
-             text-gray-600 text-sm
+              left-8 top-0 transition-all
+             text-gray-400 text-sm
              transform -translate-y-4
+             cursor-text
              scale-75 z-10 origin-[0]
              peer-focus:text-green-400
              peer-placeholder-shown:scale-100
@@ -59,7 +66,7 @@ function InfoInput({
         className="
               text-xs tracking-wider font-sans font-bold
               text-red-500">
-        {waringMassage};
+        {waringMassage}
       </p>
     </div>
   );
