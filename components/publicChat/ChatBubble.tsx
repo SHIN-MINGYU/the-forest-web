@@ -1,10 +1,15 @@
+import { useQuery } from "@apollo/client";
 import { getSessionStorage } from "@hooks/SessionStorage";
 import { ChatLog } from "@type/chatType";
 import Image from "next/image";
+import { GET_USER_NAME } from "../../query/userQuery";
 
 function ChatBubble({ chatLog }: { chatLog: ChatLog }) {
   //Chat Bubble Component
-  const MY_CHAT: boolean = chatLog.uid === getSessionStorage("user");
+  const { data } = useQuery(GET_USER_NAME);
+  console.log(data);
+  const myId = data?.UserInfo._id;
+  const MY_CHAT: boolean = chatLog.uid === (myId || getSessionStorage("user"));
   return (
     <div className={"px-5 flex flex-row " + (MY_CHAT ? "justify-end" : "")}>
       {MY_CHAT ? (

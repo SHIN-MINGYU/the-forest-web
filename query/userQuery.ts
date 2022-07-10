@@ -4,6 +4,10 @@ export const GET_USER_NAME = gql`
   query {
     UserInfo {
       username
+      nickname
+      imgPath
+      description
+      gender
     }
   }
 `;

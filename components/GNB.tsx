@@ -9,8 +9,7 @@ import GuestsButton from "./GNBComponent/button/GuestsButton";
 import UsersButton from "./GNBComponent/button/UsersButton";
 
 function GNB() {
-  const { data } = useQuery(GET_USER_NAME);
-
+  const { data, error } = useQuery(GET_USER_NAME);
   return (
     <div className="flex shadow-lg shadow-white dark:shadow-black justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
       <Link href="/">

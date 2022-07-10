@@ -40,9 +40,9 @@ const GuestsButton = () => {
            */}
         <span>Hello</span>
         <span className="flex items-center font-bold text-green-600 text-md tracking-wider">
-          {nickname}!
           {profileImg ? (
             <Image
+              className="rounded-full"
               src={"data:" + profileImg}
               width={20}
               height={20}
@@ -59,6 +59,7 @@ const GuestsButton = () => {
                 alt={"profileImage"}></Image>
             </>
           )}
+          {nickname}!
         </span>
       </button>
       <DropDownContainer visible={dropDownVisible}>

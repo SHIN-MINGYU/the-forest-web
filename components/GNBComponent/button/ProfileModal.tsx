@@ -10,15 +10,18 @@ import { useMutation } from "@apollo/client";
 import { UPDATE_USER_INFO } from "@query/userQuery";
 import { useRouter } from "next/router";
 import { getLocalStorage, setLocalStorage } from "@hooks/LocalStorage";
+import axios from "axios";
+import { userInfoGNB } from "@type/userInfo";
 
 type props = {
   hide: () => void;
+  prevUser?: userInfoGNB;
 };
 
-const ProfileModal = ({ hide }: props) => {
+const ProfileModal = ({ hide, prevUser }: props) => {
   const router = useRouter();
   const prevUserInfoStr = getLocalStorage("userInfo");
-  const prevUserInfo = JSON.parse(prevUserInfoStr || "{}");
+  const prevUserInfo = prevUser || JSON.parse(prevUserInfoStr || "{}");
   /* 
   prevUserInfo and prevUserInfo variables are get userInfoValue 
   in localStorage and set the result at state
@@ -29,9 +32,11 @@ const ProfileModal = ({ hide }: props) => {
     prevUserInfo.description || ""
   );
   const fileInput = useRef<HTMLInputElement>(null);
-  const [avatarUri, setAvatarUri] = useState<string>(prevUserInfo.img || "");
-
-  const [updateInfo, { data, loading, error }] = useMutation(UPDATE_USER_INFO, {
+  const [avatarUri, setAvatarUri] = useState<string>(
+    prevUserInfo.imgPath || ""
+  );
+  const [avatarFile, setAvatarFile] = useState<File>();
+  const [updateInfo] = useMutation(UPDATE_USER_INFO, {
     variables: {
       nickname: nickname.value,
       gender: gender.value,
@@ -48,6 +53,7 @@ const ProfileModal = ({ hide }: props) => {
     // <input type=file>'s onChange event
     if (e.target.files && e.target.files[0]) {
       // create FilReader's instance
+      setAvatarFile(e.target.files[0]);
       const reader = new FileReader();
       reader.onloadend = () => {
         // if read is done => reader.result have the img's uri
@@ -65,6 +71,20 @@ const ProfileModal = ({ hide }: props) => {
     try {
       // first request to graphql server
       await updateInfo();
+      if (avatarFile !== undefined) {
+        const formData = new FormData();
+        formData.append("profileImg", avatarFile);
+        await axios
+          .post(
+            process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/upload",
+            formData,
+            {
+              withCredentials: true,
+              headers: { Authorization: getLocalStorage("accessToken") },
+            }
+          )
+          .catch((err) => console.log(err));
+      }
       return;
     } catch (err: any) {
       if (err.message === "GUEST") {
@@ -85,6 +105,7 @@ const ProfileModal = ({ hide }: props) => {
     }
   }, [
     updateInfo,
+    avatarFile,
     nickname.value,
     gender.value,
     description,
@@ -126,7 +147,11 @@ const ProfileModal = ({ hide }: props) => {
                 width={96}
                 height={96}
                 layout="responsive"
-                src={"data:" + avatarUri}></Image>
+                src={
+                  avatarUri.startsWith("http://")
+                    ? avatarUri
+                    : "data:" + avatarUri
+                }></Image>
             </div>
           ) : (
             /* if avatarUri isn't exist */

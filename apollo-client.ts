@@ -12,7 +12,7 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition, Observable } from "@apollo/client/utilities";
 import { onError } from "@apollo/client/link/error";
 import { GraphQLClient, gql } from "graphql-request";
-import { setLocalStorage } from "./hooks/LocalStorage";
+import { getLocalStorage, setLocalStorage } from "./hooks/LocalStorage";
 
 type httpLink = HttpLink | null;
 type wsLink = GraphQLWsLink | null;
@@ -21,9 +21,9 @@ type splitLink = ApolloLink | null;
 const httpLink: httpLink =
   typeof window !== "undefined"
     ? new HttpLink({
-        uri: "http://localhost:4000/graphql",
+        uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!,
         headers: {
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: getLocalStorage("accessToken"),
         },
         credentials: "include",
       })
@@ -33,7 +33,7 @@ const wsLink: wsLink =
   typeof window !== "undefined"
     ? new GraphQLWsLink(
         createClient({
-          url: "ws://localhost:4000/subscriptions",
+          url: process.env.NEXT_PUBLIC_SOCKET_ENDPOINT!,
         })
       )
     : null;
@@ -52,7 +52,7 @@ const errorLink = onError(
           case "UNAUTHENTICATED":
             return new Observable((observer) => {
               const graphQLClient = new GraphQLClient(
-                "http://localhost:4000/graphql",
+                process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!,
                 { credentials: "include" }
               );
               graphQLClient

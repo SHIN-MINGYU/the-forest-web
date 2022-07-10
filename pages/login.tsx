@@ -18,7 +18,6 @@ const Login: NextPage = () => {
   const username = useInput("");
   const password = useInput("");
   const [autificate] = useLazyQuery(LOGIN);
-
   const sendLoginMutation = async () => {
     try {
       const res = await autificate({
@@ -26,9 +25,7 @@ const Login: NextPage = () => {
       });
       setLocalStorage("accessToken", res.data.Login);
       router.push("/");
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -68,6 +65,7 @@ const Login: NextPage = () => {
           Submit
         </button>
         <p className="text-blue-600">forgot your password?</p>
+        <p>create an account</p>
       </div>
     </div>
   );
