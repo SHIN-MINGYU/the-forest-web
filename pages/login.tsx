@@ -1,8 +1,8 @@
-import { gql, useLazyQuery, useQuery } from "@apollo/client";
+import { gql, useLazyQuery } from "@apollo/client";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { KeyboardEvent } from "react";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaRegUserCircle, RiLockPasswordLine } from "@components/icon";
 import InfoInput from "@components/signUp/InfoInput";
 import { setLocalStorage } from "@hooks/LocalStorage";
 import useInput from "@hooks/useInput";
@@ -50,7 +50,7 @@ const Login: NextPage = () => {
           label={"id"}
           stateHandler={username}></InfoInput>
         <InfoInput
-          Icon={FaRegUserCircle}
+          Icon={RiLockPasswordLine}
           label={"password"}
           stateHandler={password}
           onKeyDown={(e) => onKeyDown(e)}></InfoInput>
@@ -65,7 +65,9 @@ const Login: NextPage = () => {
           Submit
         </button>
         <p className="text-blue-600">forgot your password?</p>
-        <p>create an account</p>
+        <p className="cursor-pointer" onClick={() => router.push("/signup")}>
+          create an account
+        </p>
       </div>
     </div>
   );

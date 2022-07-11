@@ -19,6 +19,11 @@ type props = {
 };
 
 const ProfileModal = ({ hide, prevUser }: props) => {
+  /* 
+    @parmas
+    hide : modal hider
+    prevUser : current user Info
+  */
   const router = useRouter();
   const prevUserInfoStr = getLocalStorage("userInfo");
   const prevUserInfo = prevUser || JSON.parse(prevUserInfoStr || "{}");
@@ -93,7 +98,7 @@ const ProfileModal = ({ hide, prevUser }: props) => {
           nickname: nickname.value,
           gender: gender.value,
           description: description,
-          img: avatarUri,
+          imgPath: avatarUri,
         };
         setLocalStorage("userInfo", JSON.stringify(updateUserInfo));
         //then, set in localStorage the value

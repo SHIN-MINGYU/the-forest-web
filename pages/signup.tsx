@@ -1,25 +1,123 @@
-import { FaRegUserCircle } from "react-icons/fa";
-import { RiLockPasswordLine } from "react-icons/ri";
-import { AiOutlineMail } from "react-icons/ai";
-import InfoInput from "@components/signUp/InfoInput";
+import {
+  FaRegUserCircle,
+  RiLockPasswordLine,
+  AiOutlineMail,
+} from "@components/icon";
 import useInput from "@hooks/useInput";
-import { gql, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import Head from "next/head";
 import { NextPage } from "next";
-
-const SIGN_UP = gql`
-  mutation ($username: String!, $nickname: String!, $password: String!) {
-    SignUp(username: $username, nickname: $nickname, password: $password)
-  }
-`;
+import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { REQUEST_SEND_MAIL, SEARCH_USER, SIGN_UP } from "@query/userQuery";
+import { SendButton, InfoInput } from "@components/signUp";
+import { useRouter } from "next/router";
 
 const SignUp: NextPage = () => {
+  const router = useRouter();
   const username = useInput("");
   const nickname = useInput("");
   const password = useInput("");
-  const checkPassword = useInput("");
+  const confirmPassword = useInput("");
+  const email = useInput("");
   const verificationCode = useInput("");
+  // input state handler
+  const accessCode = useRef<string>("");
+  //value get email accessCode
+  const [userNameFound, setUserNameFound] = useState<boolean>(true);
+  const [emailVerifySuccess, setEmailVerifySuccess] = useState<boolean>();
+  // validator
+  const [currentEmail, setCurrentEmail] = useState<string>("");
+  const [emailButtonMsg, setEmailButtonMsg] = useState<string>("");
+  const [usernameMsg, setUserNameMsg] = useState<string>("");
+  // msg for infoInput
+  const [searchUser] = useLazyQuery(SEARCH_USER, {
+    variables: {
+      username: username.value,
+    },
+  });
   const [signUp] = useMutation(SIGN_UP);
+  const [sendMail] = useMutation(REQUEST_SEND_MAIL);
+  const usernameCheck = async () => {
+    // check username is existed in DB
+    if (username.value) {
+      const res = await searchUser();
+      if (res.data.SearchUser) {
+        setUserNameFound(true);
+        setUserNameMsg("id aleady exists");
+      } else {
+        setUserNameFound(false);
+        setUserNameMsg("available id");
+      }
+    } else {
+      alert("input id values");
+    }
+  };
+  const emailCodeValidator = (setState: Dispatch<SetStateAction<boolean>>) => {
+    //check value sent to email and value get to server
+    if (accessCode.current === verificationCode.value) {
+      setEmailVerifySuccess(true);
+      setState(true);
+    } else {
+      setState(false);
+    }
+  };
+  const submitInfo = () => {
+    // submit's error handlings
+    if (
+      username.value &&
+      nickname.value &&
+      password.value &&
+      confirmPassword.value &&
+      !userNameFound
+    ) {
+      if (password.value !== confirmPassword.value) {
+        alert("password and conrifm password is not same");
+        return;
+      }
+      if (/[0-9]/g.test(password.value) && /[a-z]/g.test(password.value)) {
+        signUp({
+          variables: {
+            username: username.value,
+            nickname: nickname.value,
+            password: password.value,
+            email: emailVerifySuccess ? currentEmail : "",
+          },
+        });
+        router.replace("/");
+      } else {
+        alert("check your password");
+      }
+    } else {
+      alert("input value");
+    }
+  };
+
+  const sendVerificationCode = async () => {
+    //send email to server and get the verifyCode
+    try {
+      setCurrentEmail(email.value);
+      const res = await sendMail({
+        variables: {
+          email: email.value,
+        },
+      });
+      setEmailButtonMsg("successfully sed");
+      accessCode.current = String(res.data.SendMail);
+    } catch (err) {
+      setEmailButtonMsg("bad request");
+      alert(err);
+    }
+  };
+
+  const passwordValidator = (setState: Dispatch<SetStateAction<boolean>>) => {
+    // password validator
+    if (password.value.trim() !== confirmPassword.value.trim()) {
+      setState(false);
+    } else {
+      setState(true);
+    }
+  };
+
   return (
     <div className="h-screen min-w-screen bg-[url('/images/chat_background.jpg')]  flex flex-col justify-center items-center">
       <Head>
@@ -44,79 +142,52 @@ const SignUp: NextPage = () => {
             Icon={FaRegUserCircle}
             stateHandler={username}
             label="id"
+            button={<SendButton title="check" onClick={usernameCheck} />}
+            buttonMsg={usernameMsg}
             required
-            waringMassage="this will be required for login"></InfoInput>
+            waringMassage="this will be required for login"
+          />
           <InfoInput
             Icon={FaRegUserCircle}
             stateHandler={nickname}
             label="nickname"
-            required></InfoInput>
+            required
+          />
           <InfoInput
             Icon={RiLockPasswordLine}
             stateHandler={password}
+            type="password"
             label="password"
-            required></InfoInput>
+            waringMassage="create at least 1 number and 1 alphabet"
+            required
+          />
           <InfoInput
             Icon={RiLockPasswordLine}
-            stateHandler={checkPassword}
-            label="check vaild password"
-            required></InfoInput>
-          <div className="relative">
-            <div className="flex justify-center items-center">
-              <AiOutlineMail size={20}></AiOutlineMail>
-              <input
-                type={"text"}
-                className="peer h-10
-                pl-2
-            w-full bg-transparent border-b-2 border-black
-            placeholder-transparent
-            text-sm
-            focus:ring-0
-            focus:outline-none focus:border-green-400"
-                placeholder="password"></input>
-              <label
-                className="absolute
-              left-8 top-3 transition-all
-             text-gray-600 text-sm
-             transform -translate-y-4
-             scale-75 z-10 origin-[0]
-             peer-focus:text-green-400
-             peer-placeholder-shown:scale-100
-             peer-placeholder-shown:translate-y-0
-             peer-focus:scale-75
-             peer-focus:-translate-y-4
-             ">
-                email
-              </label>
-              <button
-                className="absolute
-              right-0 text-white bg-gradient-to-r from-blue-500 
-              via-blue-600 to-blue-700 hover:bg-gradient-to-br 
-              focus:outline-none focus:ring-blue-300 font-medium 
-              rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                send
-              </button>
-            </div>
-            <p className="text-xs tracking-wider text-cyan-600">
-              verification code successfully send
-            </p>
-          </div>
+            stateHandler={confirmPassword}
+            type="password"
+            label="confirm password"
+            validator={passwordValidator}
+            validatorMsg="confirm password is not vaild"
+            required
+          />
+          <InfoInput
+            Icon={AiOutlineMail}
+            stateHandler={email}
+            label="email"
+            button={<SendButton title="send" onClick={sendVerificationCode} />}
+            buttonMsg={emailButtonMsg}
+          />
           <InfoInput
             Icon={RiLockPasswordLine}
             stateHandler={verificationCode}
+            validator={emailCodeValidator}
             label="vertification code"
-            required={false}></InfoInput>
+            validatorMsg="vertification code is not current"
+            required={false}
+          />
         </div>
         <button
-          onClick={() => {
-            signUp({
-              variables: {
-                username: username.value,
-                nickname: nickname.value,
-                password: password.value,
-              },
-            });
-          }}
+          onClick={submitInfo}
           className="
             bg-cyan-500 w-1/3 shadow-md shadow-cyan-500
               font-bold rounded-2xl hover:bg-cyan-700

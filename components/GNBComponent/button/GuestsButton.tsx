@@ -23,7 +23,7 @@ const GuestsButton = () => {
     const userInfoStr = getLocalStorage("userInfo");
     if (userInfoStr) {
       setNickname(JSON.parse(userInfoStr).nickname);
-      setProfileImg(JSON.parse(userInfoStr).img);
+      setProfileImg(JSON.parse(userInfoStr).imgPath);
     }
     // if the website value in localStorage what key is userInfo
     // set in state

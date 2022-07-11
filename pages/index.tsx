@@ -1,9 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { RefObject, useEffect, useRef } from "react";
-import { BsPeople } from "react-icons/bs";
-import { TiGroupOutline } from "react-icons/ti";
-import { CgScreen } from "react-icons/cg";
+import { RefObject, useRef } from "react";
+import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
 import { useRouter } from "next/router";
 import ChatCategoryCard from "@components/Card/ChatCategory";
 
