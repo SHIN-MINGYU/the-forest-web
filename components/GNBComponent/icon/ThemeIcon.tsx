@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getLocalStorage } from "@hooks/LocalStorage";
+import { getLocalStorage } from "utils/localStorage";
 import DarkModeIcon from "./DarkModeIcon";
 import LightModeIcon from "./LightModeIcon";
 

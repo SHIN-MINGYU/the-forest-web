@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { DropDownContainer, DropDownContent } from "./dropdown";
 import ProfileModal from "./ProfileModal";
-import { getLocalStorage } from "@hooks/LocalStorage";
+import { getLocalStorage } from "utils/localStorage";
 import Image from "next/image";
 
 const GuestsButton = () => {

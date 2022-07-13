@@ -1,36 +1,41 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useInterval from "@hooks/useInterval";
 import { SEARCH_ROOM } from "@query/publicChatQuery";
+import { useMyInfo } from "@hooks/useGetMyInfo";
 
 type query = {
   type: string;
-  myId: string;
 };
 
-function Loading({ type, myId }: query) {
-  const [searchRoom, { data }] = useMutation(SEARCH_ROOM);
+function Loading({ type }: query) {
+  const getInfo = useMyInfo();
+  const { uid } = getInfo();
+  const [searchRoom, { data, loading, error }] = useMutation(SEARCH_ROOM);
   const [matchTime, setMatchTime] = useState<number>(0);
   const router = useRouter();
+
   useInterval(() => {
     //match time +1 per 1s
-    setMatchTime(matchTime + 1);
+    setMatchTime((prevTime) => prevTime + 1);
   }, 1000);
+
   useEffect(() => {
-    if (!data && type && myId) {
+    if (!data && type && uid) {
       //if mutation is not occured and query is exist
       setTimeout(() => {
         searchRoom({
           variables: {
+            uid,
             type,
-            uid: myId,
           },
         });
       }, 3000);
     }
     if (data) {
       //if mutation is done
+      console.log("채팅방 : ", data.SearchRoom);
       router.push(
         {
           pathname: "/chat/public/oneonone",
@@ -42,8 +47,7 @@ function Loading({ type, myId }: query) {
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, type, myId, searchRoom]);
-
+  }, [data, type, getInfo]);
   return (
     <div className="h-screen flex flex-col justify-center items-center">
       <svg
@@ -70,13 +74,16 @@ function Loading({ type, myId }: query) {
 }
 
 export function getServerSideProps({ query }: { query: query }) {
-  const { type, myId } = query;
-  return {
-    props: {
-      type,
-      myId,
-    },
-  };
+  try {
+    const { type } = query;
+    return {
+      props: {
+        type,
+      },
+    };
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export default Loading;

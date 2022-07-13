@@ -9,7 +9,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER_INFO } from "@query/userQuery";
 import { useRouter } from "next/router";
-import { getLocalStorage, setLocalStorage } from "@hooks/LocalStorage";
+import { getLocalStorage, setLocalStorage } from "utils/localStorage";
 import axios from "axios";
 import { userInfoGNB } from "@type/userInfo";
 

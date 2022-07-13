@@ -1,8 +1,9 @@
 import { gql } from "@apollo/client";
 
-export const GET_USER_NAME = gql`
+export const GET_USER = gql`
   query {
     UserInfo {
+      _id
       username
       nickname
       imgPath
@@ -17,6 +18,7 @@ export const SEARCH_USER = gql`
     SearchUser(username: $username)
   }
 `;
+
 export const SIGN_UP = gql`
   mutation (
     $username: String!

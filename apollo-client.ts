@@ -12,7 +12,7 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition, Observable } from "@apollo/client/utilities";
 import { onError } from "@apollo/client/link/error";
 import { GraphQLClient, gql } from "graphql-request";
-import { getLocalStorage, setLocalStorage } from "./hooks/LocalStorage";
+import { getLocalStorage, setLocalStorage } from "./utils/localStorage";
 
 type httpLink = HttpLink | null;
 type wsLink = GraphQLWsLink | null;

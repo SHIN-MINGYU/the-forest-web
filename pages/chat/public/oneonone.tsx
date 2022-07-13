@@ -1,10 +1,16 @@
 import ChatScreen from "@components/publicChat/ChatScreen";
 import ChatInput from "@components/publicChat/ChatInput";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useMutation, useSubscription } from "@apollo/client";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { CHECK_ROOM, LEAVE_ROOM } from "../../../query/publicChatQuery";
+import {
+  CHECK_ROOM,
+  ENTER_ROOM_MUT,
+  ENTER_ROOM_SUB,
+  LEAVE_ROOM,
+} from "@query/publicChatQuery";
+import { useMyInfo } from "@hooks/useGetMyInfo";
+import ChatCard from "@components/Card/ChatCard";
 
 type query = {
   //type of query
@@ -13,17 +19,32 @@ type query = {
 
 let timeOutCancleToken: NodeJS.Timeout;
 
-function Hello({ chatRoom }: query) {
+function OneOnOneChat({ chatRoom }: query) {
   const router = useRouter();
+  const getInfo = useMyInfo();
+  const { uid, userType, userInfo } = getInfo();
+  const [opponentInfo, setOpponentInfo] = useState({
+    userType: "",
+    userInfo: {
+      nickname: "",
+      gender: "",
+      description: "",
+      imgPath: "",
+    },
+  });
+  const [enterRoom] = useMutation(ENTER_ROOM_MUT);
+
+  const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
+    variables: { chatRoom },
+  });
 
   const [leaveRoom] = useMutation(LEAVE_ROOM, {
     variables: {
       chatRoom,
     },
   });
-
-  const { data, loading, error } = useSubscription(CHECK_ROOM, {
-    variables: { chatRoom: chatRoom },
+  const { ...leaveEvent } = useSubscription(CHECK_ROOM, {
+    variables: { chatRoom },
   });
   const cleanUp = useCallback(() => {
     if (timeOutCancleToken) {
@@ -32,14 +53,51 @@ function Hello({ chatRoom }: query) {
     leaveRoom();
   }, [leaveRoom]);
 
-  //when some user exit from the room
   useEffect(() => {
-    if (data?.CheckRoom.leave) {
+    if (userType && userInfo) {
+      enterRoom({
+        variables: {
+          uid,
+          chatRoom,
+          userType,
+          userInfo: JSON.stringify(userInfo),
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getInfo]);
+
+  useEffect(() => {
+    if (enterEvent.data) {
+      if (!opponentInfo.userType) {
+        if (enterEvent.data?.EnterRoom.uid !== uid) {
+          setOpponentInfo((prevState) => ({
+            ...prevState,
+            userType: enterEvent.data?.EnterRoom.userType,
+            userInfo: enterEvent.data?.EnterRoom.userInfo,
+          }));
+          enterRoom({
+            variables: {
+              uid,
+              chatRoom,
+              userType,
+              userInfo: JSON.stringify(userInfo),
+            },
+          });
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enterEvent.data, opponentInfo.userType]);
+
+  useEffect(() => {
+    //when some user exit from the room
+    if (leaveEvent.data?.CheckRoom.leave) {
       timeOutCancleToken = setTimeout(() => {
         router.back();
       }, 5000);
     }
-  }, [data, router]);
+  }, [leaveEvent, router]);
 
   useEffect(() => {
     return () => cleanUp();
@@ -51,24 +109,7 @@ function Hello({ chatRoom }: query) {
     <div
       className="w-full bg-[url('/images/chat_background.jpg')] flex overflow-y-hidden"
       style={{ height: "90vh" }}>
-      <div className="w-1/4  flex justify-center items-center">
-        <div className="w-1/2 h-1/2 bg-white text-center">
-          <Image
-            src="/images/profile.png"
-            width={50}
-            height={50}
-            layout="responsive"
-            alt="user profile"></Image>
-          <p className="">username</p>
-          <p>age</p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni totam
-            dolor temporibus voluptates reprehenderit, quam est, ipsum officia
-            ea ab fugiat velit atque nisi debitis exercitationem doloremque,
-            distinctio perferendis necessitatibus.
-          </p>
-        </div>
-      </div>
+      <ChatCard userType={userType} userInfo={userInfo}></ChatCard>
       <div className="md:w-1/2 h-full sm:w-full bg-white  flex flex-col-reverse mx-auto mb-0 p-0 bottom-0 left-0 right-0">
         <div className="text-center h-12">
           <ChatInput chatRoom={chatRoom}></ChatInput>
@@ -77,24 +118,7 @@ function Hello({ chatRoom }: query) {
           <ChatScreen chatRoom={chatRoom}></ChatScreen>
         </div>
       </div>
-      <div className="w-1/4 flex justify-center items-center">
-        <div className="w-1/2 h-1/2 bg-white text-center">
-          <Image
-            src="/images/profile.png"
-            width={50}
-            height={50}
-            layout="responsive"
-            alt="user profile"></Image>
-          <p className="">username</p>
-          <p>age</p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-            obcaecati assumenda aspernatur aperiam sed sit sint, deserunt
-            voluptate, hic aut, consequuntur quasi velit corporis voluptas
-            similique. Eos hic nostrum voluptatum.
-          </p>
-        </div>
-      </div>
+      <ChatCard {...opponentInfo}></ChatCard>
     </div>
   );
 }
@@ -108,4 +132,4 @@ export function getServerSideProps({ query }: { query: query }) {
   };
 }
 
-export default Hello;
+export default OneOnOneChat;

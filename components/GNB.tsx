@@ -2,14 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { GET_USER_NAME } from "@query/userQuery";
+import { GET_USER } from "@query/userQuery";
 
 import ThemeIcon from "./GNBComponent/icon/ThemeIcon";
 import GuestsButton from "./GNBComponent/button/GuestsButton";
 import UsersButton from "./GNBComponent/button/UsersButton";
 
 function GNB() {
-  const { data, error } = useQuery(GET_USER_NAME);
+  const { data, error } = useQuery(GET_USER);
   return (
     <div className="flex shadow-lg shadow-white dark:shadow-black justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
       <Link href="/">

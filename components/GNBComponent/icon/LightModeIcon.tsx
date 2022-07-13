@@ -1,5 +1,5 @@
 import { BsEmojiSunglassesFill } from "react-icons/bs";
-import { setLocalStorage } from "@hooks/LocalStorage";
+import { setLocalStorage } from "utils/localStorage";
 import { useEffect } from "react";
 
 const LightModeIcon = ({ setTheme }: any) => {

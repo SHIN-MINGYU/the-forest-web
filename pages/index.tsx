@@ -4,10 +4,25 @@ import { RefObject, useRef } from "react";
 import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
 import { useRouter } from "next/router";
 import ChatCategoryCard from "@components/Card/ChatCategory";
+import { GET_USER } from "@query/userQuery";
+import { useLazyQuery } from "@apollo/client";
 
 const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
   const router = useRouter();
+  const [getUser] = useLazyQuery(GET_USER);
+
+  const transferToLoading = async () => {
+    router.push(
+      {
+        pathname: "/chat/loading",
+        query: {
+          type: "publiconeonone",
+        },
+      },
+      "/chat/loading"
+    );
+  };
   return (
     <div className="overflow-x-hidden">
       <Head>
@@ -27,18 +42,7 @@ const Home: NextPage = () => {
                 with Stranger
               </p>
               <button
-                onClick={() => {
-                  router.push(
-                    {
-                      pathname: "/chat/loading",
-                      query: {
-                        type: "publiconeonone",
-                        myId: sessionStorage.getItem("user"),
-                      },
-                    },
-                    "/chat/loading"
-                  );
-                }}
+                onClick={transferToLoading}
                 className="bg-gradient-to-r  hover:from-green-500 hover:to-green-900 delay-100 mt-4 px-16 py-4 ">
                 <span className="text-white font-bold md:text-lg lg:text-2xl">
                   JOIN

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { KeyboardEvent } from "react";
 import { FaRegUserCircle, RiLockPasswordLine } from "@components/icon";
 import InfoInput from "@components/signUp/InfoInput";
-import { setLocalStorage } from "@hooks/LocalStorage";
+import { setLocalStorage } from "utils/localStorage";
 import useInput from "@hooks/useInput";
 
 const LOGIN = gql`

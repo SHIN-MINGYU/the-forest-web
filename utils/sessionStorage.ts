@@ -1,8 +1,8 @@
 export const getSessionStorage = (key: string) => {
   if (typeof window !== "undefined") {
-    return sessionStorage.getItem(key);
+    return sessionStorage.getItem(key)!;
   }
-  return null;
+  return "";
 };
 
 export const setSessionStorage = (key: string, value: string) => {

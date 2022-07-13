@@ -46,6 +46,33 @@ export const CHECK_ROOM = gql`
     }
   }
 `;
+
+export const ENTER_ROOM_MUT = gql`
+  mutation ($chatRoom: ID!, $uid: ID!, $userType: String, $userInfo: String) {
+    EnterRoom(
+      chat_room: $chatRoom
+      uid: $uid
+      userType: $userType
+      userInfo: $userInfo
+    )
+  }
+`;
+
+export const ENTER_ROOM_SUB = gql`
+  subscription ($chatRoom: ID!) {
+    EnterRoom(chat_room: $chatRoom) {
+      uid
+      userType
+      userInfo {
+        nickname
+        gender
+        description
+        imgPath
+      }
+    }
+  }
+`;
+
 export const LEAVE_ROOM = gql`
   mutation ($chatRoom: ID!) {
     LeaveRoom(chat_room: $chatRoom)
