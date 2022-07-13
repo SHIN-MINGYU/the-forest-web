@@ -4,15 +4,13 @@ import { RefObject, useRef } from "react";
 import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
 import { useRouter } from "next/router";
 import ChatCategoryCard from "@components/Card/ChatCategory";
-import { GET_USER } from "@query/userQuery";
-import { useLazyQuery } from "@apollo/client";
 
 const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
   const router = useRouter();
-  const [getUser] = useLazyQuery(GET_USER);
 
   const transferToLoading = async () => {
+    // transfre to loading page what have "type" query
     router.push(
       {
         pathname: "/chat/loading",
@@ -56,13 +54,11 @@ const Home: NextPage = () => {
           <div className="grid grid-cols-2 grid-flow-col px-2 mb-3">
             <ChatCategoryCard
               Icon={BsPeople}
-              cardSize={"56"}
               comment={"Chat with stranger"}
               category={"1 v 1 chat"}
             />
             <ChatCategoryCard
               Icon={TiGroupOutline}
-              cardSize={"30"}
               comment={"Chat with strangers"}
               category={"1 v N chat"}
             />
@@ -71,19 +67,16 @@ const Home: NextPage = () => {
           <div className="grid grid-cols-3 grid-flow-col px-2 mb-3">
             <ChatCategoryCard
               Icon={BsPeople}
-              cardSize={"30"}
               comment={"Chat with freind"}
               category={"1 v 1 chat"}
             />
             <ChatCategoryCard
               Icon={TiGroupOutline}
-              cardSize={"30"}
               comment={"Chat with freind"}
               category={"1 v N chat"}
             />
             <ChatCategoryCard
               Icon={CgScreen}
-              cardSize={"30"}
               comment={"Cam Chat with freind"}
               category={"1 v 1 chat"}
             />

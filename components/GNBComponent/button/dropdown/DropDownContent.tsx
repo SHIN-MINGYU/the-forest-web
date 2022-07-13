@@ -7,6 +7,12 @@ type props = {
 };
 
 const DropDownContent = ({ Icon, content, onClick }: props) => {
+  /* 
+  @params
+    Icon : DropDownContent's Icon
+    content : introducing movement when onClick event is occured
+    onClick : movement
+  */
   return (
     <button
       className="flex min-w-full p-2"

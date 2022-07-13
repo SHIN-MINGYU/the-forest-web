@@ -11,8 +11,13 @@ type props = {
 };
 
 const ChatCard = ({ userType, userInfo }: props) => {
+  /* 
+    @params 
+    userType : user's Type ("USER || GUEST")
+    userInfo : Object what have the current user
+  */
   const { nickname, gender, description, imgPath } = userInfo;
-  console.log(imgPath);
+
   return (
     <div className="w-1/4  flex justify-center items-center">
       <div className="w-1/2 h-1/2 bg-white flex flex-col justify-center items-center rounded-lg">

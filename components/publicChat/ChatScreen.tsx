@@ -1,10 +1,13 @@
 import { useQuery } from "@apollo/client";
 import { ChatLog } from "@type/chatType";
-import { CHECK_CHAT_ACTION, SEARCH_CHAT_LOG } from "@query/publicChatQuery";
+import {
+  CHECK_CHAT_ACTION_SUB,
+  SEARCH_CHAT_LOG_QUE,
+} from "@query/publicChatQuery";
 import BubbleCreator from "./BubbleCreator";
 
 function ChatScreen({ chatRoom }: { chatRoom: string }) {
-  const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG, {
+  const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG_QUE, {
     variables: { chatRoom: chatRoom },
   });
 
@@ -18,7 +21,7 @@ function ChatScreen({ chatRoom }: { chatRoom: string }) {
         subscribeToNewChat={
           () =>
             subscribeToMore({
-              document: CHECK_CHAT_ACTION,
+              document: CHECK_CHAT_ACTION_SUB,
               variables: { chatRoom: chatRoom },
               updateQuery: (
                 prev: { ChatLog: [ChatLog] },

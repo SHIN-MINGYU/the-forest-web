@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const SEARCH_CHAT_LOG = gql`
+export const SEARCH_CHAT_LOG_QUE = gql`
   query ($chatRoom: ID!) {
     ChatLog(chat_room: $chatRoom) {
       log
@@ -11,7 +11,13 @@ export const SEARCH_CHAT_LOG = gql`
   }
 `;
 
-export const CHECK_CHAT_ACTION = gql`
+export const LOGIN_QUE = gql`
+  query ($username: String!, $password: String!) {
+    Login(username: $username, password: $password)
+  }
+`;
+
+export const CHECK_CHAT_ACTION_SUB = gql`
   subscription ($chatRoom: ID!) {
     CheckChat(chat_room: $chatRoom) {
       log
@@ -22,7 +28,7 @@ export const CHECK_CHAT_ACTION = gql`
   }
 `;
 
-export const SEND_CHAT = gql`
+export const SEND_CHAT_MUT = gql`
   mutation onSendChat(
     $chat_room: ID!
     $log: String
@@ -39,7 +45,7 @@ export const SEND_CHAT = gql`
     )
   }
 `;
-export const CHECK_ROOM = gql`
+export const CHECK_ROOM_SUB = gql`
   subscription ($chatRoom: ID!) {
     CheckRoom(chat_room: $chatRoom) {
       leave
@@ -73,13 +79,13 @@ export const ENTER_ROOM_SUB = gql`
   }
 `;
 
-export const LEAVE_ROOM = gql`
+export const LEAVE_ROOM_MUT = gql`
   mutation ($chatRoom: ID!) {
     LeaveRoom(chat_room: $chatRoom)
   }
 `;
 
-export const SEARCH_ROOM = gql`
+export const SEARCH_ROOM_MUT = gql`
   mutation ($uid: ID, $type: String) {
     SearchRoom(uid: $uid, type: $type)
   }

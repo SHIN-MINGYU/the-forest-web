@@ -1,13 +1,13 @@
 import { useMutation } from "@apollo/client";
 import { useRef } from "react";
 import useInput from "@hooks/useInput";
-import { SEND_CHAT } from "@query/publicChatQuery";
+import { SEND_CHAT_MUT } from "@query/publicChatQuery";
 
 function ChatInput({ chatRoom }: { chatRoom: string }) {
   const { reset, ...message } = useInput("");
   const username: string = "Stranger";
   const sendButton = useRef<HTMLButtonElement>(null);
-  const [sendChat] = useMutation(SEND_CHAT);
+  const [sendChat] = useMutation(SEND_CHAT_MUT);
   //sendChat mutation
 
   return (

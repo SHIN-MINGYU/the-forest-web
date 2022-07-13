@@ -5,6 +5,7 @@ import { getLocalStorage } from "../utils/localStorage";
 import { getSessionStorage } from "../utils/sessionStorage";
 
 const initailValue = {
+  //Guest's initail Value
   nickname: "Stranger",
   gender: "none",
   description: "Hello, Nice to meet you. Have a good day",
@@ -18,16 +19,21 @@ export const useMyInfo = () => {
   const { ...result } = useQuery(GET_USER);
   useEffect(() => {
     if (result.data) {
+      // if result.data is exist
+      // set the value in state
       setUserType("User");
       setUid(result.data.UserInfo._id);
       setUserInfo({
         ...result.data.UserInfo,
       });
     } else if (result.error) {
+      // if error occued
+      // 1. inquire localStorage what key is userInfo
       let getUserInfo = JSON.parse(getLocalStorage("userInfo") || "{}");
-
+      // 2. if the Object have not key in initailValue
       for (let key of Object.keys(initailValue)) {
         if (!getUserInfo[key]) {
+          // 3. copy the Object and paste that
           getUserInfo = Object.assign(
             {},
             getUserInfo,
@@ -36,6 +42,7 @@ export const useMyInfo = () => {
           );
         }
       }
+      // 4. set the value
       setUserType("Guest");
       setUid(getSessionStorage("user"));
       setUserInfo(getUserInfo);
@@ -44,6 +51,7 @@ export const useMyInfo = () => {
   }, [result.loading]);
 
   const getInfo = useCallback(() => {
+    // Immutable for useEffect's second argument
     return { uid, userType, userInfo };
   }, [uid, userType, userInfo]);
 

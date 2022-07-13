@@ -6,18 +6,13 @@ import { FaRegUserCircle, RiLockPasswordLine } from "@components/icon";
 import InfoInput from "@components/signUp/InfoInput";
 import { setLocalStorage } from "utils/localStorage";
 import useInput from "@hooks/useInput";
-
-const LOGIN = gql`
-  query ($username: String!, $password: String!) {
-    Login(username: $username, password: $password)
-  }
-`;
+import { LOGIN_QUE } from "@query/publicChatQuery";
 
 const Login: NextPage = () => {
   const router = useRouter();
   const username = useInput("");
   const password = useInput("");
-  const [autificate] = useLazyQuery(LOGIN);
+  const [autificate] = useLazyQuery(LOGIN_QUE);
   const sendLoginMutation = async () => {
     try {
       const res = await autificate({
@@ -25,7 +20,9 @@ const Login: NextPage = () => {
       });
       setLocalStorage("accessToken", res.data.Login);
       router.push("/");
-    } catch (err) {}
+    } catch (err) {
+      alert("user info is not incurrent");
+    }
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

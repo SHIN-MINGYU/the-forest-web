@@ -7,10 +7,12 @@ const useInterval: UseInterval = (
   delay: number | null
 ) => {
   const savedCallback = useRef(callback);
+  // Even if the value changes, the rendering will not occur because of useRef
   useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
   useEffect(() => {
+    //clean Up
     if (delay == null) {
       return;
     }

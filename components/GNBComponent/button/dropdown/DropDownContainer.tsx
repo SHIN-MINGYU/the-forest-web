@@ -1,11 +1,14 @@
-import { useEffect } from "react";
-
 type props = {
   children: JSX.Element[] | JSX.Element;
   visible: boolean;
 };
 
 const DropDownContainer = ({ children, visible }: props) => {
+  /* 
+    @params 
+      children : DropDownConwtent.tsx 
+      visible : container's option what display
+  */
   return (
     <div
       className={`${

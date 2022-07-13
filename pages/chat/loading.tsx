@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useInterval from "@hooks/useInterval";
-import { SEARCH_ROOM } from "@query/publicChatQuery";
+import { SEARCH_ROOM_MUT } from "@query/publicChatQuery";
 import { useMyInfo } from "@hooks/useGetMyInfo";
 
 type query = {
@@ -12,7 +12,7 @@ type query = {
 function Loading({ type }: query) {
   const getInfo = useMyInfo();
   const { uid } = getInfo();
-  const [searchRoom, { data, loading, error }] = useMutation(SEARCH_ROOM);
+  const [searchRoom, { data }] = useMutation(SEARCH_ROOM_MUT);
   const [matchTime, setMatchTime] = useState<number>(0);
   const router = useRouter();
 

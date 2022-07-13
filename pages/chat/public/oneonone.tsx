@@ -4,10 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import { useMutation, useSubscription } from "@apollo/client";
 import { useRouter } from "next/router";
 import {
-  CHECK_ROOM,
+  CHECK_ROOM_SUB,
   ENTER_ROOM_MUT,
   ENTER_ROOM_SUB,
-  LEAVE_ROOM,
+  LEAVE_ROOM_MUT,
 } from "@query/publicChatQuery";
 import { useMyInfo } from "@hooks/useGetMyInfo";
 import ChatCard from "@components/Card/ChatCard";
@@ -38,12 +38,12 @@ function OneOnOneChat({ chatRoom }: query) {
     variables: { chatRoom },
   });
 
-  const [leaveRoom] = useMutation(LEAVE_ROOM, {
+  const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
     variables: {
       chatRoom,
     },
   });
-  const { ...leaveEvent } = useSubscription(CHECK_ROOM, {
+  const { ...leaveEvent } = useSubscription(CHECK_ROOM_SUB, {
     variables: { chatRoom },
   });
   const cleanUp = useCallback(() => {
@@ -54,6 +54,10 @@ function OneOnOneChat({ chatRoom }: query) {
   }, [leaveRoom]);
 
   useEffect(() => {
+    /* 
+      if user enter the room and have value, enterRoom Mutation occur.
+      this mutation is call the enterEvent subscription fields
+    */
     if (userType && userInfo) {
       enterRoom({
         variables: {
@@ -69,13 +73,16 @@ function OneOnOneChat({ chatRoom }: query) {
 
   useEffect(() => {
     if (enterEvent.data) {
+      //if enterEvent occur
       if (!opponentInfo.userType) {
         if (enterEvent.data?.EnterRoom.uid !== uid) {
+          // set the opponent's info
           setOpponentInfo((prevState) => ({
             ...prevState,
             userType: enterEvent.data?.EnterRoom.userType,
             userInfo: enterEvent.data?.EnterRoom.userInfo,
           }));
+          // and occur one more
           enterRoom({
             variables: {
               uid,
