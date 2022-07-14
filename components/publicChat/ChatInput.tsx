@@ -2,10 +2,14 @@ import { useMutation } from "@apollo/client";
 import { useRef } from "react";
 import useInput from "@hooks/useInput";
 import { SEND_CHAT_MUT } from "@query/publicChatQuery";
+type props = {
+  uid: string;
+  nickname: string;
+  chatRoom: string;
+};
 
-function ChatInput({ chatRoom }: { chatRoom: string }) {
+function ChatInput({ uid, nickname, chatRoom }: props) {
   const { reset, ...message } = useInput("");
-  const username: string = "Stranger";
   const sendButton = useRef<HTMLButtonElement>(null);
   const [sendChat] = useMutation(SEND_CHAT_MUT);
   //sendChat mutation
@@ -33,8 +37,8 @@ function ChatInput({ chatRoom }: { chatRoom: string }) {
             variables: {
               chat_room: chatRoom,
               log: message.value,
-              uid: sessionStorage.getItem("user"),
-              username,
+              uid: uid,
+              nickname,
               createAt: new Date().toISOString(),
             },
           });

@@ -1,14 +1,16 @@
 import ChatBubble from "./ChatBubble";
 import { useEffect } from "react";
 import { ChatLog } from "@type/chatType";
+import { userInfo } from "@type/userInfo";
 
-function BubbleCreator({
-  subscribeToNewChat,
-  data,
-}: {
+type props = {
   subscribeToNewChat: any;
   data: { ChatLog: [ChatLog] };
-}) {
+  imgPath: Array<string>;
+  uid: string;
+};
+
+function BubbleCreator({ subscribeToNewChat, data, imgPath, uid }: props) {
   useEffect(() => {
     subscribeToNewChat();
     // it is work for connect mutationn and query at subscription
@@ -19,7 +21,11 @@ function BubbleCreator({
     <>
       {data &&
         data!.ChatLog.map((el: ChatLog, index: number) => (
-          <ChatBubble key={index} chatLog={el}></ChatBubble>
+          <ChatBubble
+            key={index}
+            imgPath={imgPath}
+            uid={uid}
+            chatLog={el}></ChatBubble>
         ))}
     </>
   );

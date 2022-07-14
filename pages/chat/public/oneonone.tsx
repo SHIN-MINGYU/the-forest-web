@@ -46,6 +46,8 @@ function OneOnOneChat({ chatRoom }: query) {
   const { ...leaveEvent } = useSubscription(CHECK_ROOM_SUB, {
     variables: { chatRoom },
   });
+
+  console.log(enterEvent);
   const cleanUp = useCallback(() => {
     if (timeOutCancleToken) {
       clearTimeout(timeOutCancleToken);
@@ -119,10 +121,16 @@ function OneOnOneChat({ chatRoom }: query) {
       <ChatCard userType={userType} userInfo={userInfo}></ChatCard>
       <div className="md:w-1/2 h-full sm:w-full bg-white  flex flex-col-reverse mx-auto mb-0 p-0 bottom-0 left-0 right-0">
         <div className="text-center h-12">
-          <ChatInput chatRoom={chatRoom}></ChatInput>
+          <ChatInput
+            uid={uid}
+            nickname={userInfo.nickname}
+            chatRoom={chatRoom}></ChatInput>
         </div>
         <div className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse">
-          <ChatScreen chatRoom={chatRoom}></ChatScreen>
+          <ChatScreen
+            imgPath={[userInfo.imgPath, opponentInfo.userInfo.imgPath]}
+            uid={uid}
+            chatRoom={chatRoom}></ChatScreen>
         </div>
       </div>
       <ChatCard {...opponentInfo}></ChatCard>

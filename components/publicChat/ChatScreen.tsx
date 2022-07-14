@@ -6,7 +6,13 @@ import {
 } from "@query/publicChatQuery";
 import BubbleCreator from "./BubbleCreator";
 
-function ChatScreen({ chatRoom }: { chatRoom: string }) {
+type props = {
+  imgPath: Array<string>;
+  uid: string;
+  chatRoom: string;
+};
+
+function ChatScreen({ imgPath, uid, chatRoom }: props) {
   const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG_QUE, {
     variables: { chatRoom: chatRoom },
   });
@@ -18,6 +24,8 @@ function ChatScreen({ chatRoom }: { chatRoom: string }) {
     <>
       <BubbleCreator
         {...result}
+        imgPath={imgPath}
+        uid={uid}
         subscribeToNewChat={
           () =>
             subscribeToMore({
@@ -30,10 +38,8 @@ function ChatScreen({ chatRoom }: { chatRoom: string }) {
                 }: { subscriptionData: { data: { CheckChat: [ChatLog] } } }
               ) => {
                 if (!subscriptionData.data) {
-                  console.log(prev);
                   return prev;
                 }
-                console.log(subscriptionData);
                 const newChat: Array<ChatLog> = subscriptionData.data.CheckChat;
                 return Object.assign({}, prev, {
                   ChatLog: [newChat, ...prev.ChatLog],

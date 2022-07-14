@@ -6,7 +6,7 @@ export const SEARCH_CHAT_LOG_QUE = gql`
       log
       createAt
       uid
-      username
+      nickname
     }
   }
 `;
@@ -23,7 +23,7 @@ export const CHECK_CHAT_ACTION_SUB = gql`
       log
       uid
       createAt
-      username
+      nickname
     }
   }
 `;
@@ -33,14 +33,14 @@ export const SEND_CHAT_MUT = gql`
     $chat_room: ID!
     $log: String
     $uid: ID
-    $username: String
+    $nickname: String
     $createAt: Date
   ) {
     SendChat(
       chat_room: $chat_room
       log: $log
       uid: $uid
-      username: $username
+      nickname: $nickname
       createAt: $createAt
     )
   }
