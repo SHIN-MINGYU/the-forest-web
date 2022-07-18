@@ -3,20 +3,21 @@ import { LOG_OUT } from "@query/userQuery";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { AiFillProfile, AiOutlineLogout } from "react-icons/ai";
-import { userInfoGNB } from "@type/userInfo";
+import { AiFillProfile, AiOutlineLogout } from "@components/icon";
 import { DropDownContainer, DropDownContent } from "./dropdown";
 import ProfileModal from "./ProfileModal";
+import { userInfo } from "@type/userInfo";
 
 type props = {
-  data: { UserInfo: userInfoGNB };
+  userInfo: userInfo;
+  userType: string;
 };
 
-const UsersButton = ({ data }: props) => {
+const UsersButton = ({ userInfo, userType }: props) => {
   const router = useRouter();
   const [LogOut] = useMutation(LOG_OUT);
-  const nickname = data.UserInfo.nickname || data.UserInfo.username;
-  const profileImg = data.UserInfo.imgPath;
+  const nickname = userInfo.nickname;
+  const profileImg = userInfo.imgPath;
   const [dropDownVisible, setDropDownVisible] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const userLogout = () => {
@@ -74,7 +75,8 @@ const UsersButton = ({ data }: props) => {
       </div>
       {modalVisible && (
         <ProfileModal
-          prevUser={data.UserInfo}
+          userType={userType}
+          userInfo={userInfo}
           hide={() => setModalVisible(false)}
         />
       )}

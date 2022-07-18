@@ -1,46 +1,45 @@
 import { ChangeEvent, useCallback, useRef, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
-import { BsPersonCircle } from "react-icons/bs";
-import { MdTransgender, MdOutlineDescription } from "react-icons/md";
-import Image from "next/image";
-import InfoInput from "../../signUp/InfoInput";
+import { useRouter } from "next/router";
 import useInput from "@hooks/useInput";
-import { FaRegUserCircle } from "react-icons/fa";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER_INFO } from "@query/userQuery";
-import { useRouter } from "next/router";
 import { getLocalStorage, setLocalStorage } from "utils/localStorage";
 import axios from "axios";
-import { userInfoGNB } from "@type/userInfo";
+
+import {
+  AiOutlineClose,
+  MdTransgender,
+  MdOutlineDescription,
+  FaRegUserCircle,
+} from "@components/icon";
+import Image from "next/image";
+import InfoInput from "../../signUp/InfoInput";
+
+import { userInfo } from "@type/userInfo";
 
 type props = {
   hide: () => void;
-  prevUser?: userInfoGNB;
+  userInfo: userInfo;
+  userType: string;
 };
 
-const ProfileModal = ({ hide, prevUser }: props) => {
+const ProfileModal = ({ hide, userInfo, userType }: props) => {
   /* 
     @parmas
     hide : modal hider
-    prevUser : current user Info
+    userInfo : current user Info
+    userType : current user Type
   */
   const router = useRouter();
-  const prevUserInfoStr = getLocalStorage("userInfo");
-  const prevUserInfo = prevUser || JSON.parse(prevUserInfoStr || "{}");
-  /* 
-  prevUserInfo and prevUserInfo variables are get userInfoValue 
-  in localStorage and set the result at state
-  */
-  const nickname = useInput(prevUserInfo.nickname || "");
-  const gender = useInput(prevUserInfo.gender || "");
+  const nickname = useInput(userInfo.nickname || "");
+  const gender = useInput(userInfo.gender || "");
   const [description, setDiscription] = useState<string>(
-    prevUserInfo.description || ""
+    userInfo.description || ""
   );
   const fileInput = useRef<HTMLInputElement>(null);
-  const [avatarUri, setAvatarUri] = useState<string>(
-    prevUserInfo.imgPath || ""
-  );
+  const [avatarUri, setAvatarUri] = useState<string>(userInfo.imgPath);
   const [avatarFile, setAvatarFile] = useState<File>();
+
   const [updateInfo] = useMutation(UPDATE_USER_INFO, {
     variables: {
       nickname: nickname.value,
@@ -49,10 +48,18 @@ const ProfileModal = ({ hide, prevUser }: props) => {
     },
   });
 
-  const selectFile = useCallback(() => {
-    // this function occured when you clicked icon
-    fileInput.current?.click();
-  }, [fileInput]);
+  const selectFile = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      // this function occured when you clicked icon
+      e.preventDefault();
+      if (userType === "GUEST") {
+        alert("if you want use this feature, you should login");
+        return null;
+      }
+      fileInput.current?.click();
+    },
+    [fileInput, userType]
+  );
 
   const profileImgChanger = (e: ChangeEvent<HTMLInputElement>) => {
     // <input type=file>'s onChange event
@@ -98,7 +105,6 @@ const ProfileModal = ({ hide, prevUser }: props) => {
           nickname: nickname.value,
           gender: gender.value,
           description: description,
-          imgPath: avatarUri,
         };
         setLocalStorage("userInfo", JSON.stringify(updateUserInfo));
         //then, set in localStorage the value
@@ -114,7 +120,6 @@ const ProfileModal = ({ hide, prevUser }: props) => {
     nickname.value,
     gender.value,
     description,
-    avatarUri,
     router,
   ]);
 
@@ -135,7 +140,7 @@ const ProfileModal = ({ hide, prevUser }: props) => {
             className="lg:text-3xl md:text-2xl sm:text-xl cursor-pointer"></AiOutlineClose>
         </div>
         <div className="space-y-6">
-          {/* main input */}
+          {/* profile avatar */}
           {avatarUri ? (
             /* if avatarUri is exist */
             <div
@@ -144,10 +149,7 @@ const ProfileModal = ({ hide, prevUser }: props) => {
               }
               style={{ width: "96px", height: "96px" }}>
               <Image
-                onClick={(e) => {
-                  e.preventDefault();
-                  selectFile();
-                }}
+                onClick={selectFile}
                 alt="profile"
                 width={96}
                 height={96}
@@ -160,14 +162,23 @@ const ProfileModal = ({ hide, prevUser }: props) => {
             </div>
           ) : (
             /* if avatarUri isn't exist */
-            <BsPersonCircle
-              onClick={(e) => {
-                e.preventDefault();
-                selectFile();
-              }}
-              className="m-auto cursor-pointer"
-              size={96}></BsPersonCircle>
+            <div
+              className={
+                "rounded-full m-auto cursor-pointer border border-black overflow-hidden "
+              }
+              style={{ width: "96px", height: "96px" }}>
+              <Image
+                onClick={selectFile}
+                alt="profile"
+                width={96}
+                height={96}
+                layout="responsive"
+                src={
+                  process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png"
+                }></Image>
+            </div>
           )}
+          {/* main input */}
           <input
             className="hidden"
             accept=".png , .svg , .jpg, .jpeg"

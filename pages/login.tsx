@@ -1,4 +1,4 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { KeyboardEvent } from "react";
@@ -13,13 +13,13 @@ const Login: NextPage = () => {
   const username = useInput("");
   const password = useInput("");
   const [autificate] = useLazyQuery(LOGIN_QUE);
-  const sendLoginMutation = async () => {
+  const sendLoginReq = async () => {
     try {
       const res = await autificate({
         variables: { username: username.value, password: password.value },
       });
       setLocalStorage("accessToken", res.data.Login);
-      router.push("/");
+      location.href = "/";
     } catch (err) {
       alert("user info is not incurrent");
     }
@@ -27,7 +27,7 @@ const Login: NextPage = () => {
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      sendLoginMutation();
+      sendLoginReq();
     }
   };
 
@@ -53,7 +53,7 @@ const Login: NextPage = () => {
           onKeyDown={(e) => onKeyDown(e)}></InfoInput>
         <button
           onClick={() => {
-            sendLoginMutation();
+            sendLoginReq();
           }}
           className="
             bg-emerald-500 w-1/3 shadow-md shadow-emerald-500

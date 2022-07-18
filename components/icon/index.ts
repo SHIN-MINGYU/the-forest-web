@@ -5,9 +5,15 @@ import {
 } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { AiOutlineMail } from "react-icons/ai";
+import {
+  AiOutlineMail,
+  AiFillProfile,
+  AiOutlineLogout,
+  AiOutlineClose,
+} from "react-icons/ai";
 import { TiGroupOutline } from "react-icons/ti";
 import { CgScreen } from "react-icons/cg";
+import { MdTransgender, MdOutlineDescription } from "react-icons/md";
 
 /* 
 define my Icons
@@ -22,4 +28,9 @@ export {
   BsPeople,
   TiGroupOutline,
   CgScreen,
+  AiFillProfile,
+  AiOutlineLogout,
+  MdTransgender,
+  MdOutlineDescription,
+  AiOutlineClose,
 };

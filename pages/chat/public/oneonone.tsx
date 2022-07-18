@@ -1,23 +1,25 @@
-import ChatScreen from "@components/publicChat/ChatScreen";
-import ChatInput from "@components/publicChat/ChatInput";
 import { useCallback, useEffect, useState } from "react";
 import { useMutation, useSubscription } from "@apollo/client";
 import { useRouter } from "next/router";
+import { useMyInfo } from "@hooks/useGetMyInfo";
+
+import ChatScreen from "@components/publicChat/ChatScreen";
+import ChatInput from "@components/publicChat/ChatInput";
+import ChatCard from "@components/Card/ChatCard";
+
 import {
   CHECK_ROOM_SUB,
   ENTER_ROOM_MUT,
   ENTER_ROOM_SUB,
   LEAVE_ROOM_MUT,
 } from "@query/publicChatQuery";
-import { useMyInfo } from "@hooks/useGetMyInfo";
-import ChatCard from "@components/Card/ChatCard";
 
 type query = {
   //type of query
   chatRoom: string;
 };
 
-let timeOutCancleToken: NodeJS.Timeout;
+let timeOutCancleToken: NodeJS.Timeout; // setTimeout cancel token
 
 function OneOnOneChat({ chatRoom }: query) {
   const router = useRouter();

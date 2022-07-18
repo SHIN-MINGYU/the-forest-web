@@ -10,14 +10,14 @@ type props = {
   uid: string;
 };
 
-// Guest에서의 uri 방식떄문에 채팅시 uri개 매번 읽혀서 최적화가 안됨.
-// 이럴바에는 서버쪽에 chatRoom/파일 로 만들어놓고 cache처럼 불러오는게 맞을듯함.
-
 function ChatBubble({ chatLog, imgPath, uid }: props) {
   //Chat Bubble Component
   const MY_CHAT: boolean = chatLog.uid === uid;
   return (
-    <div className={"px-5 flex flex-row " + (MY_CHAT ? "justify-end" : "")}>
+    <div
+      className={
+        "px-5 flex flex-row " + (MY_CHAT ? "justify-end" : "") + " hidden"
+      }>
       {/*       {!MY_CHAT && (
         <div className="my-auto pl-2">
           <Image
@@ -27,7 +27,7 @@ function ChatBubble({ chatLog, imgPath, uid }: props) {
                 ? imgPath[1]
                 : "data:" + imgPath[1]
             }
-            width={50}
+            width={50}+
             height={50}
             alt="user profile"></Image>
         </div>

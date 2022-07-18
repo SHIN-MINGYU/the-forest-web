@@ -1,7 +1,6 @@
 import ChatBubble from "./ChatBubble";
 import { useEffect } from "react";
 import { ChatLog } from "@type/chatType";
-import { userInfo } from "@type/userInfo";
 
 type props = {
   subscribeToNewChat: any;

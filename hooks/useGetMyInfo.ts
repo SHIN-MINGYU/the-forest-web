@@ -21,7 +21,7 @@ export const useMyInfo = () => {
     if (result.data) {
       // if result.data is exist
       // set the value in state
-      setUserType("User");
+      setUserType("USER");
       setUid(result.data.UserInfo._id);
       setUserInfo({
         ...result.data.UserInfo,
@@ -43,7 +43,7 @@ export const useMyInfo = () => {
         }
       }
       // 4. set the value
-      setUserType("Guest");
+      setUserType("GUEST");
       setUid(getSessionStorage("user"));
       setUserInfo(getUserInfo);
     }

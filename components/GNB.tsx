@@ -1,15 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { GET_USER } from "@query/userQuery";
 
 import ThemeIcon from "./GNBComponent/icon/ThemeIcon";
 import GuestsButton from "./GNBComponent/button/GuestsButton";
 import UsersButton from "./GNBComponent/button/UsersButton";
 
+import { useMyInfo } from "../hooks/useGetMyInfo";
+
 function GNB() {
-  const { data, error } = useQuery(GET_USER);
+  const getInfo = useMyInfo();
+  const { ...myInfo } = getInfo();
   return (
     <div className="flex shadow-lg shadow-white dark:shadow-black justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
       <Link href="/">
@@ -40,7 +41,8 @@ function GNB() {
             </p>
           </li>
           <li className="float-left mr-4">
-            {data ? <UsersButton data={data} /> : <GuestsButton />}
+            {myInfo.userType === "GUEST" && <GuestsButton {...myInfo} />}
+            {myInfo.userType === "USER" && <UsersButton {...myInfo} />}
           </li>
         </ul>
       </div>
