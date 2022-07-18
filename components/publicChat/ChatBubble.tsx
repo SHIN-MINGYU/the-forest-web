@@ -1,6 +1,7 @@
 import { ChatLog } from "@type/chatType";
 import Image from "next/image";
 import moment from "moment";
+import React from "react";
 
 type props = {
   chatLog: ChatLog;
@@ -11,33 +12,30 @@ type props = {
 };
 
 function ChatBubble({ chatLog, imgPath, uid }: props) {
+  console.log(chatLog);
   //Chat Bubble Component
   const MY_CHAT: boolean = chatLog.uid === uid;
   return (
     <div
       className={
-        "px-5 flex flex-row " + (MY_CHAT ? "justify-end" : "") + " hidden"
+        "px-5 flex flex-row drop-shadow-md " + (MY_CHAT ? "justify-end" : "")
       }>
-      {/*       {!MY_CHAT && (
+      {!MY_CHAT && (
         <div className="my-auto pl-2">
           <Image
             className="rounded-full border-2 border-black"
-            src={
-              imgPath[1].startsWith("http://")
-                ? imgPath[1]
-                : "data:" + imgPath[1]
-            }
-            width={50}+
+            src={imgPath[1]}
+            width={50}
             height={50}
             alt="user profile"></Image>
         </div>
-      )} */}
+      )}
       <div className={"flex flex-col " + (MY_CHAT ? "items-end" : "")}>
         <p className="font-bold text-lg">{chatLog.nickname}</p>
         <p
           className={
             "w-fit max-w-lg px-5 py-2 rounded-xl text-white " +
-            (MY_CHAT ? "bg-green-700" : "bg-green-400")
+            (MY_CHAT ? "bg-green-400" : "bg-green-700")
           }>
           {chatLog.log}
         </p>
@@ -47,11 +45,7 @@ function ChatBubble({ chatLog, imgPath, uid }: props) {
         <div className="my-auto pl-2">
           <Image
             className="rounded-full"
-            src={
-              imgPath[0].startsWith("http://")
-                ? imgPath[0]
-                : "data:" + imgPath[0]
-            }
+            src={imgPath[0]}
             width={50}
             height={50}
             alt="user profile"></Image>
@@ -60,4 +54,5 @@ function ChatBubble({ chatLog, imgPath, uid }: props) {
     </div>
   );
 }
-export default ChatBubble;
+
+export default React.memo(ChatBubble);

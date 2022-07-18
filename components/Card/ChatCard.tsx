@@ -8,9 +8,10 @@ type props = {
     description: string;
     imgPath: string;
   };
+  opponentLeave?: boolean;
 };
 
-const ChatCard = ({ userType, userInfo }: props) => {
+const ChatCard = ({ userType, userInfo, opponentLeave }: props) => {
   /* 
     @params 
     userType : user's Type ("USER || GUEST")
@@ -19,12 +20,16 @@ const ChatCard = ({ userType, userInfo }: props) => {
   const { nickname, gender, description, imgPath } = userInfo;
 
   return (
-    <div className="w-1/4  flex justify-center items-center">
-      <div className="w-1/2 h-1/2 bg-white flex flex-col justify-center items-center rounded-lg">
+    <div
+      className={
+        "w-1/4 flex justify-center items-center " +
+        (opponentLeave ? "blur-sm" : "")
+      }>
+      <div className="w-1/2 h-1/2 p-2 bg-white flex flex-col justify-center items-center rounded-lg">
         <p className="text-xl font-bold">{userType}</p>
         <Image
           className="rounded-full"
-          src={imgPath.startsWith("http://") ? imgPath : "data:" + imgPath}
+          src={imgPath}
           width={200}
           height={200}
           alt="user profile"></Image>

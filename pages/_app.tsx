@@ -6,12 +6,12 @@ import { useEffect } from "react";
 import { ApolloProvider } from "@apollo/client";
 import client from "../apollo-client";
 import { ObjectId } from "bson";
+import { getLocalStorage } from "../utils/localStorage";
+import { getSessionStorage, setSessionStorage } from "../utils/sessionStorage";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      userCheck();
-    }
+    userCheck();
   }, []);
 
   return (
@@ -26,12 +26,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 const userCheck = () => {
-  if (!localStorage.getItem("accessToken")) {
-    if (!sessionStorage.getItem("user")) {
-      sessionStorage.setItem("user", new ObjectId().toString());
-    } else {
-      console.log("aleady exist");
-    }
+  if (!getSessionStorage("user")) {
+    setSessionStorage("user", new ObjectId().toString());
   }
 };
 

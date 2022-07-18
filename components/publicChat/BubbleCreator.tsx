@@ -1,5 +1,5 @@
 import ChatBubble from "./ChatBubble";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { ChatLog } from "@type/chatType";
 
 type props = {

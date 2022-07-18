@@ -5,14 +5,24 @@ import {
   SEARCH_CHAT_LOG_QUE,
 } from "@query/publicChatQuery";
 import BubbleCreator from "./BubbleCreator";
+import NormalToast from "../toast/NormalToast";
+import { AiFillWarning, FaRegCheckCircle } from "@components/icon";
 
 type props = {
   imgPath: Array<string>;
   uid: string;
   chatRoom: string;
+  opponentType: string;
+  opponentLeave: boolean;
 };
 
-function ChatScreen({ imgPath, uid, chatRoom }: props) {
+function ChatScreen({
+  opponentLeave,
+  opponentType,
+  imgPath,
+  uid,
+  chatRoom,
+}: props) {
   const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG_QUE, {
     variables: { chatRoom: chatRoom },
   });
@@ -52,6 +62,30 @@ function ChatScreen({ imgPath, uid, chatRoom }: props) {
           //  updateQuery : combine old chatLog and new chatLog to Array )
         }
       />
+      <div className="flex flex-col items-center">
+        {!opponentType && (
+          /* if opponent user is not exist loading circular */
+          <NormalToast
+            info="loading"
+            message="please wating for match!"
+            circular
+          />
+        )}
+        {opponentType && (
+          <NormalToast
+            Icon={FaRegCheckCircle}
+            info="success"
+            message="matched!"
+          />
+        )}
+        {opponentLeave && (
+          <NormalToast
+            Icon={AiFillWarning}
+            info="warning"
+            message="user is left on this page! you will be transfered to loading page after 5s"
+          />
+        )}
+      </div>
     </>
   );
 }

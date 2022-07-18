@@ -189,9 +189,9 @@ const SignUp: NextPage = () => {
         <button
           onClick={submitInfo}
           className="
-            bg-cyan-500 w-1/3 shadow-md shadow-cyan-500
-              font-bold rounded-2xl hover:bg-cyan-700
-              p-4">
+            bg-green-500 w-1/3 shadow-md shadow-green-500
+              font-bold rounded-2xl hover:bg-green-700 
+              hover:shadow-green-700 p-4">
           Sign Up For Free!
         </button>
       </div>

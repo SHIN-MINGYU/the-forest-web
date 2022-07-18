@@ -9,13 +9,13 @@ const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
   const router = useRouter();
 
-  const transferToLoading = async () => {
+  const transferToLoading = async (type: string) => {
     // transfre to loading page what have "type" query
     router.push(
       {
         pathname: "/chat/loading",
         query: {
-          type: "publiconeonone",
+          type,
         },
       },
       "/chat/loading"
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
                 with Stranger
               </p>
               <button
-                onClick={transferToLoading}
+                onClick={() => transferToLoading("publiconeonone")}
                 className="bg-gradient-to-r  hover:from-green-500 hover:to-green-900 delay-100 mt-4 px-16 py-4 ">
                 <span className="text-white font-bold md:text-lg lg:text-2xl">
                   JOIN
@@ -49,33 +49,38 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-black text-black dark:text-white">
+        <div className="bg-white dark:bg-black text-black dark:text-white py-2">
           <h1 className="text-3xl font-bold text-center py-6">Public</h1>
           <div className="grid grid-cols-2 grid-flow-col px-2 mb-3">
             <ChatCategoryCard
+              onClick={() => transferToLoading("publiconeonone")}
               Icon={BsPeople}
               comment={"Chat with stranger"}
               category={"1 v 1 chat"}
             />
             <ChatCategoryCard
+              onClick={() => transferToLoading("publiconeonone")}
               Icon={TiGroupOutline}
               comment={"Chat with strangers"}
               category={"1 v N chat"}
             />
           </div>
           <h1 className="text-3xl font-bold text-center py-6">Private</h1>
-          <div className="grid grid-cols-3 grid-flow-col px-2 mb-3">
+          <div className="grid grid-cols-3 grid-flow-col px-2">
             <ChatCategoryCard
+              onClick={() => transferToLoading("publiconeonone")}
               Icon={BsPeople}
               comment={"Chat with freind"}
               category={"1 v 1 chat"}
             />
             <ChatCategoryCard
+              onClick={() => transferToLoading("publiconeonone")}
               Icon={TiGroupOutline}
               comment={"Chat with freind"}
               category={"1 v N chat"}
             />
             <ChatCategoryCard
+              onClick={() => transferToLoading("publiconeonone")}
               Icon={CgScreen}
               comment={"Cam Chat with freind"}
               category={"1 v 1 chat"}

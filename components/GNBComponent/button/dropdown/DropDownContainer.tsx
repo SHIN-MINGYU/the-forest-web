@@ -13,7 +13,7 @@ const DropDownContainer = ({ children, visible }: props) => {
     <div
       className={`${
         visible ? "opacity-100" : "opacity-0"
-      } absolute w-32 space-y-3 mt-3 text-black transition-all bg-white`}>
+      } absolute w-40 space-y-3 mt-3 text-black transition-all bg-white`}>
       {/* childeren arr  */}
       {children}
     </div>

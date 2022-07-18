@@ -23,12 +23,14 @@ const GuestsButton = ({ userType, userInfo }: props) => {
     router.push("/login");
   };
   return (
-    <div>
-      <button
-        className="flex justify-center items-center space-x-2"
-        onClick={() => {
-          setDropDownVisible(!dropDownVisible);
-        }}>
+    <div
+      onMouseEnter={() => {
+        setDropDownVisible(true);
+      }}
+      onMouseLeave={() => {
+        setDropDownVisible(false);
+      }}>
+      <button className="flex justify-center items-center space-x-2">
         {/* 
            dropdown toggler
            */}

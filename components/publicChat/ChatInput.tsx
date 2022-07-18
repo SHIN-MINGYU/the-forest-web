@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useRef } from "react";
 import useInput from "@hooks/useInput";
 import { SEND_CHAT_MUT } from "@query/publicChatQuery";
+import { useEffect } from "react";
 type props = {
   uid: string;
   nickname: string;

@@ -22,6 +22,7 @@ function Loading({ type }: query) {
   }, 1000);
 
   useEffect(() => {
+    console.log(data, type, uid);
     if (!data && type && uid) {
       //if mutation is not occured and query is exist
       setTimeout(() => {
@@ -74,16 +75,18 @@ function Loading({ type }: query) {
 }
 
 export function getServerSideProps({ query }: { query: query }) {
-  try {
-    const { type } = query;
+  const { type } = query;
+  if (!type) {
+    // if chat type is not exist, return 404 page
     return {
-      props: {
-        type,
-      },
+      notFound: true,
     };
-  } catch (err) {
-    console.log(err);
   }
+  return {
+    props: {
+      type,
+    },
+  };
 }
 
 export default Loading;

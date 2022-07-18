@@ -13,27 +13,31 @@ import {
   ENTER_ROOM_SUB,
   LEAVE_ROOM_MUT,
 } from "@query/publicChatQuery";
+import DefaultChatCard from "@components/Card/DefaultChatCard";
 
 type query = {
   //type of query
   chatRoom: string;
 };
 
+const initailOpponentInfo = {
+  userType: "",
+  userInfo: {
+    nickname: "",
+    gender: "",
+    description: "",
+    imgPath: "",
+  },
+};
+
 let timeOutCancleToken: NodeJS.Timeout; // setTimeout cancel token
 
 function OneOnOneChat({ chatRoom }: query) {
   const router = useRouter();
+
   const getInfo = useMyInfo();
   const { uid, userType, userInfo } = getInfo();
-  const [opponentInfo, setOpponentInfo] = useState({
-    userType: "",
-    userInfo: {
-      nickname: "",
-      gender: "",
-      description: "",
-      imgPath: "",
-    },
-  });
+  const [opponentInfo, setOpponentInfo] = useState(initailOpponentInfo);
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
 
   const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
@@ -49,7 +53,6 @@ function OneOnOneChat({ chatRoom }: query) {
     variables: { chatRoom },
   });
 
-  console.log(enterEvent);
   const cleanUp = useCallback(() => {
     if (timeOutCancleToken) {
       clearTimeout(timeOutCancleToken);
@@ -130,18 +133,31 @@ function OneOnOneChat({ chatRoom }: query) {
         </div>
         <div className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse">
           <ChatScreen
+            opponentLeave={leaveEvent.data?.CheckRoom.leave}
+            opponentType={opponentInfo.userType}
             imgPath={[userInfo.imgPath, opponentInfo.userInfo.imgPath]}
             uid={uid}
             chatRoom={chatRoom}></ChatScreen>
         </div>
       </div>
-      <ChatCard {...opponentInfo}></ChatCard>
+      {opponentInfo.userType && (
+        <ChatCard
+          opponentLeave={leaveEvent.data?.CheckRoom.leave}
+          {...opponentInfo}></ChatCard>
+      )}
+      {!opponentInfo.userType && <DefaultChatCard></DefaultChatCard>}
     </div>
   );
 }
 
 export function getServerSideProps({ query }: { query: query }) {
   const { chatRoom } = query;
+  if (!chatRoom) {
+    // if chat room is not exist, return 404 page
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       chatRoom,

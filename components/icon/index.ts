@@ -3,13 +3,14 @@ import {
   BsEmojiSunglassesFill,
   BsPeople,
 } from "react-icons/bs";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaRegUserCircle, FaRegCheckCircle } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
   AiOutlineMail,
   AiFillProfile,
   AiOutlineLogout,
   AiOutlineClose,
+  AiFillWarning,
 } from "react-icons/ai";
 import { TiGroupOutline } from "react-icons/ti";
 import { CgScreen } from "react-icons/cg";
@@ -25,6 +26,7 @@ export {
   FaRegUserCircle,
   RiLockPasswordLine,
   AiOutlineMail,
+  AiFillWarning,
   BsPeople,
   TiGroupOutline,
   CgScreen,
@@ -33,4 +35,5 @@ export {
   MdTransgender,
   MdOutlineDescription,
   AiOutlineClose,
+  FaRegCheckCircle,
 };

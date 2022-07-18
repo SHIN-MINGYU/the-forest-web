@@ -16,8 +16,8 @@ type props = {
 const UsersButton = ({ userInfo, userType }: props) => {
   const router = useRouter();
   const [LogOut] = useMutation(LOG_OUT);
-  const nickname = userInfo.nickname;
-  const profileImg = userInfo.imgPath;
+  const { nickname, imgPath } = userInfo;
+
   const [dropDownVisible, setDropDownVisible] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const userLogout = () => {
@@ -30,16 +30,20 @@ const UsersButton = ({ userInfo, userType }: props) => {
   };
   return (
     <>
-      <div>
-        <button
-          className="flex justify-center items-center space-x-2"
-          onClick={() => setDropDownVisible(!dropDownVisible)}>
+      <div
+        onMouseEnter={() => {
+          setDropDownVisible(true);
+        }}
+        onMouseLeave={() => {
+          setDropDownVisible(false);
+        }}>
+        <button className="flex justify-center items-center space-x-2">
           <span>Welcome </span>
           <span className="flex items-center font-bold text-green-600 text-md tracking-wider">
-            {profileImg ? (
+            {imgPath ? (
               <Image
                 className="rounded-full"
-                src={profileImg}
+                src={imgPath}
                 width={20}
                 height={20}
                 layout={"intrinsic"}

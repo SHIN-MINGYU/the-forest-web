@@ -4,9 +4,7 @@ import { useEffect } from "react";
 
 const DarkModeIcon = ({ setTheme }: any) => {
   useEffect(() => {
-    return () => {
-      document.documentElement.classList.toggle("dark");
-    };
+    document.documentElement.classList.add("dark");
   }, []);
   //DarkModeIcon component
   return (
