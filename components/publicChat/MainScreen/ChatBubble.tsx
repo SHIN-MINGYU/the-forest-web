@@ -12,7 +12,9 @@ type props = {
 };
 
 function ChatBubble({ chatLog, imgPath, uid }: props) {
-  console.log(chatLog);
+  if (imgPath[0] === "") {
+    return <></>;
+  }
   //Chat Bubble Component
   const MY_CHAT: boolean = chatLog.uid === uid;
   return (

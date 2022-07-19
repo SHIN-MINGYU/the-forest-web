@@ -1,9 +1,8 @@
 type props = {
   children: JSX.Element[] | JSX.Element;
-  visible: boolean;
 };
 
-const DropDownContainer = ({ children, visible }: props) => {
+const DropDownContainer = ({ children }: props) => {
   /* 
     @params 
       children : DropDownConwtent.tsx 
@@ -11,9 +10,7 @@ const DropDownContainer = ({ children, visible }: props) => {
   */
   return (
     <div
-      className={`${
-        visible ? "opacity-100" : "opacity-0"
-      } absolute w-40 space-y-3 mt-3 text-black transition-all bg-white`}>
+      className={` absolute w-40 space-y-3 text-black transition-all bg-white`}>
       {/* childeren arr  */}
       {children}
     </div>

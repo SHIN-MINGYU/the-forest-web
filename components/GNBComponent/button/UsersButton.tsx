@@ -4,9 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { AiFillProfile, AiOutlineLogout } from "@components/icon";
-import { DropDownContainer, DropDownContent } from "./dropdown";
-import ProfileModal from "./ProfileModal";
 import { userInfo } from "@type/userInfo";
+import dynamic from "next/dynamic";
 
 type props = {
   userInfo: userInfo;
@@ -14,6 +13,13 @@ type props = {
 };
 
 const UsersButton = ({ userInfo, userType }: props) => {
+  const ProfileModal = dynamic(() => import("./ProfileModal"));
+  const DropDownContainer = dynamic(
+    () => import("./dropdown/DropDownContainer")
+  );
+  const DropDownContent = dynamic(() => import("./dropdown/DropDownContent"));
+  //code spliting
+
   const router = useRouter();
   const [LogOut] = useMutation(LOG_OUT);
   const { nickname, imgPath } = userInfo;
@@ -28,6 +34,7 @@ const UsersButton = ({ userInfo, userType }: props) => {
     //reloading page
     router.reload();
   };
+
   return (
     <>
       <div
@@ -62,20 +69,22 @@ const UsersButton = ({ userInfo, userType }: props) => {
             {nickname} !
           </span>
         </button>
-        <DropDownContainer visible={dropDownVisible}>
-          {/* container start */}
-          <DropDownContent
-            Icon={AiFillProfile}
-            content="myprofile"
-            onClick={() => setModalVisible(true)}
-          />
-          <DropDownContent
-            Icon={AiOutlineLogout}
-            content="Logout"
-            onClick={userLogout}
-          />
-          {/* container end */}
-        </DropDownContainer>
+        {dropDownVisible && (
+          <DropDownContainer>
+            {/* container start */}
+            <DropDownContent
+              Icon={AiFillProfile}
+              content="myprofile"
+              onClick={() => setModalVisible(true)}
+            />
+            <DropDownContent
+              Icon={AiOutlineLogout}
+              content="Logout"
+              onClick={userLogout}
+            />
+            {/* container end */}
+          </DropDownContainer>
+        )}
       </div>
       {modalVisible && (
         <ProfileModal

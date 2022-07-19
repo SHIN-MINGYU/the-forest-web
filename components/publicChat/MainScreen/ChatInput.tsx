@@ -16,7 +16,7 @@ function ChatInput({ uid, nickname, chatRoom }: props) {
   //sendChat mutation
 
   return (
-    <>
+    <div className="text-center h-12">
       <input
         {...message}
         /* 
@@ -48,7 +48,7 @@ function ChatInput({ uid, nickname, chatRoom }: props) {
         className="h-full w-1/6  bg-green-200">
         send
       </button>
-    </>
+    </div>
   );
 }
 export default ChatInput;

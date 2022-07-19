@@ -5,7 +5,7 @@ import {
   SEARCH_CHAT_LOG_QUE,
 } from "@query/publicChatQuery";
 import BubbleCreator from "./BubbleCreator";
-import NormalToast from "../toast/NormalToast";
+import NormalToast from "../../toast/NormalToast";
 import { AiFillWarning, FaRegCheckCircle } from "@components/icon";
 
 type props = {
@@ -31,7 +31,7 @@ function ChatScreen({
   //if mutaition is occur, subscription is catch about that,
   //then update is detected because of subscription, then query is update
   return (
-    <>
+    <div className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse">
       <BubbleCreator
         {...result}
         imgPath={imgPath}
@@ -62,31 +62,29 @@ function ChatScreen({
           //  updateQuery : combine old chatLog and new chatLog to Array )
         }
       />
-      <div className="flex flex-col items-center">
-        {!opponentType && (
-          /* if opponent user is not exist loading circular */
-          <NormalToast
-            info="loading"
-            message="please wating for match!"
-            circular
-          />
-        )}
-        {opponentType && (
-          <NormalToast
-            Icon={FaRegCheckCircle}
-            info="success"
-            message="matched!"
-          />
-        )}
-        {opponentLeave && (
-          <NormalToast
-            Icon={AiFillWarning}
-            info="warning"
-            message="user is left on this page! you will be transfered to loading page after 5s"
-          />
-        )}
-      </div>
-    </>
+      {!opponentType && (
+        /* if opponent user is not exist loading circular */
+        <NormalToast
+          info="loading"
+          message="please wating for match!"
+          circular
+        />
+      )}
+      {opponentType && (
+        <NormalToast
+          Icon={FaRegCheckCircle}
+          info="success"
+          message="matched!"
+        />
+      )}
+      {opponentLeave && (
+        <NormalToast
+          Icon={AiFillWarning}
+          info="warning"
+          message="user is left on this page! you will be transfered to loading page after 5s"
+        />
+      )}
+    </div>
   );
 }
 export default ChatScreen;

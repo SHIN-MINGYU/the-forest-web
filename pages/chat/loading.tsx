@@ -4,12 +4,9 @@ import { useEffect, useState } from "react";
 import useInterval from "@hooks/useInterval";
 import { SEARCH_ROOM_MUT } from "@query/publicChatQuery";
 import { useMyInfo } from "@hooks/useGetMyInfo";
+import { loadingPageQuery } from "../../type/routingQuery";
 
-type query = {
-  type: string;
-};
-
-function Loading({ type }: query) {
+function Loading({ type, category }: loadingPageQuery) {
   const getInfo = useMyInfo();
   const { uid } = getInfo();
   const [searchRoom, { data }] = useMutation(SEARCH_ROOM_MUT);
@@ -22,13 +19,14 @@ function Loading({ type }: query) {
   }, 1000);
 
   useEffect(() => {
-    console.log(data, type, uid);
-    if (!data && type && uid) {
+    if (!data && type && category && uid) {
+      console.log(uid, type, category);
       //if mutation is not occured and query is exist
       setTimeout(() => {
         searchRoom({
           variables: {
             uid,
+            category,
             type,
           },
         });
@@ -36,19 +34,18 @@ function Loading({ type }: query) {
     }
     if (data) {
       //if mutation is done
-      console.log("채팅방 : ", data.SearchRoom);
       router.push(
         {
-          pathname: "/chat/public/oneonone",
+          pathname: "/chat/" + category + "/" + type,
           query: {
             chatRoom: data.SearchRoom,
           },
         },
-        "/chat/public/oneonone"
+        "/chat/" + category + "/" + type
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, type, getInfo]);
+  }, [data, type, getInfo, category]);
   return (
     <div className="h-screen flex flex-col justify-center items-center">
       <svg
@@ -74,9 +71,9 @@ function Loading({ type }: query) {
   );
 }
 
-export function getServerSideProps({ query }: { query: query }) {
-  const { type } = query;
-  if (!type) {
+export function getServerSideProps({ query }: { query: loadingPageQuery }) {
+  const { type, category } = query;
+  if (!type || !category) {
     // if chat type is not exist, return 404 page
     return {
       notFound: true,
@@ -84,6 +81,7 @@ export function getServerSideProps({ query }: { query: query }) {
   }
   return {
     props: {
+      category,
       type,
     },
   };

@@ -86,7 +86,7 @@ export const LEAVE_ROOM_MUT = gql`
 `;
 
 export const SEARCH_ROOM_MUT = gql`
-  mutation ($uid: ID, $type: String) {
-    SearchRoom(uid: $uid, type: $type)
+  mutation ($uid: ID, $type: String!, $category: String!) {
+    SearchRoom(uid: $uid, type: $type, category: $category)
   }
 `;

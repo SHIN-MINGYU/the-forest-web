@@ -3,9 +3,12 @@ import { useMutation, useSubscription } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useMyInfo } from "@hooks/useGetMyInfo";
 
-import ChatScreen from "@components/publicChat/ChatScreen";
-import ChatInput from "@components/publicChat/ChatInput";
-import ChatCard from "@components/Card/ChatCard";
+import {
+  ChatScreen,
+  ChatInput,
+  ChatContainer,
+} from "@components/publicChat/MainScreen";
+import { ChatCard, OpponentChatCard } from "@components/publicChat/Card";
 
 import {
   CHECK_ROOM_SUB,
@@ -13,7 +16,6 @@ import {
   ENTER_ROOM_SUB,
   LEAVE_ROOM_MUT,
 } from "@query/publicChatQuery";
-import DefaultChatCard from "@components/Card/DefaultChatCard";
 
 type query = {
   //type of query
@@ -120,33 +122,24 @@ function OneOnOneChat({ chatRoom }: query) {
     cleanUp();
   };
   return (
-    <div
-      className="w-full bg-[url('/images/chat_background.jpg')] flex overflow-y-hidden"
-      style={{ height: "90vh" }}>
+    <ChatContainer>
       <ChatCard userType={userType} userInfo={userInfo}></ChatCard>
-      <div className="md:w-1/2 h-full sm:w-full bg-white  flex flex-col-reverse mx-auto mb-0 p-0 bottom-0 left-0 right-0">
-        <div className="text-center h-12">
-          <ChatInput
-            uid={uid}
-            nickname={userInfo.nickname}
-            chatRoom={chatRoom}></ChatInput>
-        </div>
-        <div className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse">
-          <ChatScreen
-            opponentLeave={leaveEvent.data?.CheckRoom.leave}
-            opponentType={opponentInfo.userType}
-            imgPath={[userInfo.imgPath, opponentInfo.userInfo.imgPath]}
-            uid={uid}
-            chatRoom={chatRoom}></ChatScreen>
-        </div>
-      </div>
-      {opponentInfo.userType && (
-        <ChatCard
+      <div className="w-full md:w-1/2 h-full bg-white  flex flex-col-reverse mx-auto mb-0 p-0 bottom-0 left-0 right-0">
+        <ChatInput
+          uid={uid}
+          nickname={userInfo.nickname}
+          chatRoom={chatRoom}></ChatInput>
+        <ChatScreen
           opponentLeave={leaveEvent.data?.CheckRoom.leave}
-          {...opponentInfo}></ChatCard>
-      )}
-      {!opponentInfo.userType && <DefaultChatCard></DefaultChatCard>}
-    </div>
+          opponentType={opponentInfo.userType}
+          imgPath={[userInfo.imgPath, opponentInfo.userInfo.imgPath]}
+          uid={uid}
+          chatRoom={chatRoom}></ChatScreen>
+      </div>
+      <OpponentChatCard
+        opponentInfo={opponentInfo}
+        leave={leaveEvent.data.CheckRoom.leave}></OpponentChatCard>
+    </ChatContainer>
   );
 }
 

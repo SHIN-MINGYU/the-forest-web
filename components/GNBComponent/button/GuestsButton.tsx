@@ -1,10 +1,9 @@
 import { AiFillProfile, AiOutlineLogin } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { DropDownContainer, DropDownContent } from "./dropdown";
-import ProfileModal from "./ProfileModal";
 import Image from "next/image";
 import { userInfo } from "@type/userInfo";
+import dynamic from "next/dynamic";
 
 type props = {
   userType: string;
@@ -12,6 +11,13 @@ type props = {
 };
 
 const GuestsButton = ({ userType, userInfo }: props) => {
+  const ProfileModal = dynamic(() => import("./ProfileModal"));
+  const DropDownContainer = dynamic(
+    () => import("./dropdown/DropDownContainer")
+  );
+  const DropDownContent = dynamic(() => import("./dropdown/DropDownContent"));
+  //code spliting
+
   const router = useRouter();
   const { nickname, imgPath } = userInfo;
   const [dropDownVisible, setDropDownVisible] = useState<boolean>(false);
@@ -47,18 +53,20 @@ const GuestsButton = ({ userType, userInfo }: props) => {
           {nickname}!
         </span>
       </button>
-      <DropDownContainer visible={dropDownVisible}>
-        {/* container start */}
-        <DropDownContent
-          Icon={AiFillProfile}
-          content="my profile"
-          onClick={() => setModalVisible(true)}></DropDownContent>
-        <DropDownContent
-          Icon={AiOutlineLogin}
-          content="Login"
-          onClick={transferToLoginPage}></DropDownContent>
-        {/* container end */}
-      </DropDownContainer>
+      {dropDownVisible && (
+        <DropDownContainer>
+          {/* container start */}
+          <DropDownContent
+            Icon={AiFillProfile}
+            content="my profile"
+            onClick={() => setModalVisible(true)}></DropDownContent>
+          <DropDownContent
+            Icon={AiOutlineLogin}
+            content="Login"
+            onClick={transferToLoginPage}></DropDownContent>
+          {/* container end */}
+        </DropDownContainer>
+      )}
       {modalVisible && (
         <ProfileModal
           userType={userType}

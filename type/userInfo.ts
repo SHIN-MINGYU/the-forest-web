@@ -5,6 +5,7 @@ export interface userInfo {
   gender: string;
 }
 
-export interface userInfoGNB extends userInfo {
-  username: string;
+export interface opponentInfo {
+  userType: string;
+  userInfo: userInfo;
 }

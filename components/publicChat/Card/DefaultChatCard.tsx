@@ -1,7 +1,7 @@
 const DefaultChatCard = () => {
   return (
-    <div className="w-1/4  flex justify-center items-center">
-      <div className="w-1/2 h-1/2 bg-white flex flex-col justify-center items-center rounded-lg">
+    <div className="lg:w-72 md:w-56  m-auto hidden sm:hidden md:flex justify-center items-center ">
+      <div className="lg:w-72 lg:h-96 md:w-56 md:h-96 p-2 bg-white flex flex-col justify-center items-center rounded-lg">
         <p className="text-xl font-bold">Waiting...</p>
         <svg
           role="status"
@@ -22,15 +22,12 @@ const DefaultChatCard = () => {
         <div>
           <div>
             <p className="text-green-600">nickname</p>
-            <p></p>
           </div>
           <div>
             <p className="text-green-600">gender</p>
-            <p></p>
           </div>
           <div>
             <p className="text-green-600">description</p>
-            <p></p>
           </div>
         </div>
       </div>

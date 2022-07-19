@@ -22,16 +22,17 @@ const ChatCard = ({ userType, userInfo, opponentLeave }: props) => {
   return (
     <div
       className={
-        "w-1/4 flex justify-center items-center " +
+        "lg:w-72 lg:h-72 md:w-56 md:h-56 m-auto hidden sm:hidden md:flex justify-center items-center " +
         (opponentLeave ? "blur-sm" : "")
       }>
-      <div className="w-1/2 h-1/2 p-2 bg-white flex flex-col justify-center items-center rounded-lg">
+      <div className="p-2 bg-white flex flex-col justify-center items-center rounded-lg">
         <p className="text-xl font-bold">{userType}</p>
         <Image
           className="rounded-full"
           src={imgPath}
-          width={200}
-          height={200}
+          width={150}
+          height={150}
+          layout={"intrinsic"}
           alt="user profile"></Image>
         <div>
           <div>
