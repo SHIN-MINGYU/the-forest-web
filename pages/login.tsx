@@ -2,10 +2,12 @@ import { useLazyQuery } from "@apollo/client";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { KeyboardEvent } from "react";
-import { FaRegUserCircle, RiLockPasswordLine } from "@components/icon";
-import InfoInput from "@components/signUp/InfoInput";
 import { setLocalStorage } from "utils/localStorage";
 import useInput from "@hooks/useInput";
+
+import { FaRegUserCircle, RiLockPasswordLine } from "@components/icon";
+import InfoInput from "@components/signUp/InfoInput";
+
 import { LOGIN_QUE } from "@query/publicChatQuery";
 
 const Login: NextPage = () => {

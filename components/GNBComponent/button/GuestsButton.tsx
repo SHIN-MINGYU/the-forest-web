@@ -1,10 +1,11 @@
-import { AiFillProfile, AiOutlineLogin } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Image from "next/image";
-import { userInfo } from "@type/userInfo";
 import dynamic from "next/dynamic";
 
+import { AiFillProfile, AiOutlineLogin } from "react-icons/ai";
+
+import { userInfo } from "@type/userInfo";
 type props = {
   userType: string;
   userInfo: userInfo;

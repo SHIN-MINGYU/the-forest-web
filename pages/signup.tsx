@@ -1,16 +1,18 @@
+import { useLazyQuery, useMutation } from "@apollo/client";
+import Head from "next/head";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
+import useInput from "@hooks/useInput";
+
 import {
   FaRegUserCircle,
   RiLockPasswordLine,
   AiOutlineMail,
 } from "@components/icon";
-import useInput from "@hooks/useInput";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import Head from "next/head";
-import { NextPage } from "next";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
-import { REQUEST_SEND_MAIL, SEARCH_USER, SIGN_UP } from "@query/userQuery";
 import { SendButton, InfoInput } from "@components/signUp";
-import { useRouter } from "next/router";
+
+import { REQUEST_SEND_MAIL, SEARCH_USER, SIGN_UP } from "@query/userQuery";
 
 const SignUp: NextPage = () => {
   const router = useRouter();

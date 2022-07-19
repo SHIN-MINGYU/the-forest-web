@@ -2,21 +2,20 @@ import { ChatLog } from "@type/chatType";
 import Image from "next/image";
 import moment from "moment";
 import React from "react";
+import { imgPath } from "@type/userInfo";
 
 type props = {
   chatLog: ChatLog;
-  imgPath: Array<string>;
+  imgPath: imgPath;
   // 0 : current user's img
   // 1 : opponent user's img
   uid: string;
 };
 
 function ChatBubble({ chatLog, imgPath, uid }: props) {
-  if (imgPath[0] === "") {
-    return <></>;
-  }
   //Chat Bubble Component
   const MY_CHAT: boolean = chatLog.uid === uid;
+
   return (
     <div
       className={
@@ -26,7 +25,7 @@ function ChatBubble({ chatLog, imgPath, uid }: props) {
         <div className="my-auto pl-2">
           <Image
             className="rounded-full border-2 border-black"
-            src={imgPath[1]}
+            src={imgPath[chatLog.uid]}
             width={50}
             height={50}
             alt="user profile"></Image>
@@ -47,7 +46,7 @@ function ChatBubble({ chatLog, imgPath, uid }: props) {
         <div className="my-auto pl-2">
           <Image
             className="rounded-full"
-            src={imgPath[0]}
+            src={imgPath[chatLog.uid]}
             width={50}
             height={50}
             alt="user profile"></Image>

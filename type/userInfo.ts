@@ -6,6 +6,11 @@ export interface userInfo {
 }
 
 export interface opponentInfo {
+  uid: string;
   userType: string;
   userInfo: userInfo;
+}
+
+export interface imgPath {
+  [key: string]: string;
 }

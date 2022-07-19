@@ -11,25 +11,16 @@ import {
 import { ChatCard, OpponentChatCard } from "@components/publicChat/Card";
 
 import {
-  CHECK_ROOM_SUB,
+  LEAVE_ROOM_SUB,
   ENTER_ROOM_MUT,
   ENTER_ROOM_SUB,
   LEAVE_ROOM_MUT,
 } from "@query/publicChatQuery";
 
+import { imgPath, opponentInfo } from "@type/userInfo";
 type query = {
   //type of query
   chatRoom: string;
-};
-
-const initailOpponentInfo = {
-  userType: "",
-  userInfo: {
-    nickname: "",
-    gender: "",
-    description: "",
-    imgPath: "",
-  },
 };
 
 let timeOutCancleToken: NodeJS.Timeout; // setTimeout cancel token
@@ -39,7 +30,9 @@ function OneOnOneChat({ chatRoom }: query) {
 
   const getInfo = useMyInfo();
   const { uid, userType, userInfo } = getInfo();
-  const [opponentInfo, setOpponentInfo] = useState(initailOpponentInfo);
+  const [opponentInfo, setOpponentInfo] = useState<opponentInfo>();
+  const [imgPath, setImgPath] = useState<imgPath>({});
+
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
 
   const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
@@ -49,18 +42,30 @@ function OneOnOneChat({ chatRoom }: query) {
   const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
     variables: {
       chatRoom,
+      nickname: userInfo.nickname,
     },
   });
-  const { ...leaveEvent } = useSubscription(CHECK_ROOM_SUB, {
+  const { ...leaveEvent } = useSubscription(LEAVE_ROOM_SUB, {
     variables: { chatRoom },
   });
-
   const cleanUp = useCallback(() => {
     if (timeOutCancleToken) {
       clearTimeout(timeOutCancleToken);
     }
     leaveRoom();
   }, [leaveRoom]);
+
+  useEffect(() => {
+    // when componentdidmount my impPath push in imgPath object state
+    if (userInfo.imgPath && uid) {
+      const obj: { [key: string]: string } = {};
+      obj[uid] = userInfo.imgPath;
+      setImgPath((prevState) => ({
+        ...prevState,
+        ...obj,
+      }));
+    }
+  }, [uid, userInfo.imgPath]);
 
   useEffect(() => {
     /* 
@@ -83,13 +88,21 @@ function OneOnOneChat({ chatRoom }: query) {
   useEffect(() => {
     if (enterEvent.data) {
       //if enterEvent occur
-      if (!opponentInfo.userType) {
+      if (!opponentInfo) {
         if (enterEvent.data?.EnterRoom.uid !== uid) {
           // set the opponent's info
           setOpponentInfo((prevState) => ({
             ...prevState,
+            uid: enterEvent.data?.EnterRoom.uid,
             userType: enterEvent.data?.EnterRoom.userType,
             userInfo: enterEvent.data?.EnterRoom.userInfo,
+          }));
+          const opponentImgPath: { [key: string]: string } = {};
+          const key: string = enterEvent.data?.EnterRoom.uid;
+          opponentImgPath[key] = enterEvent.data?.EnterRoom.userInfo.imgPath;
+          setImgPath((prevState) => ({
+            ...prevState,
+            ...opponentImgPath,
           }));
           // and occur one more
           enterRoom({
@@ -104,7 +117,7 @@ function OneOnOneChat({ chatRoom }: query) {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enterEvent.data, opponentInfo.userType]);
+  }, [enterEvent.data, opponentInfo]);
 
   useEffect(() => {
     //when some user exit from the room
@@ -118,6 +131,7 @@ function OneOnOneChat({ chatRoom }: query) {
   useEffect(() => {
     return () => cleanUp();
   }, [cleanUp]);
+
   onbeforeunload = () => {
     cleanUp();
   };
@@ -131,14 +145,14 @@ function OneOnOneChat({ chatRoom }: query) {
           chatRoom={chatRoom}></ChatInput>
         <ChatScreen
           opponentLeave={leaveEvent.data?.CheckRoom.leave}
-          opponentType={opponentInfo.userType}
-          imgPath={[userInfo.imgPath, opponentInfo.userInfo.imgPath]}
+          opponentType={opponentInfo ? opponentInfo.userType : ""}
+          imgPath={imgPath}
           uid={uid}
           chatRoom={chatRoom}></ChatScreen>
       </div>
       <OpponentChatCard
         opponentInfo={opponentInfo}
-        leave={leaveEvent.data.CheckRoom.leave}></OpponentChatCard>
+        leave={leaveEvent.data?.CheckRoom.leave}></OpponentChatCard>
     </ChatContainer>
   );
 }

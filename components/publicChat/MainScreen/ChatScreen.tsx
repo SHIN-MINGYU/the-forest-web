@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery, useSubscription } from "@apollo/client";
 import { ChatLog } from "@type/chatType";
 import {
   CHECK_CHAT_ACTION_SUB,
@@ -7,9 +7,11 @@ import {
 import BubbleCreator from "./BubbleCreator";
 import NormalToast from "../../toast/NormalToast";
 import { AiFillWarning, FaRegCheckCircle } from "@components/icon";
+import { imgPath } from "@type/userInfo";
+import { useEffect, useState } from "react";
 
 type props = {
-  imgPath: Array<string>;
+  imgPath: imgPath;
   uid: string;
   chatRoom: string;
   opponentType: string;
@@ -23,15 +25,66 @@ function ChatScreen({
   uid,
   chatRoom,
 }: props) {
-  const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG_QUE, {
-    variables: { chatRoom: chatRoom },
+  /*   const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG_QUE, {
+    variables: { chatRoom },
+  }); */
+  const { data, loading, error } = useSubscription(CHECK_CHAT_ACTION_SUB, {
+    variables: {
+      chatRoom,
+    },
   });
-
+  const [message, setMessage] = useState<ChatLog[]>([]);
+  useEffect(() => {
+    if (data) {
+      const newMessage = [data.CheckChat];
+      setMessage((prevState) => newMessage.concat(prevState));
+    }
+  }, [data]);
+  console.log(message);
   //subscribeToMore is working
   //if mutaition is occur, subscription is catch about that,
   //then update is detected because of subscription, then query is update
   return (
-    <div className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse">
+    <div
+      className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse
+    scrollbar scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700">
+      {!opponentType && (
+        /* when opponent user is not exist, send loading circular */
+        <NormalToast
+          info="loading"
+          message="please wating for match!"
+          circular
+        />
+      )}
+      {opponentType && (
+        /* when opponent enter the room, send success message*/
+        <NormalToast
+          Icon={FaRegCheckCircle}
+          info="success"
+          message="matched!"
+        />
+      )}
+      {opponentLeave && (
+        /* when opponent is exit from room, send warning message */
+        <NormalToast
+          Icon={AiFillWarning}
+          info="warning"
+          message="user is left on this page! you will be transfered to loading page after 5s"
+        />
+      )}
+      <BubbleCreator data={message} imgPath={imgPath} uid={uid} />
+      {/* 
+      ! this method is supported by graphql
+      but in my logic this statement occur error
+      because of remaining prev data
+      so if opponent is not exist, deservedly, the img path is not exist , then img tag have not src property 
+      */}
+      {/*       <BubbleCreator  data={{
+        ChatLog: []
+      }} imgPath={undefined} uid={""}/> */}
+      {/* <div
+      className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse
+    scrollbar scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700">
       <BubbleCreator
         {...result}
         imgPath={imgPath}
@@ -40,7 +93,7 @@ function ChatScreen({
           () =>
             subscribeToMore({
               document: CHECK_CHAT_ACTION_SUB,
-              variables: { chatRoom: chatRoom },
+              variables: { chatRoom },
               updateQuery: (
                 prev: { ChatLog: [ChatLog] },
                 {
@@ -61,29 +114,7 @@ function ChatScreen({
           //  variables : send variabels to subscription
           //  updateQuery : combine old chatLog and new chatLog to Array )
         }
-      />
-      {!opponentType && (
-        /* if opponent user is not exist loading circular */
-        <NormalToast
-          info="loading"
-          message="please wating for match!"
-          circular
-        />
-      )}
-      {opponentType && (
-        <NormalToast
-          Icon={FaRegCheckCircle}
-          info="success"
-          message="matched!"
-        />
-      )}
-      {opponentLeave && (
-        <NormalToast
-          Icon={AiFillWarning}
-          info="warning"
-          message="user is left on this page! you will be transfered to loading page after 5s"
-        />
-      )}
+      /> */}
     </div>
   );
 }

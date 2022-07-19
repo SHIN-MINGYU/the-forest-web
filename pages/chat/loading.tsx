@@ -2,9 +2,11 @@ import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useInterval from "@hooks/useInterval";
-import { SEARCH_ROOM_MUT } from "@query/publicChatQuery";
 import { useMyInfo } from "@hooks/useGetMyInfo";
-import { loadingPageQuery } from "../../type/routingQuery";
+
+import { loadingPageQuery } from "@type/routingQuery";
+
+import { SEARCH_ROOM_MUT } from "@query/publicChatQuery";
 
 function Loading({ type, category }: loadingPageQuery) {
   const getInfo = useMyInfo();

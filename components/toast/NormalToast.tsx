@@ -25,7 +25,7 @@ const NormalToast = ({ Icon, circular, info, message }: props) => {
       className={`${
         visible === false ? "hidden" : ""
       } relative flex justify-center items-center ${bgColors[info]} 
-      m-auto p-2 w-4/5 rounded-lg drop-shadow-md mb-3
+      mx-auto p-2 w-4/5 rounded-lg drop-shadow-md mb-3
       space-x-3`}>
       {Icon && <Icon color="white" />}
       {circular && (

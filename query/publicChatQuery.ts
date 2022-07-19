@@ -45,10 +45,11 @@ export const SEND_CHAT_MUT = gql`
     )
   }
 `;
-export const CHECK_ROOM_SUB = gql`
+export const LEAVE_ROOM_SUB = gql`
   subscription ($chatRoom: ID!) {
-    CheckRoom(chat_room: $chatRoom) {
+    LeaveRoom(chat_room: $chatRoom) {
       leave
+      nickname
     }
   }
 `;
@@ -80,8 +81,8 @@ export const ENTER_ROOM_SUB = gql`
 `;
 
 export const LEAVE_ROOM_MUT = gql`
-  mutation ($chatRoom: ID!) {
-    LeaveRoom(chat_room: $chatRoom)
+  mutation ($chatRoom: ID!, $nickname: String) {
+    LeaveRoom(chat_room: $chatRoom, nickname: $nickname)
   }
 `;
 

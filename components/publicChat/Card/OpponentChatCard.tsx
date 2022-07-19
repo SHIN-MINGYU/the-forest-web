@@ -3,7 +3,7 @@ import ChatCard from "./ChatCard";
 import DefaultChatCard from "./DefaultChatCard";
 
 type props = {
-  opponentInfo: opponentInfo;
+  opponentInfo: opponentInfo | undefined;
   leave: boolean;
 };
 

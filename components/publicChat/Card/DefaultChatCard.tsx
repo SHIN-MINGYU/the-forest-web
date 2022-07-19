@@ -1,6 +1,6 @@
 const DefaultChatCard = () => {
   return (
-    <div className="lg:w-72 md:w-56  m-auto hidden sm:hidden md:flex justify-center items-center ">
+    <div className="lg:w-72 lg:h-72 md:w-56 md:h-56  m-auto hidden sm:hidden md:flex justify-center items-center ">
       <div className="lg:w-72 lg:h-96 md:w-56 md:h-96 p-2 bg-white flex flex-col justify-center items-center rounded-lg">
         <p className="text-xl font-bold">Waiting...</p>
         <svg

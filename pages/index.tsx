@@ -1,10 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { RefObject, useRef } from "react";
-import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
 import { useRouter } from "next/router";
+
+import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
 import ChatCategoryCard from "@components/Card/ChatCategory";
-import { loadingPageQuery } from "../type/routingQuery";
+
+import { loadingPageQuery } from "@type/routingQuery";
 
 const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
