@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function error() {
+export default function Error() {
   return (
     <div className="h-screen">
       <div className="h-full flex flex-col justify-center items-center">

@@ -5,3 +5,8 @@ export type ChatLog = {
   nickname: string;
   createAt: Date;
 };
+
+export type leaveEvent = {
+  leave: boolean;
+  nickname: string;
+};

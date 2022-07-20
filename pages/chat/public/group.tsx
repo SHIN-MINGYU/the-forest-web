@@ -9,20 +9,37 @@ import {
   ChatScreen,
 } from "@components/publicChat/MainScreen";
 
-import { imgPath, opponentInfo } from "@type/userInfo";
+import { imgPath, opponentInfoType } from "@type/userInfo";
 import { chatRoomQuery } from "@type/routingQuery";
 
-import { ENTER_ROOM_MUT, ENTER_ROOM_SUB } from "@query/publicChatQuery";
+import {
+  ENTER_ROOM_MUT,
+  ENTER_ROOM_SUB,
+  LEAVE_ROOM_MUT,
+  LEAVE_ROOM_SUB,
+} from "@query/publicChatQuery";
 
 const GroupChat = ({ chatRoom }: chatRoomQuery) => {
+  // info variables
   const getInfo = useMyInfo();
   const { uid, userType, userInfo } = getInfo();
-  const [opponentInfo, setOpponentInfo] = useState<Array<opponentInfo>>([]);
+  const [opponentInfo, setOpponentInfo] = useState<Array<opponentInfoType>>([]);
   const [imgPath, setImgPath] = useState<imgPath>({});
 
+  // ENTER ROOM SUBSCRIBE, MUTATION
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
-
   const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
+    variables: { chatRoom },
+  });
+
+  // LEAVE ROOM SUBSCRIBE, MUTATION
+  const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
+    variables: {
+      chatRoom,
+      nickname: userInfo.nickname,
+    },
+  });
+  const { ...leaveEvent } = useSubscription(LEAVE_ROOM_SUB, {
     variables: { chatRoom },
   });
 
@@ -114,8 +131,8 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
           nickname={userInfo.nickname}
           chatRoom={chatRoom}></ChatInput>
         <ChatScreen
-          opponentLeave={false}
-          opponentType={""}
+          opponentLeave={undefined}
+          opponentInfo={undefined}
           imgPath={imgPath}
           uid={uid}
           chatRoom={chatRoom}></ChatScreen>

@@ -17,7 +17,7 @@ import {
   LEAVE_ROOM_MUT,
 } from "@query/publicChatQuery";
 
-import { imgPath, opponentInfo } from "@type/userInfo";
+import { imgPath, opponentInfoType } from "@type/userInfo";
 type query = {
   //type of query
   chatRoom: string;
@@ -28,26 +28,30 @@ let timeOutCancleToken: NodeJS.Timeout; // setTimeout cancel token
 function OneOnOneChat({ chatRoom }: query) {
   const router = useRouter();
 
+  // info variables
   const getInfo = useMyInfo();
   const { uid, userType, userInfo } = getInfo();
-  const [opponentInfo, setOpponentInfo] = useState<opponentInfo>();
+  const [opponentInfo, setOpponentInfo] = useState<opponentInfoType>();
   const [imgPath, setImgPath] = useState<imgPath>({});
 
+  // ENTERROOM SUBSCRIBE, MUTATION
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
-
   const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
     variables: { chatRoom },
   });
 
+  // LEAVEROOM SUBSCRIBE, MUTATION
   const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
     variables: {
       chatRoom,
       nickname: userInfo.nickname,
     },
   });
+
   const { ...leaveEvent } = useSubscription(LEAVE_ROOM_SUB, {
     variables: { chatRoom },
   });
+
   const cleanUp = useCallback(() => {
     if (timeOutCancleToken) {
       clearTimeout(timeOutCancleToken);
@@ -93,9 +97,7 @@ function OneOnOneChat({ chatRoom }: query) {
           // set the opponent's info
           setOpponentInfo((prevState) => ({
             ...prevState,
-            uid: enterEvent.data?.EnterRoom.uid,
-            userType: enterEvent.data?.EnterRoom.userType,
-            userInfo: enterEvent.data?.EnterRoom.userInfo,
+            ...enterEvent.data?.EnterRoom,
           }));
           const opponentImgPath: { [key: string]: string } = {};
           const key: string = enterEvent.data?.EnterRoom.uid;
@@ -121,7 +123,7 @@ function OneOnOneChat({ chatRoom }: query) {
 
   useEffect(() => {
     //when some user exit from the room
-    if (leaveEvent.data?.CheckRoom.leave) {
+    if (leaveEvent.data?.LeaveRoom.leave) {
       timeOutCancleToken = setTimeout(() => {
         router.back();
       }, 5000);
@@ -144,15 +146,15 @@ function OneOnOneChat({ chatRoom }: query) {
           nickname={userInfo.nickname}
           chatRoom={chatRoom}></ChatInput>
         <ChatScreen
-          opponentLeave={leaveEvent.data?.CheckRoom.leave}
-          opponentType={opponentInfo ? opponentInfo.userType : ""}
+          opponentLeave={leaveEvent.data?.LeaveRoom}
+          opponentInfo={opponentInfo}
           imgPath={imgPath}
           uid={uid}
           chatRoom={chatRoom}></ChatScreen>
       </div>
       <OpponentChatCard
         opponentInfo={opponentInfo}
-        leave={leaveEvent.data?.CheckRoom.leave}></OpponentChatCard>
+        leave={leaveEvent.data?.LeaveRoom.leave}></OpponentChatCard>
     </ChatContainer>
   );
 }

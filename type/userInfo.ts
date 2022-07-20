@@ -5,7 +5,7 @@ export interface userInfo {
   gender: string;
 }
 
-export interface opponentInfo {
+export interface opponentInfoType {
   uid: string;
   userType: string;
   userInfo: userInfo;

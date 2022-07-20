@@ -1,9 +1,9 @@
-import { ChatLog } from "@type/chatType";
 import Image from "next/image";
 import moment from "moment";
 import React from "react";
-import { imgPath } from "@type/userInfo";
 
+import { ChatLog } from "@type/chatType";
+import { imgPath } from "@type/userInfo";
 type props = {
   chatLog: ChatLog;
   imgPath: imgPath;
@@ -56,4 +56,6 @@ function ChatBubble({ chatLog, imgPath, uid }: props) {
   );
 }
 
-export default React.memo(ChatBubble);
+export default React.memo(ChatBubble, (prevProps, nextProps) => {
+  return prevProps.chatLog === nextProps.chatLog;
+});

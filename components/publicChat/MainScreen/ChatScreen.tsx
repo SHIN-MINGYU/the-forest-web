@@ -1,26 +1,21 @@
-import { useQuery, useSubscription } from "@apollo/client";
-import { ChatLog } from "@type/chatType";
-import {
-  CHECK_CHAT_ACTION_SUB,
-  SEARCH_CHAT_LOG_QUE,
-} from "@query/publicChatQuery";
 import BubbleCreator from "./BubbleCreator";
-import NormalToast from "../../toast/NormalToast";
-import { AiFillWarning, FaRegCheckCircle } from "@components/icon";
-import { imgPath } from "@type/userInfo";
-import { useEffect, useState } from "react";
+import SingleUserToast from "./toastGroup/SingleUserToast";
 
+import { opponentInfoType, imgPath } from "@type/userInfo";
+import { leaveEvent } from "@type/chatType";
+import { useState } from "react";
+import MultiUserToast from "./toastGroup/MultiUserToast";
 type props = {
   imgPath: imgPath;
   uid: string;
   chatRoom: string;
-  opponentType: string;
-  opponentLeave: boolean;
+  opponentInfo: opponentInfoType | opponentInfoType[] | undefined;
+  opponentLeave: leaveEvent | undefined;
 };
 
 function ChatScreen({
   opponentLeave,
-  opponentType,
+  opponentInfo,
   imgPath,
   uid,
   chatRoom,
@@ -28,19 +23,7 @@ function ChatScreen({
   /*   const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG_QUE, {
     variables: { chatRoom },
   }); */
-  const { data, loading, error } = useSubscription(CHECK_CHAT_ACTION_SUB, {
-    variables: {
-      chatRoom,
-    },
-  });
-  const [message, setMessage] = useState<ChatLog[]>([]);
-  useEffect(() => {
-    if (data) {
-      const newMessage = [data.CheckChat];
-      setMessage((prevState) => newMessage.concat(prevState));
-    }
-  }, [data]);
-  console.log(message);
+
   //subscribeToMore is working
   //if mutaition is occur, subscription is catch about that,
   //then update is detected because of subscription, then query is update
@@ -48,31 +31,21 @@ function ChatScreen({
     <div
       className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse
     scrollbar scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700">
-      {!opponentType && (
-        /* when opponent user is not exist, send loading circular */
-        <NormalToast
-          info="loading"
-          message="please wating for match!"
-          circular
-        />
-      )}
-      {opponentType && (
-        /* when opponent enter the room, send success message*/
-        <NormalToast
-          Icon={FaRegCheckCircle}
-          info="success"
-          message="matched!"
-        />
-      )}
-      {opponentLeave && (
-        /* when opponent is exit from room, send warning message */
-        <NormalToast
-          Icon={AiFillWarning}
-          info="warning"
-          message="user is left on this page! you will be transfered to loading page after 5s"
-        />
-      )}
-      <BubbleCreator data={message} imgPath={imgPath} uid={uid} />
+      <>
+        {(!Array.isArray(opponentInfo) ||
+          typeof opponentInfo === "undefined") && (
+          <SingleUserToast
+            opponentLeave={opponentLeave}
+            opponentInfo={opponentInfo}></SingleUserToast>
+        )}
+        {Array.isArray(opponentInfo) && (
+          <MultiUserToast
+            opponentLeave={opponentLeave}
+            opponentInfo={opponentInfo}></MultiUserToast>
+        )}
+        <BubbleCreator chatRoom={chatRoom} imgPath={imgPath} uid={uid} />
+      </>
+
       {/* 
       ! this method is supported by graphql
       but in my logic this statement occur error
