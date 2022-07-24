@@ -1,9 +1,9 @@
-import { opponentInfo } from "@type/userInfo";
+import { opponentInfoType } from "@type/userInfo";
 import ChatCard from "./ChatCard";
 import DefaultChatCard from "./DefaultChatCard";
 
 type props = {
-  opponentInfo: opponentInfo | undefined;
+  opponentInfo: opponentInfoType | undefined;
   leave: boolean;
 };
 

@@ -3,6 +3,7 @@ import { AiFillWarning, FaRegCheckCircle } from "@components/icon";
 
 import { opponentInfoType } from "@type/userInfo";
 import { leaveEvent } from "@type/chatType";
+import { useEffect, useRef } from "react";
 
 type props = {
   opponentInfo: opponentInfoType[];
@@ -10,9 +11,18 @@ type props = {
 };
 
 const MultiUserToast = ({ opponentInfo, opponentLeave }: props) => {
+  const currentNewUser = useRef<number>(0);
+  // ★　i should implements dynamic toast message
+  useEffect(()=>{
+    console.log(opponentInfo.length)
+    if(opponentLeave?.leave)currentNewUser.current -= 1;
+    else if(opponentInfo.length === 1 || opponentInfo.length === 0){}
+    else currentNewUser.current += 1;
+  },[opponentInfo,opponentLeave])
+  console.log(currentNewUser);
   return (
     <>
-      {!opponentInfo && (
+      {!opponentInfo[0] && (
         /* when opponent user is not exist, send loading circular */
         <NormalToast
           info="loading"
@@ -20,21 +30,21 @@ const MultiUserToast = ({ opponentInfo, opponentLeave }: props) => {
           circular
         />
       )}
-      {opponentInfo && (
+      {opponentInfo[currentNewUser.current] && (
         /* when opponent enter the room, send success message*/
         <NormalToast
           Icon={FaRegCheckCircle}
           info="success"
-          message="matched!"
+          message={`${opponentInfo[0].userInfo.nickname} is enterd`}
           timer
         />
       )}
-      {opponentLeave && (
+      {opponentLeave?.leave && (
         /* when opponent is exit from room, send warning message */
         <NormalToast
           Icon={AiFillWarning}
           info="warning"
-          message="user is left on this page! you will be transfered to loading page after 5s"
+          message={`${opponentLeave.nickname} is left!`}
         />
       )}
     </>

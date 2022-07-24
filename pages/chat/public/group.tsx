@@ -1,5 +1,5 @@
 import { useMyInfo } from "@hooks/useGetMyInfo";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useMutation, useSubscription } from "@apollo/client";
 
 import { ChatCard, OpponentChatCard } from "@components/publicChat/Card";
@@ -39,10 +39,12 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
       nickname: userInfo.nickname,
     },
   });
+
   const { ...leaveEvent } = useSubscription(LEAVE_ROOM_SUB, {
     variables: { chatRoom },
   });
-
+  const cleanUp = useCallback(() => {leaveRoom()},[leaveRoom]);
+  console.log(leaveEvent);
   useEffect(() => {
     // when componentdidmount my impPath push in imgPath object state
     if (userInfo.imgPath && uid) {
@@ -117,6 +119,13 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enterEvent.data, opponentInfo]);
 
+  useEffect(() => {
+    return () =>cleanUp();
+  }, [cleanUp]);
+
+  onbeforeunload = () => {
+    cleanUp();
+  };
   return (
     <ChatContainer>
       <div className="flex flex-col justify-around items-center">
@@ -132,7 +141,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
           chatRoom={chatRoom}></ChatInput>
         <ChatScreen
           opponentLeave={undefined}
-          opponentInfo={undefined}
+          opponentInfo={opponentInfo}
           imgPath={imgPath}
           uid={uid}
           chatRoom={chatRoom}></ChatScreen>

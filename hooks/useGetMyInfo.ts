@@ -21,11 +21,11 @@ export const useMyInfo = () => {
     if (result.data) {
       // if result.data is exist
       // set the value in state
-      setUserType("USER");
       setUid(result.data.UserInfo._id);
       setUserInfo({
         ...result.data.UserInfo,
       });
+      setUserType("USER")
     } else if (result.error) {
       // if error occued
       // 1. inquire localStorage what key is userInfo

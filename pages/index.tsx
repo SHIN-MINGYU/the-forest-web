@@ -7,11 +7,12 @@ import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
 import ChatCategoryCard from "@components/Card/ChatCategory";
 
 import { loadingPageQuery } from "@type/routingQuery";
+import { useMyInfo } from "@hooks/useGetMyInfo";
 
 const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
   const router = useRouter();
-
+  const {userType} = useMyInfo()();
   const transferToLoading = async ({ category, type }: loadingPageQuery) => {
     // transfre to loading page what have "type" query
     router.push(
@@ -21,10 +22,15 @@ const Home: NextPage = () => {
           category,
           type,
         },
+  
       },
       "/chat/loading"
     );
   };
+  const transferToFriendsWindow = async () =>{
+    if(userType === "USER") router.push('/chat/private/main');
+    else alert("YOU ARE NOT LOGINED USER")
+  }
   return (
     <div className="overflow-x-hidden">
       <Head>
@@ -79,7 +85,7 @@ const Home: NextPage = () => {
           <div className="grid grid-cols-3 grid-flow-col px-2">
             <ChatCategoryCard
               onClick={() =>
-                transferToLoading({ category: "private", type: "oneonone" })
+                transferToFriendsWindow()
               }
               Icon={BsPeople}
               comment={"Chat with freind"}
@@ -87,7 +93,7 @@ const Home: NextPage = () => {
             />
             <ChatCategoryCard
               onClick={() =>
-                transferToLoading({ category: "private", type: "group" })
+                transferToFriendsWindow()
               }
               Icon={TiGroupOutline}
               comment={"Chat with freind"}
@@ -95,7 +101,7 @@ const Home: NextPage = () => {
             />
             <ChatCategoryCard
               onClick={() =>
-                transferToLoading({ category: "private", type: "cam" })
+                transferToFriendsWindow()
               }
               Icon={CgScreen}
               comment={"Cam Chat with freind"}

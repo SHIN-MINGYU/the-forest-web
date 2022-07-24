@@ -18,7 +18,6 @@ const ChatCard = ({ userType, userInfo, opponentLeave }: props) => {
     userInfo : Object what have the current user
   */
   const { nickname, gender, description, imgPath } = userInfo;
-
   return (
     <div
       className={

@@ -23,7 +23,6 @@ function ChatScreen({
   /*   const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG_QUE, {
     variables: { chatRoom },
   }); */
-
   //subscribeToMore is working
   //if mutaition is occur, subscription is catch about that,
   //then update is detected because of subscription, then query is update

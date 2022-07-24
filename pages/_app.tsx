@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { ApolloProvider } from "@apollo/client";
 import client from "../apollo-client";
 import { ObjectId } from "bson";
-import { getLocalStorage } from "../utils/localStorage";
 import { getSessionStorage, setSessionStorage } from "../utils/sessionStorage";
 
 function MyApp({ Component, pageProps }: AppProps) {
