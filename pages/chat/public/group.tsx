@@ -36,15 +36,19 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
   const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
     variables: {
       chatRoom,
+      chatType : "group",
       nickname: userInfo.nickname,
+      uid
     },
   });
 
   const { ...leaveEvent } = useSubscription(LEAVE_ROOM_SUB, {
     variables: { chatRoom },
   });
+
+
   const cleanUp = useCallback(() => {leaveRoom()},[leaveRoom]);
-  console.log(leaveEvent);
+
   useEffect(() => {
     // when componentdidmount my impPath push in imgPath object state
     if (userInfo.imgPath && uid) {
@@ -119,6 +123,18 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enterEvent.data, opponentInfo]);
 
+  useEffect(()=>{
+    if(leaveEvent.data?.LeaveRoom.leave){
+      //if occur leaveEvent
+      //filter same uid what sent by leaveEvent uid, in opponentInfo array
+      setOpponentInfo((prevState)=>{
+        const filterdArr = prevState.filter(info => info.uid != leaveEvent.data?.LeaveRoom.uid);
+        console.log("this is filterdArr ", filterdArr)
+        return filterdArr
+      })
+    }
+  },[leaveEvent.data?.LeaveRoom])
+
   useEffect(() => {
     return () =>cleanUp();
   }, [cleanUp]);
@@ -126,6 +142,8 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
   onbeforeunload = () => {
     cleanUp();
   };
+
+  // View
   return (
     <ChatContainer>
       <div className="flex flex-col justify-around items-center">

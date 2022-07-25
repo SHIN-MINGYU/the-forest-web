@@ -44,6 +44,7 @@ function OneOnOneChat({ chatRoom }: query) {
   const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
     variables: {
       chatRoom,
+      chatType : "oneonone",
       nickname: userInfo.nickname,
     },
   });
@@ -137,6 +138,8 @@ function OneOnOneChat({ chatRoom }: query) {
   onbeforeunload = () => {
     cleanUp();
   };
+
+  //View
   return (
     <ChatContainer>
       <ChatCard userType={userType} userInfo={userInfo}></ChatCard>

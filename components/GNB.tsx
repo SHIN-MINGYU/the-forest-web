@@ -12,7 +12,7 @@ function GNB() {
   const getInfo = useMyInfo();
   const { ...myInfo } = getInfo();
   return (
-    <div className="flex shadow-md shadow-white dark:shadow-black justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
+    <div className="flex shadow-md justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
       <Link href="/">
         <div className="flex items-center" style={{ cursor: "pointer" }}>
           <Image

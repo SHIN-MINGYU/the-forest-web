@@ -45,11 +45,20 @@ export const SEND_CHAT_MUT = gql`
     )
   }
 `;
+
+export const LEAVE_ROOM_MUT = gql`
+  mutation ($chatRoom: ID!, $chatType:String!, $nickname: String, $uid : ID) {
+    LeaveRoom(chat_room: $chatRoom,chat_type : $chatType ,nickname: $nickname, uid: $uid)
+  }
+`;
+
+
 export const LEAVE_ROOM_SUB = gql`
   subscription ($chatRoom: ID!) {
     LeaveRoom(chat_room: $chatRoom) {
       leave
       nickname
+      uid
     }
   }
 `;
@@ -80,11 +89,6 @@ export const ENTER_ROOM_SUB = gql`
   }
 `;
 
-export const LEAVE_ROOM_MUT = gql`
-  mutation ($chatRoom: ID!, $nickname: String) {
-    LeaveRoom(chat_room: $chatRoom, nickname: $nickname)
-  }
-`;
 
 export const SEARCH_ROOM_MUT = gql`
   mutation ($uid: ID, $type: String!, $category: String!) {

@@ -16,13 +16,16 @@ import { REQUEST_SEND_MAIL, SEARCH_USER, SIGN_UP } from "@query/userQuery";
 
 const SignUp: NextPage = () => {
   const router = useRouter();
+
+  // @start input state handlers
   const username = useInput("");
   const nickname = useInput("");
   const password = useInput("");
   const confirmPassword = useInput("");
   const email = useInput("");
   const verificationCode = useInput("");
-  // input state handler
+  // @end input state handlers
+
   const accessCode = useRef<string>("");
   //value get email accessCode
   const [userNameFound, setUserNameFound] = useState<boolean>(true);

@@ -1,17 +1,25 @@
-import PrivateContainer from "@components/private/PrivateContainer"
+import { useMyInfo } from "@hooks/useGetMyInfo"
+import { useRouter } from "next/router";
+import { useEffect } from "react"
+
+import {PrivateContainer, SelectionWindow} from "@components/private"
 
 const Main = () =>{
-    return <PrivateContainer>
-        <div className="flex basis-1/4 bg-green-400">
-            <div className="flex basis-1/6 bg-red-200 justify-center">
-                <span className="p-2"></span>
-            </div>
-            <div className="basis-5/6">
+    const getUser = useMyInfo();
+    const router = useRouter();
 
-            </div>
-        </div>
+    useEffect(()=>{
+        // if enter this page first, check the user's value
+        const {userType} =getUser();
+        // the userType is GUEST, replace to main page;
+        if(userType == "GUEST")router.replace("/")
+    },[getUser,router])
+    
+    return <PrivateContainer>
+            <SelectionWindow />
         <div className="relative basis-3/4 bg-green-600">
-            <div className="absolute w-full h-full bg-red-600"></div> 
+            <div className="absolute w-full h-full bg-red-600">
+                </div> 
             <div className="absolute w-1/5 h-1/5 bottom-0 right-0 bg-green-500 z-50"></div> 
         </div>
     </PrivateContainer>
