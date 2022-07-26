@@ -27,20 +27,12 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
   const [opponentInfo, setOpponentInfo] = useState<Array<opponentInfoType>>([]);
   const [imgPath, setImgPath] = useState<imgPath>({});
 
-  console.log("opponentInfo : ", opponentInfo)
   // ENTER ROOM SUBSCRIBE, MUTATION
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
   
   const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
     variables: { chatRoom },
   });
-
-
-  console.log(enterEvent.data);
-
-  console.log("hotFilterdUser : ", hotFilterdUser);
-
-
 
   // LEAVE ROOM SUBSCRIBE, MUTATION
   const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
@@ -169,7 +161,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
           nickname={userInfo.nickname}
           chatRoom={chatRoom}></ChatInput>
         <ChatScreen
-          opponentLeave={undefined}
+          opponentLeave={leaveEvent.data?.LeaveRoom}
           opponentInfo={opponentInfo}
           imgPath={imgPath}
           uid={uid}

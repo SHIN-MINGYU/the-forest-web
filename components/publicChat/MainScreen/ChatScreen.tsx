@@ -26,13 +26,13 @@ function ChatScreen({
   //subscribeToMore is working
   //if mutaition is occur, subscription is catch about that,
   //then update is detected because of subscription, then query is update
+
   return (
     <div
       className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse
     scrollbar scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700">
       <>
-        {(!Array.isArray(opponentInfo) ||
-          typeof opponentInfo === "undefined") && (
+        {(!Array.isArray(opponentInfo)) && (
           <SingleUserToast
             opponentLeave={opponentLeave}
             opponentInfo={opponentInfo}></SingleUserToast>

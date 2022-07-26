@@ -21,11 +21,11 @@ const bgColors: objectSig = {
 
 const NormalToast = ({ Icon, circular, info, message, timer }: props) => {
   const [visible, setVisible] = useState<boolean>(true);
-  const [closeAnimation, setCloseAnimation] = useState<string>("");
+  const [closeAnimation, setCloseAnimation] = useState<string>("opacity-100");
 
   const closeToast = () => {
-    setCloseAnimation("transition-300 opacity-0");
-    setTimeout(() => setVisible(false), 400);
+    setCloseAnimation("opacity-0");
+    setVisible(false)
   };
 
   useEffect(() => {
@@ -36,13 +36,13 @@ const NormalToast = ({ Icon, circular, info, message, timer }: props) => {
       return () => clearTimeout(closeToken);
     }
   }, [timer]);
-
+  console.log(visible)
   return (
     <>
       {visible && (
         <div
           className={`relative  mt-2 flex justify-center items-center ${bgColors[info]}
-      mx-auto p-2 w-4/5 rounded-lg drop-shadow-md mb-3 ${closeAnimation} 
+      mx-auto p-2 w-4/5 rounded-lg drop-shadow-md mb-3  transition-all ${closeAnimation}
       space-x-3`}>
           {Icon && <Icon color="white" />}
           {circular && (
