@@ -1,5 +1,5 @@
 import { useMyInfo } from "@hooks/useGetMyInfo";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation, useSubscription } from "@apollo/client";
 
 import { ChatCard, OpponentChatCard } from "@components/publicChat/Card";
@@ -22,15 +22,25 @@ import {
 const GroupChat = ({ chatRoom }: chatRoomQuery) => {
   // info variables
   const getInfo = useMyInfo();
+  const hotFilterdUser = useRef<string>("");
   const { uid, userType, userInfo } = getInfo();
   const [opponentInfo, setOpponentInfo] = useState<Array<opponentInfoType>>([]);
   const [imgPath, setImgPath] = useState<imgPath>({});
 
+  console.log("opponentInfo : ", opponentInfo)
   // ENTER ROOM SUBSCRIBE, MUTATION
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
+  
   const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
     variables: { chatRoom },
   });
+
+
+  console.log(enterEvent.data);
+
+  console.log("hotFilterdUser : ", hotFilterdUser);
+
+
 
   // LEAVE ROOM SUBSCRIBE, MUTATION
   const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
@@ -85,7 +95,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
       let isExist = false;
       // if opponentInfo has same user, returned;
       opponentInfo?.forEach((el) => {
-        if (el.uid === enterEvent.data?.EnterRoom.uid) {
+        if (el.uid === enterEvent.data?.EnterRoom.uid || hotFilterdUser.current === enterEvent.data?.EnterRoom.uid) {
           isExist = true;
         }
       });
@@ -121,16 +131,17 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enterEvent.data, opponentInfo]);
+  }, [enterEvent.data]);
 
   useEffect(()=>{
     if(leaveEvent.data?.LeaveRoom.leave){
       //if occur leaveEvent
       //filter same uid what sent by leaveEvent uid, in opponentInfo array
       setOpponentInfo((prevState)=>{
+       hotFilterdUser.current= prevState.find(info => info.uid === leaveEvent.data?.LeaveRoom.uid)!.uid || "";
         const filterdArr = prevState.filter(info => info.uid != leaveEvent.data?.LeaveRoom.uid);
-        console.log("this is filterdArr ", filterdArr)
-        return filterdArr
+        console.log("this is filterdArr ", filterdArr);
+        return filterdArr;
       })
     }
   },[leaveEvent.data?.LeaveRoom])

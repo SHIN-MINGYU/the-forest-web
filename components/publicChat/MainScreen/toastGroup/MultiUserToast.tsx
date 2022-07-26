@@ -3,7 +3,7 @@ import { AiFillWarning, FaRegCheckCircle } from "@components/icon";
 
 import { opponentInfoType } from "@type/userInfo";
 import { leaveEvent } from "@type/chatType";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type props = {
   opponentInfo: opponentInfoType[];
@@ -11,15 +11,14 @@ type props = {
 };
 
 const MultiUserToast = ({ opponentInfo, opponentLeave }: props) => {
-  const currentNewUser = useRef<number>(0);
+  const [currentNewUser,setCurrentNewUser] = useState(0);
   // ★　i should implements dynamic toast message
   useEffect(()=>{
-    console.log(opponentInfo.length)
-    if(opponentLeave?.leave)currentNewUser.current -= 1;
+    if(opponentLeave?.leave) setCurrentNewUser((prevState)=>prevState-1);
     else if(opponentInfo.length === 1 || opponentInfo.length === 0){}
-    else currentNewUser.current += 1;
+    else setCurrentNewUser((prevState)=>prevState+1);
   },[opponentInfo,opponentLeave])
-  console.log(currentNewUser);
+
   return (
     <>
       {!opponentInfo[0] && (
@@ -30,7 +29,7 @@ const MultiUserToast = ({ opponentInfo, opponentLeave }: props) => {
           circular
         />
       )}
-      {opponentInfo[currentNewUser.current] && (
+      {opponentInfo[currentNewUser] && (
         /* when opponent enter the room, send success message*/
         <NormalToast
           Icon={FaRegCheckCircle}
