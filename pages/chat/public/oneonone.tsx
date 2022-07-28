@@ -44,7 +44,7 @@ function OneOnOneChat({ chatRoom }: query) {
   const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
     variables: {
       chatRoom,
-      chatType : "oneonone",
+      chatType: "oneonone",
       nickname: userInfo.nickname,
     },
   });
@@ -147,17 +147,20 @@ function OneOnOneChat({ chatRoom }: query) {
         <ChatInput
           uid={uid}
           nickname={userInfo.nickname}
-          chatRoom={chatRoom}></ChatInput>
+          chatRoom={chatRoom}
+        ></ChatInput>
         <ChatScreen
           opponentLeave={leaveEvent.data?.LeaveRoom}
           opponentInfo={opponentInfo}
           imgPath={imgPath}
           uid={uid}
-          chatRoom={chatRoom}></ChatScreen>
+          chatRoom={chatRoom}
+        ></ChatScreen>
       </div>
       <OpponentChatCard
         opponentInfo={opponentInfo}
-        leave={leaveEvent.data?.LeaveRoom.leave}></OpponentChatCard>
+        leave={leaveEvent.data?.LeaveRoom.leave}
+      ></OpponentChatCard>
     </ChatContainer>
   );
 }

@@ -46,11 +46,12 @@ const Login: NextPage = () => {
         </div>
         <InfoInput
           Icon={FaRegUserCircle}
-          label={"id"}
+          label="id"
           stateHandler={username}></InfoInput>
         <InfoInput
           Icon={RiLockPasswordLine}
-          label={"password"}
+          type="password"
+          label="password"
           stateHandler={password}
           onKeyDown={(e) => onKeyDown(e)}></InfoInput>
         <button

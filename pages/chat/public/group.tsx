@@ -29,7 +29,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
 
   // ENTER ROOM SUBSCRIBE, MUTATION
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
-  
+
   const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
     variables: { chatRoom },
   });
@@ -38,9 +38,9 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
   const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
     variables: {
       chatRoom,
-      chatType : "group",
+      chatType: "group",
       nickname: userInfo.nickname,
-      uid
+      uid,
     },
   });
 
@@ -48,8 +48,9 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
     variables: { chatRoom },
   });
 
-
-  const cleanUp = useCallback(() => {leaveRoom()},[leaveRoom]);
+  const cleanUp = useCallback(() => {
+    leaveRoom();
+  }, [leaveRoom]);
 
   useEffect(() => {
     // when componentdidmount my impPath push in imgPath object state
@@ -87,7 +88,10 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
       let isExist = false;
       // if opponentInfo has same user, returned;
       opponentInfo?.forEach((el) => {
-        if (el.uid === enterEvent.data?.EnterRoom.uid || hotFilterdUser.current === enterEvent.data?.EnterRoom.uid) {
+        if (
+          el.uid === enterEvent.data?.EnterRoom.uid ||
+          hotFilterdUser.current === enterEvent.data?.EnterRoom.uid
+        ) {
           isExist = true;
         }
       });
@@ -125,21 +129,25 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enterEvent.data]);
 
-  useEffect(()=>{
-    if(leaveEvent.data?.LeaveRoom.leave){
+  useEffect(() => {
+    if (leaveEvent.data?.LeaveRoom.leave) {
       //if occur leaveEvent
       //filter same uid what sent by leaveEvent uid, in opponentInfo array
-      setOpponentInfo((prevState)=>{
-       hotFilterdUser.current= prevState.find(info => info.uid === leaveEvent.data?.LeaveRoom.uid)!.uid || "";
-        const filterdArr = prevState.filter(info => info.uid != leaveEvent.data?.LeaveRoom.uid);
+      setOpponentInfo((prevState) => {
+        hotFilterdUser.current =
+          prevState.find((info) => info.uid === leaveEvent.data?.LeaveRoom.uid)!
+            .uid || "";
+        const filterdArr = prevState.filter(
+          (info) => info.uid != leaveEvent.data?.LeaveRoom.uid
+        );
         console.log("this is filterdArr ", filterdArr);
         return filterdArr;
-      })
+      });
     }
-  },[leaveEvent.data?.LeaveRoom])
+  }, [leaveEvent.data?.LeaveRoom]);
 
   useEffect(() => {
-    return () =>cleanUp();
+    return () => cleanUp();
   }, [cleanUp]);
 
   onbeforeunload = () => {
@@ -153,27 +161,32 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
         <ChatCard userType={userType} userInfo={userInfo}></ChatCard>
         <OpponentChatCard
           opponentInfo={opponentInfo[0]}
-          leave={false}></OpponentChatCard>
+          leave={false}
+        ></OpponentChatCard>
       </div>
       <div className="w-full md:w-1/2 h-full bg-white  flex flex-col-reverse mb-0 p-0 bottom-0 left-0 right-0 ">
         <ChatInput
           uid={uid}
           nickname={userInfo.nickname}
-          chatRoom={chatRoom}></ChatInput>
+          chatRoom={chatRoom}
+        ></ChatInput>
         <ChatScreen
           opponentLeave={leaveEvent.data?.LeaveRoom}
           opponentInfo={opponentInfo}
           imgPath={imgPath}
           uid={uid}
-          chatRoom={chatRoom}></ChatScreen>
+          chatRoom={chatRoom}
+        ></ChatScreen>
       </div>
       <div className="flex flex-col justify-around">
         <OpponentChatCard
           opponentInfo={opponentInfo[1]}
-          leave={false}></OpponentChatCard>
+          leave={false}
+        ></OpponentChatCard>
         <OpponentChatCard
           opponentInfo={opponentInfo[2]}
-          leave={false}></OpponentChatCard>
+          leave={false}
+        ></OpponentChatCard>
       </div>
     </ChatContainer>
   );

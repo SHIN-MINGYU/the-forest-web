@@ -1,12 +1,13 @@
 import { IconType } from "react-icons";
 import { CustomInputElementAddReset } from "@hooks/useInput";
-import {
+import React, {
   Dispatch,
   KeyboardEvent,
   SetStateAction,
   useRef,
   useState,
 } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "@components/icon";
 
 type props = {
   Icon: IconType;
@@ -51,14 +52,20 @@ function InfoInput(props: props) {
   } = props;
   const { reset, ...state } = stateHandler;
   const [validation, setValidation] = useState(true);
+  const [visible, setVisible] = useState(false);
   // a value  that changes by validator
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const passwordVisibleHandler = (e : React.MouseEvent<SVGAElement>) => {
+    e.preventDefault();
+    setVisible(!visible);
+  }
+
   return (
     <div className="relative">
       <div className="flex justify-center items-center">
         {required && <label className="text-red-600">*</label>}
         <Icon size={20} />
-
         <input
           {...state}
           /* 
@@ -66,7 +73,7 @@ function InfoInput(props: props) {
           value = state.value
           onChange = state.onChange
           */
-          type={type ? type : "text"}
+          type={type ? (visible ? "text": "password") : "text"}
           ref={inputRef}
           onBlur={validator ? () => validator(setValidation) : () => {}}
           className={`peer p-0
@@ -107,6 +114,15 @@ function InfoInput(props: props) {
              `}>
           {label}
         </label>
+        {
+          type === "password" && 
+          // MouseDown Event => event bubbling to other text then, the other text is selected
+            (visible ? 
+              <AiOutlineEye onMouseDown={(e)=>e.preventDefault()} onClick={passwordVisibleHandler} size={20} className="absolute cursor-pointer right-0"/> 
+              : 
+              <AiOutlineEyeInvisible onMouseDown={(e)=>e.preventDefault()} onClick={passwordVisibleHandler} size={20} className="absolute cursor-pointer right-0"/>
+              )
+        }
         {button}
       </div>
       <div>

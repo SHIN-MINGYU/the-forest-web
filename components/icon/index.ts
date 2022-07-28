@@ -11,6 +11,8 @@ import {
   AiOutlineLogout,
   AiOutlineClose,
   AiFillWarning,
+  AiOutlineEyeInvisible,
+  AiOutlineEye
 } from "react-icons/ai";
 import { TiGroupOutline } from "react-icons/ti";
 import { CgScreen } from "react-icons/cg";
@@ -21,6 +23,8 @@ define my Icons
 */
 
 export {
+  AiOutlineEyeInvisible,
+  AiOutlineEye,
   BsEmojiSunglasses,
   BsEmojiSunglassesFill,
   FaRegUserCircle,
