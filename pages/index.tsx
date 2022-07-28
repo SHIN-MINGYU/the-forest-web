@@ -12,7 +12,7 @@ import { useMyInfo } from "@hooks/useGetMyInfo";
 const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
   const router = useRouter();
-  const {userType} = useMyInfo()();
+  const { userType } = useMyInfo()();
   const transferToLoading = async ({ category, type }: loadingPageQuery) => {
     // transfre to loading page what have "type" query
     router.push(
@@ -22,15 +22,14 @@ const Home: NextPage = () => {
           category,
           type,
         },
-  
       },
       "/chat/loading"
     );
   };
-  const transferToFriendsWindow = async () =>{
-    if(userType === "USER") router.push('/chat/private/main');
-    else alert("YOU ARE NOT LOGINED USER")
-  }
+  const transferToFriendsWindow = async () => {
+    if (userType === "USER") router.push("/chat/private/main");
+    else alert("YOU ARE NOT LOGINED USER");
+  };
   return (
     <div className="overflow-x-hidden">
       <Head>
@@ -53,7 +52,8 @@ const Home: NextPage = () => {
                 onClick={() =>
                   transferToLoading({ category: "public", type: "oneonone" })
                 }
-                className="bg-gradient-to-r  hover:from-green-500 hover:to-green-900 delay-100 mt-4 px-16 py-4 ">
+                className="bg-gradient-to-r  hover:from-green-500 hover:to-green-900 delay-100 mt-4 px-16 py-4 "
+              >
                 <span className="text-white font-bold md:text-lg lg:text-2xl">
                   JOIN
                 </span>
@@ -63,7 +63,7 @@ const Home: NextPage = () => {
         </div>
         <div className="bg-white dark:bg-black text-black dark:text-white py-2">
           <h1 className="text-3xl font-bold text-center py-6">Public</h1>
-          <div className="grid grid-cols-2 grid-flow-col px-2 mb-3">
+          <div className="grid md:grid-cols-2 md:grid-flow-col px-2 mb-3 space-y-10 md:space-y-0">
             <ChatCategoryCard
               onClick={() =>
                 transferToLoading({ category: "public", type: "oneonone" })
@@ -71,6 +71,7 @@ const Home: NextPage = () => {
               Icon={BsPeople}
               comment={"Chat with stranger"}
               category={"1 v 1 chat"}
+              size={80}
             />
             <ChatCategoryCard
               onClick={() =>
@@ -79,11 +80,12 @@ const Home: NextPage = () => {
               Icon={TiGroupOutline}
               comment={"Chat with strangers"}
               category={"1 v N chat"}
+              size={80}
             />
           </div>
           <h1 className="text-3xl font-bold text-center py-6">Private</h1>
-          <div className="grid grid-cols-3 grid-flow-col px-2">
-            <ChatCategoryCard
+          <div className="px-2">
+            {/*  <ChatCategoryCard
               onClick={() =>
                 transferToFriendsWindow()
               }
@@ -98,14 +100,13 @@ const Home: NextPage = () => {
               Icon={TiGroupOutline}
               comment={"Chat with freind"}
               category={"1 v N chat"}
-            />
+            /> */}
             <ChatCategoryCard
-              onClick={() =>
-                transferToFriendsWindow()
-              }
+              onClick={() => transferToFriendsWindow()}
               Icon={CgScreen}
-              comment={"Cam Chat with freind"}
-              category={"1 v 1 chat"}
+              comment={"Enter Private Room"}
+              category={"chat with friends!"}
+              size={"full"}
             />
           </div>
         </div>

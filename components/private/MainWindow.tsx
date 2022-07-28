@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { AiFillWechat } from "react-icons/ai";
+import { IoMdVideocam } from "react-icons/io";
 
 const MainWindow = ({ data }: any) => {
   console.log(data);
@@ -6,7 +8,7 @@ const MainWindow = ({ data }: any) => {
     <div className="relative basis-3/4">
       {data && (
         <>
-          <div className="h-4/5 bg-red-200 flex flex-col justify-center items-center space-y-2">
+          <div className="h-4/5 flex flex-col justify-center items-center space-y-2">
             <div className="rounded-full border border-gray-400 overflow-hidden">
               <Image
                 src={data.imgPath}
@@ -21,8 +23,15 @@ const MainWindow = ({ data }: any) => {
               <p className="text-gray-400">{data.description}</p>
             </div>
           </div>
-          <div className="h-1/5 bg-green-100 flex justify-center items-center">
-            <span className="text-2xl">Start Chat!</span>
+          <div className="h-1/5 border flex justify-center items-center space-x-5">
+            <div className="flex flex-col items-center">
+              <AiFillWechat size={100}></AiFillWechat>
+              <p>1:1 chat</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <IoMdVideocam size={100}></IoMdVideocam>
+              <p>video chat</p>
+            </div>
           </div>
         </>
       )}
