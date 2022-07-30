@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import { PrivateContainer, SelectionWindow } from "@components/private";
 import MainWindow from "@components/private/MainWindow";
 
+import { MainData } from "@type/privateRoom";
+
 const Main = () => {
   const getUser = useMyInfo();
   const router = useRouter();
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<MainData>();
 
   useEffect(() => {
     // if enter this page first, check the user's value

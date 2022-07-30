@@ -1,3 +1,4 @@
+import { chatList } from "@type/privateRoom";
 import Image from "next/image";
 import CardContainer from "./Container/CardContainer";
 
@@ -5,13 +6,6 @@ type props = {
   height: number;
   onClick: () => void;
   chatList: chatList;
-};
-
-type chatList = {
-  imgPath: string;
-  nickname: string;
-  chatLog: string;
-  afterNow: string;
 };
 
 const ChatListCard = ({ height, chatList, onClick }: props) => {

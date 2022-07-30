@@ -47,11 +47,15 @@ export const SEND_CHAT_MUT = gql`
 `;
 
 export const LEAVE_ROOM_MUT = gql`
-  mutation ($chatRoom: ID!, $chatType:String!, $nickname: String, $uid : ID) {
-    LeaveRoom(chat_room: $chatRoom,chat_type : $chatType ,nickname: $nickname, uid: $uid)
+  mutation ($chatRoom: ID!, $chatType: String!, $nickname: String, $uid: ID) {
+    LeaveRoom(
+      chat_room: $chatRoom
+      chat_type: $chatType
+      nickname: $nickname
+      uid: $uid
+    )
   }
 `;
-
 
 export const LEAVE_ROOM_SUB = gql`
   subscription ($chatRoom: ID!) {
@@ -89,9 +93,8 @@ export const ENTER_ROOM_SUB = gql`
   }
 `;
 
-
 export const SEARCH_ROOM_MUT = gql`
-  mutation ($uid: ID, $type: String!, $category: String!) {
+  query searchRoom($uid: ID, $type: String!, $category: String!) {
     SearchRoom(uid: $uid, type: $type, category: $category)
   }
 `;

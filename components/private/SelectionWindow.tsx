@@ -1,18 +1,13 @@
-import {
-  ComponentType,
-  Dispatch,
-  ReactComponentElement,
-  SetStateAction,
-  useState,
-} from "react";
+import { ComponentType, Dispatch, SetStateAction, useState } from "react";
 import dynamic from "next/dynamic";
 
 import MenuContainer from "./SelectionWindow/MenuContainer";
 import { BsChatRightText, BsPeople } from "react-icons/bs";
 import { AiOutlineSetting } from "react-icons/ai";
+import { MainData } from "@type/privateRoom";
 
 type props = {
-  setData: Dispatch<SetStateAction<any>>;
+  setData: Dispatch<SetStateAction<MainData>>;
 };
 
 const SelectionWindow = ({ setData }: props) => {

@@ -1,5 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { useMyInfo } from "@hooks/useGetMyInfo";
+import { MainData } from "@type/privateRoom";
+import { userInfo } from "@type/userInfo";
 import { Dispatch, SetStateAction, useState } from "react";
 import UserCard from "./Card/UserCard";
 
@@ -72,7 +74,7 @@ const GET_F4F_LIST = gql`
 `;
 
 type props = {
-  setData: Dispatch<SetStateAction<any>>;
+  setData: Dispatch<SetStateAction<MainData>>;
 };
 
 const Friends = ({ setData }: props) => {
@@ -93,7 +95,7 @@ const Friends = ({ setData }: props) => {
       <UserCard
         height={20}
         userInfo={userInfo}
-        onClick={() => setData(userInfo)}
+        onClick={() => setData({ type: "UserDetail", userInfo })}
       ></UserCard>
       {/* contour */}
       <div className="flex basis-1/12 border border-gray-300 justify-between items-center">
@@ -109,13 +111,13 @@ const Friends = ({ setData }: props) => {
       {/* freinds cards */}
       {friendsVisible &&
         !loading &&
-        data?.GetF4F.map((userInfo: any, index: number) => {
+        data?.GetF4F.map((userInfo: userInfo, index: number) => {
           return (
             <UserCard
               key={index}
               height={20}
               userInfo={userInfo}
-              onClick={() => setData(userInfo)}
+              onClick={() => setData({ type: "UserDetail", userInfo })}
             ></UserCard>
           );
         })}

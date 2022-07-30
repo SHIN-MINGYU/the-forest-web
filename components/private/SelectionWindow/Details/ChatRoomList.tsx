@@ -1,15 +1,9 @@
+import { chatList, MainData } from "@type/privateRoom";
 import { Dispatch, SetStateAction } from "react";
 import ChatRoomCard from "./Card/ChatRoomCard";
 
 type props = {
-  setData: Dispatch<SetStateAction<any>>;
-};
-
-type chatList = {
-  imgPath: string;
-  nickname: string;
-  chatLog: string;
-  afterNow: string;
+  setData: Dispatch<SetStateAction<MainData>>;
 };
 
 const testData: chatList[] = [
@@ -18,54 +12,63 @@ const testData: chatList[] = [
     nickname: "test1",
     chatLog: "have a good day thank you",
     afterNow: "1 min ago",
+    chatRoom: "1",
   },
   {
     imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
     nickname: "test2",
     chatLog: "how about you?",
     afterNow: "1 min ago",
+    chatRoom: "1",
   },
   {
     imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
     nickname: "test3",
     chatLog: "how did you think about this coding style",
     afterNow: "1 min ago",
+    chatRoom: "1",
   },
   {
     imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
     nickname: "test4",
     chatLog: "well i think i can write more simply",
     afterNow: "1 min ago",
+    chatRoom: "1",
   },
   {
     imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
     nickname: "test5",
     chatLog: "then try!",
     afterNow: "1 min ago",
+    chatRoom: "1",
   },
   {
     imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
     nickname: "test6",
     chatLog: "yeah i will see code more more more",
     afterNow: "1 min ago",
+    chatRoom: "1",
   },
   {
     imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
     nickname: "test7",
     chatLog: "and try apply in my code",
     afterNow: "1 min ago",
+    chatRoom: "1",
   },
   {
     imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
     nickname: "test8",
     chatLog: "i will be leader this society",
     afterNow: "1 min ago",
+    chatRoom: "1",
   },
   {
     imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
     nickname: "test9",
     chatLog: "yeah i can do, i will lead to good direction in global world",
     afterNow: "1 min ago",
+    chatRoom: "1",
   },
 ];
 
@@ -84,7 +87,9 @@ const ChatRoomList = ({ setData }: props) => {
             height={20}
             key={index}
             chatList={chatList}
-            onClick={() => {}}
+            onClick={() => {
+              setData({ type: "ChatDetail", chatRoom: chatList.chatRoom });
+            }}
           ></ChatRoomCard>
         ))}
     </>
