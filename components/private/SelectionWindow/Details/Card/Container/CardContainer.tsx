@@ -4,10 +4,12 @@ type props = {
   onClick: () => void;
 };
 
-const UserCardContainer = ({ height, children, onClick }: props) => {
+const CardContainer = ({ height, children, onClick }: props) => {
   return (
     <div
-      className={`flex h-${height} border border-200 hover:bg-red-100 cursor-pointer`}
+      className={`flex ${
+        height ? `h-${height}` : ""
+      } border hover:bg-red-100 cursor-pointer`}
       onClick={onClick}
       onMouseDown={(e) => e.preventDefault()}
     >
@@ -16,4 +18,4 @@ const UserCardContainer = ({ height, children, onClick }: props) => {
   );
 };
 
-export default UserCardContainer;
+export default CardContainer;

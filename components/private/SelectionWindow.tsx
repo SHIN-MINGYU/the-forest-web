@@ -17,7 +17,7 @@ type props = {
 
 const SelectionWindow = ({ setData }: props) => {
   // mode => change detail components
-  const [mode, setMode] = useState("Friends");
+  const [mode, setMode] = useState("");
 
   // default component in react => ComponentClass<P> | FunctionComponent<P>
   // P => props
@@ -36,7 +36,7 @@ const SelectionWindow = ({ setData }: props) => {
     setData(undefined);
   };
   return (
-    <div className="flex basis-1/4">
+    <div className="flex w-full md:basis-1/4">
       <MenuContainer>
         <BsPeople
           className="cursor-pointer"
@@ -45,7 +45,7 @@ const SelectionWindow = ({ setData }: props) => {
         ></BsPeople>
         <BsChatRightText
           className="cursor-pointer"
-          onClick={() => modeChanger("ChatList")}
+          onClick={() => modeChanger("ChatRoomList")}
           values=""
           size={30}
         ></BsChatRightText>

@@ -1,3 +1,4 @@
+import { gql, useQuery } from "@apollo/client";
 import { useMyInfo } from "@hooks/useGetMyInfo";
 import { Dispatch, SetStateAction, useState } from "react";
 import UserCard from "./Card/UserCard";
@@ -59,14 +60,27 @@ const testData = [
   },
 ];
 
+const GET_F4F_LIST = gql`
+  query F4FList {
+    GetF4F {
+      imgPath
+      nickname
+      description
+      gender
+    }
+  }
+`;
+
 type props = {
   setData: Dispatch<SetStateAction<any>>;
-  title: string;
 };
 
 const Friends = ({ setData }: props) => {
   const { userInfo } = useMyInfo()();
   const [friendsVisible, setFriendsVisible] = useState<Boolean>(true);
+  const { data, loading }: { data: any; loading: boolean } =
+    useQuery(GET_F4F_LIST);
+
   // required info
   /* 
         1. imgPath
@@ -77,35 +91,34 @@ const Friends = ({ setData }: props) => {
     <>
       {/* my info card */}
       <UserCard
-        height={32}
+        height={20}
         userInfo={userInfo}
         onClick={() => setData(userInfo)}
       ></UserCard>
       {/* contour */}
-      <div>
-        <div className="flex basis-1/12 border border-gray-300 justify-between px-2 items-center">
-          <span>F4F(0)</span>
-          <span
-            className="cursor-pointer text-xl"
-            onClick={() => setFriendsVisible(!friendsVisible)}
-            onMouseDown={(e) => e.preventDefault()}
-          >
-            {friendsVisible ? "▾" : "◂"}
-          </span>
-        </div>
-        {/* freinds cards */}
-        {friendsVisible &&
-          testData.map((userInfo, index) => {
-            return (
-              <UserCard
-                key={index}
-                height={20}
-                userInfo={userInfo}
-                onClick={() => setData(userInfo)}
-              ></UserCard>
-            );
-          })}
+      <div className="flex basis-1/12 border border-gray-300 justify-between items-center">
+        <span>F4F({data?.GetF4F.length})</span>
+        <span
+          className="cursor-pointer text-xl"
+          onClick={() => setFriendsVisible(!friendsVisible)}
+          onMouseDown={(e) => e.preventDefault()}
+        >
+          {friendsVisible ? "▾" : "◂"}
+        </span>
       </div>
+      {/* freinds cards */}
+      {friendsVisible &&
+        !loading &&
+        data?.GetF4F.map((userInfo: any, index: number) => {
+          return (
+            <UserCard
+              key={index}
+              height={20}
+              userInfo={userInfo}
+              onClick={() => setData(userInfo)}
+            ></UserCard>
+          );
+        })}
     </>
   );
 };

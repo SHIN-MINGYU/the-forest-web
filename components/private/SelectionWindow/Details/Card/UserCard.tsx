@@ -1,6 +1,6 @@
 import { userInfo } from "@type/userInfo";
 import Image from "next/image";
-import UserCardContainer from "./Container/UserCardContainer";
+import CardContainer from "./Container/CardContainer";
 
 type props = {
   height: number;
@@ -10,27 +10,20 @@ type props = {
 
 const UserCard = ({ height, userInfo, onClick }: props) => {
   return (
-    <UserCardContainer onClick={onClick} height={height}>
-      <div className="basis-1/4 m-auto">
-        <div className="flex flex-col justify-center items-center">
-          <Image
-            src={userInfo.imgPath || ""}
-            width={40}
-            height={40}
-            alt="profile Img"
-          ></Image>
-          <div>{userInfo.nickname}</div>
-        </div>
+    <CardContainer height={height} onClick={onClick}>
+      <div className="basis-1/4 flex justify-center items-center">
+        <Image
+          src={userInfo.imgPath}
+          width={40}
+          height={40}
+          alt="profile"
+        ></Image>
       </div>
-      <div className="basis-3/4 m-auto">
-        <div className="flex flex-col justify-center">
-          <span>status</span>
-          <div className="text-gray-400">
-            <span>{userInfo.description}</span>
-          </div>
-        </div>
+      <div className="basis-3/4 w-72 flex flex-col justify-center overflow-hidden">
+        <p>{userInfo.nickname}</p>
+        <p className="text-sm text-gray-500 truncate">{userInfo.description}</p>
       </div>
-    </UserCardContainer>
+    </CardContainer>
   );
 };
 

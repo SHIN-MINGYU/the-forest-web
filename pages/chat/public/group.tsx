@@ -50,6 +50,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
 
   const cleanUp = useCallback(() => {
     leaveRoom();
+    setOpponentInfo([]);
   }, [leaveRoom]);
 
   useEffect(() => {
@@ -96,6 +97,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
         }
       });
       if (!isExist) {
+        hotFilterdUser.current = enterEvent.data?.EnterRoom.uid;
         if (enterEvent.data?.EnterRoom.uid !== uid) {
           // set the opponent's info
           const newOpponentArr = [
@@ -134,13 +136,12 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
       //if occur leaveEvent
       //filter same uid what sent by leaveEvent uid, in opponentInfo array
       setOpponentInfo((prevState) => {
-        hotFilterdUser.current =
+        /*         hotFilterdUser.current =
           prevState.find((info) => info.uid === leaveEvent.data?.LeaveRoom.uid)!
-            .uid || "";
+            .uid || ""; */
         const filterdArr = prevState.filter(
           (info) => info.uid != leaveEvent.data?.LeaveRoom.uid
         );
-        console.log("this is filterdArr ", filterdArr);
         return filterdArr;
       });
     }

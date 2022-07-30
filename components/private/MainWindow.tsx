@@ -5,7 +5,7 @@ import { IoMdVideocam } from "react-icons/io";
 const MainWindow = ({ data }: any) => {
   console.log(data);
   return (
-    <div className="relative basis-3/4">
+    <div className="basis-0 md:basis-3/4">
       {data && (
         <>
           <div className="h-4/5 flex flex-col justify-center items-center space-y-2">
