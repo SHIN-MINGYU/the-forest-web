@@ -3,7 +3,6 @@ import SingleUserToast from "./toastGroup/SingleUserToast";
 
 import { opponentInfoType, imgPath } from "@type/userInfo";
 import { leaveEvent } from "@type/chatType";
-import { useState } from "react";
 import MultiUserToast from "./toastGroup/MultiUserToast";
 type props = {
   imgPath: imgPath;
@@ -30,17 +29,20 @@ function ChatScreen({
   return (
     <div
       className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse
-    scrollbar scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700">
+    scrollbar scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700"
+    >
       <>
-        {(!Array.isArray(opponentInfo)) && (
+        {!Array.isArray(opponentInfo) && (
           <SingleUserToast
             opponentLeave={opponentLeave}
-            opponentInfo={opponentInfo}></SingleUserToast>
+            opponentInfo={opponentInfo}
+          ></SingleUserToast>
         )}
         {Array.isArray(opponentInfo) && (
           <MultiUserToast
             opponentLeave={opponentLeave}
-            opponentInfo={opponentInfo}></MultiUserToast>
+            opponentInfo={opponentInfo}
+          ></MultiUserToast>
         )}
         <BubbleCreator chatRoom={chatRoom} imgPath={imgPath} uid={uid} />
       </>

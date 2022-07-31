@@ -8,9 +8,13 @@ export type chatList = {
   chatRoom: string;
 };
 
+export interface _userInfo extends userInfo {
+  _id: string;
+}
+
 export interface UserDetail {
   type: "UserDetail";
-  userInfo: userInfo;
+  userInfo: _userInfo;
 }
 
 export interface ChatDetail {

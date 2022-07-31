@@ -1,13 +1,25 @@
-import { UserDetail } from "@type/privateRoom";
+import { useLazyQuery } from "@apollo/client";
+import { GET_PRIVATE_ROOM_QUE } from "@query/privateChatQuery";
+import { MainData, UserDetail } from "@type/privateRoom";
 import Image from "next/image";
+import { Dispatch, SetStateAction } from "react";
 import { AiFillWechat } from "react-icons/ai";
 import { IoMdVideocam } from "react-icons/io";
 
 type props = {
   data: UserDetail;
+  setData: Dispatch<SetStateAction<MainData>>;
 };
 
-const UserDetail = ({ data: { userInfo } }: props) => {
+const UserDetail = ({ data: { userInfo }, setData }: props) => {
+  const [getData] = useLazyQuery(GET_PRIVATE_ROOM_QUE, {
+    variables: {
+      uid: userInfo._id,
+      type: "oneonone",
+      category: "private",
+    },
+  });
+  console.log(setData);
   return (
     <>
       {userInfo && (
@@ -28,7 +40,18 @@ const UserDetail = ({ data: { userInfo } }: props) => {
             </div>
           </div>
           <div className="h-1/5 border flex justify-center items-center space-x-5">
-            <div className="flex flex-col items-center">
+            <div
+              onClick={async () => {
+                const res = await getData();
+                const mainData = {
+                  type: "ChatDetail",
+                  chatRoom: res.data.GetPrivateRoom as String,
+                };
+
+                setData(mainData as MainData);
+              }}
+              className="flex flex-col items-center p-2 rounded-full overflow-hidden border active:bg-green-200"
+            >
               <AiFillWechat size={100}></AiFillWechat>
               <p>1:1 chat</p>
             </div>

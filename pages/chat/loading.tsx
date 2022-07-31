@@ -6,12 +6,12 @@ import { useMyInfo } from "@hooks/useGetMyInfo";
 
 import { loadingPageQuery } from "@type/routingQuery";
 
-import { SEARCH_ROOM_MUT } from "@query/publicChatQuery";
+import { SEARCH_RANDOM_ROOM_MUT } from "@query/publicChatQuery";
 
 function Loading({ type, category }: loadingPageQuery) {
   const getInfo = useMyInfo();
   const { uid } = getInfo();
-  const [searchRoom, { data }] = useLazyQuery(SEARCH_ROOM_MUT);
+  const [searchRoom, { data }] = useLazyQuery(SEARCH_RANDOM_ROOM_MUT);
   const [matchTime, setMatchTime] = useState<number>(0);
   const router = useRouter();
 
@@ -40,7 +40,7 @@ function Loading({ type, category }: loadingPageQuery) {
         {
           pathname: "/chat/" + category + "/" + type,
           query: {
-            chatRoom: data.SearchRoom,
+            chatRoom: data.SearchRandomRoom,
           },
         },
         "/chat/" + category + "/" + type

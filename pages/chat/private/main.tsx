@@ -22,7 +22,7 @@ const Main = () => {
   return (
     <PrivateContainer>
       <SelectionWindow setData={setData} />
-      <MainWindow data={data} />
+      <MainWindow data={data} setData={setData} />
     </PrivateContainer>
   );
 };

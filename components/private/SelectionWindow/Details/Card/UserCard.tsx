@@ -5,12 +5,12 @@ import CardContainer from "./Container/CardContainer";
 type props = {
   height: number;
   userInfo: userInfo;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const UserCard = ({ height, userInfo, onClick }: props) => {
   return (
-    <CardContainer height={height} onClick={onClick}>
+    <CardContainer height={height} onClick={onClick ? onClick : () => {}}>
       <div className="basis-1/4 flex justify-center items-center">
         <Image
           src={userInfo.imgPath}

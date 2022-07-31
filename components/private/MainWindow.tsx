@@ -1,21 +1,23 @@
 import { MainData } from "@type/privateRoom";
 import dynamic from "next/dynamic";
-import { ComponentType } from "react";
+import { ComponentType, Dispatch, SetStateAction } from "react";
 
 type props = {
   data: MainData;
+  setData: Dispatch<SetStateAction<MainData>>;
 };
 
-const MainWindow = ({ data }: props) => {
-  const RenderItem: ComponentType<{ data: MainData }> = dynamic(
-    () => import(`./MainWindow/${data?.type}`),
+const MainWindow = ({ data, setData }: props) => {
+  const RenderItem: ComponentType<props> = dynamic(
+    import(`./MainWindow/${data?.type}`),
     {
       ssr: false,
     }
   );
+
   return (
-    <div className="basis-0 md:basis-3/4">
-      <RenderItem data={data}></RenderItem>
+    <div className="hidden md:block md:basis-3/4">
+      <RenderItem data={data} setData={setData}></RenderItem>
     </div>
   );
 };

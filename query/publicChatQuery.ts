@@ -93,8 +93,8 @@ export const ENTER_ROOM_SUB = gql`
   }
 `;
 
-export const SEARCH_ROOM_MUT = gql`
+export const SEARCH_RANDOM_ROOM_MUT = gql`
   query searchRoom($uid: ID, $type: String!, $category: String!) {
-    SearchRoom(uid: $uid, type: $type, category: $category)
+    SearchRandomRoom(uid: $uid, type: $type, category: $category)
   }
 `;

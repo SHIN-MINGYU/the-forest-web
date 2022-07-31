@@ -3,14 +3,17 @@ import { useRef } from "react";
 import useInput from "@hooks/useInput";
 
 import { SEND_CHAT_MUT } from "@query/publicChatQuery";
+import { useMyInfo } from "@hooks/useGetMyInfo";
 
 type props = {
-  uid: string;
-  nickname: string;
   chatRoom: string;
 };
 
-function ChatInput({ uid, nickname, chatRoom }: props) {
+function ChatInput({ chatRoom }: props) {
+  const {
+    uid,
+    userInfo: { nickname },
+  } = useMyInfo()();
   const { reset, ...message } = useInput("");
   const sendButton = useRef<HTMLButtonElement>(null);
   const [sendChat] = useMutation(SEND_CHAT_MUT);
@@ -31,7 +34,8 @@ function ChatInput({ uid, nickname, chatRoom }: props) {
             if (sendButton.current) sendButton?.current.click();
           }
         }}
-        placeholder="input some massage"></input>
+        placeholder="input some massage"
+      ></input>
       <button
         ref={sendButton}
         onClick={() => {
@@ -39,14 +43,15 @@ function ChatInput({ uid, nickname, chatRoom }: props) {
             variables: {
               chat_room: chatRoom,
               log: message.value,
-              uid: uid,
+              uid,
               nickname,
               createAt: new Date().toISOString(),
             },
           });
           reset();
         }}
-        className="h-full w-1/6  bg-green-200">
+        className="h-full w-1/6  bg-green-200"
+      >
         send
       </button>
     </div>

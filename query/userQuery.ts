@@ -56,3 +56,15 @@ export const UPDATE_USER_INFO = gql`
     )
   }
 `;
+
+export const GET_F4F_LIST = gql`
+  query F4FList {
+    GetF4F {
+      _id
+      imgPath
+      nickname
+      description
+      gender
+    }
+  }
+`;

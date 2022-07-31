@@ -144,11 +144,7 @@ function OneOnOneChat({ chatRoom }: query) {
     <ChatContainer>
       <ChatCard userType={userType} userInfo={userInfo}></ChatCard>
       <div className="w-full md:w-1/2 h-full bg-white  flex flex-col-reverse mx-auto mb-0 p-0 bottom-0 left-0 right-0">
-        <ChatInput
-          uid={uid}
-          nickname={userInfo.nickname}
-          chatRoom={chatRoom}
-        ></ChatInput>
+        <ChatInput chatRoom={chatRoom}></ChatInput>
         <ChatScreen
           opponentLeave={leaveEvent.data?.LeaveRoom}
           opponentInfo={opponentInfo}
