@@ -1,24 +1,17 @@
 import BubbleCreator from "./BubbleCreator";
 import SingleUserToast from "./toastGroup/SingleUserToast";
 
-import { opponentInfoType, imgPath } from "@type/userInfo";
+import { opponentInfoType } from "@type/userInfo";
 import { leaveEvent } from "@type/chatType";
 import MultiUserToast from "./toastGroup/MultiUserToast";
 type props = {
-  imgPath: imgPath;
   uid: string;
   chatRoom: string;
   opponentInfo: opponentInfoType | opponentInfoType[] | undefined;
   opponentLeave: leaveEvent | undefined;
 };
 
-function ChatScreen({
-  opponentLeave,
-  opponentInfo,
-  imgPath,
-  uid,
-  chatRoom,
-}: props) {
+function ChatScreen({ opponentLeave, opponentInfo, uid, chatRoom }: props) {
   /*   const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG_QUE, {
     variables: { chatRoom },
   }); */
@@ -29,22 +22,19 @@ function ChatScreen({
   return (
     <div
       className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse
-    scrollbar scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700"
-    >
+    scrollbar scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700">
       <>
         {!Array.isArray(opponentInfo) && (
           <SingleUserToast
             opponentLeave={opponentLeave}
-            opponentInfo={opponentInfo}
-          ></SingleUserToast>
+            opponentInfo={opponentInfo}></SingleUserToast>
         )}
         {Array.isArray(opponentInfo) && (
           <MultiUserToast
             opponentLeave={opponentLeave}
-            opponentInfo={opponentInfo}
-          ></MultiUserToast>
+            opponentInfo={opponentInfo}></MultiUserToast>
         )}
-        <BubbleCreator chatRoom={chatRoom} imgPath={imgPath} uid={uid} />
+        <BubbleCreator chatRoom={chatRoom} uid={uid} />
       </>
 
       {/* 

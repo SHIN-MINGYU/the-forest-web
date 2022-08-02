@@ -13,7 +13,8 @@ const MainWindow = ({ data, setData }: props) => {
     {
       ssr: false,
     }
-  );
+  ); // if designate variable in dynamic import path, all file is built in /MainWindow folder
+  // so need care for use
 
   return (
     <div className="hidden md:block md:basis-3/4">

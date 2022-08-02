@@ -1,7 +1,8 @@
-import { userInfo } from "@type/userInfo";
 import Image from "next/image";
+
 import CardContainer from "./Container/CardContainer";
 
+import { userInfo } from "@type/userInfo";
 type props = {
   height: number;
   userInfo: userInfo;
@@ -16,8 +17,7 @@ const UserCard = ({ height, userInfo, onClick }: props) => {
           src={userInfo.imgPath}
           width={40}
           height={40}
-          alt="profile"
-        ></Image>
+          alt="profile"></Image>
       </div>
       <div className="basis-3/4 w-72 flex flex-col justify-center overflow-hidden">
         <p>{userInfo.nickname}</p>

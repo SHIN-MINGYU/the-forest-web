@@ -25,7 +25,7 @@ export const useMyInfo = () => {
       setUserInfo({
         ...result.data.UserInfo,
       });
-      setUserType("USER")
+      setUserType("USER");
     } else if (result.error) {
       // if error occued
       // 1. inquire localStorage what key is userInfo

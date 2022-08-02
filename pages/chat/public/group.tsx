@@ -9,7 +9,7 @@ import {
   ChatScreen,
 } from "@components/publicChat/MainScreen";
 
-import { imgPath, opponentInfoType } from "@type/userInfo";
+import { opponentInfoType } from "@type/userInfo";
 import { chatRoomQuery } from "@type/routingQuery";
 
 import {
@@ -25,7 +25,6 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
   const hotFilterdUser = useRef<string>("");
   const { uid, userType, userInfo } = getInfo();
   const [opponentInfo, setOpponentInfo] = useState<Array<opponentInfoType>>([]);
-  const [imgPath, setImgPath] = useState<imgPath>({});
 
   // ENTER ROOM SUBSCRIBE, MUTATION
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
@@ -52,18 +51,6 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
     leaveRoom();
     setOpponentInfo([]);
   }, [leaveRoom]);
-
-  useEffect(() => {
-    // when componentdidmount my impPath push in imgPath object state
-    if (userInfo.imgPath && uid) {
-      const obj: { [key: string]: string } = {};
-      obj[uid] = userInfo.imgPath;
-      setImgPath((prevState) => ({
-        ...prevState,
-        ...obj,
-      }));
-    }
-  }, [uid, userInfo.imgPath]);
 
   useEffect(() => {
     /* 
@@ -108,14 +95,6 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
             },
           ];
           setOpponentInfo((prevState) => [...prevState, ...newOpponentArr]);
-          // [key:string] : string => signiture
-          const opponentImgPath: { [key: string]: string } = {};
-          const key: string = enterEvent.data?.EnterRoom.uid;
-          opponentImgPath[key] = enterEvent.data?.EnterRoom.userInfo.imgPath;
-          setImgPath((prevState) => ({
-            ...prevState,
-            ...opponentImgPath,
-          }));
           // and occur one more
           enterRoom({
             variables: {
@@ -162,32 +141,23 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
         <ChatCard userType={userType} userInfo={userInfo}></ChatCard>
         <OpponentChatCard
           opponentInfo={opponentInfo[0]}
-          leave={false}
-        ></OpponentChatCard>
+          leave={false}></OpponentChatCard>
       </div>
       <div className="w-full md:w-1/2 h-full bg-white  flex flex-col-reverse mb-0 p-0 bottom-0 left-0 right-0 ">
-        <ChatInput
-          uid={uid}
-          nickname={userInfo.nickname}
-          chatRoom={chatRoom}
-        ></ChatInput>
+        <ChatInput chatRoom={chatRoom}></ChatInput>
         <ChatScreen
           opponentLeave={leaveEvent.data?.LeaveRoom}
           opponentInfo={opponentInfo}
-          imgPath={imgPath}
           uid={uid}
-          chatRoom={chatRoom}
-        ></ChatScreen>
+          chatRoom={chatRoom}></ChatScreen>
       </div>
       <div className="flex flex-col justify-around">
         <OpponentChatCard
           opponentInfo={opponentInfo[1]}
-          leave={false}
-        ></OpponentChatCard>
+          leave={false}></OpponentChatCard>
         <OpponentChatCard
           opponentInfo={opponentInfo[2]}
-          leave={false}
-        ></OpponentChatCard>
+          leave={false}></OpponentChatCard>
       </div>
     </ChatContainer>
   );

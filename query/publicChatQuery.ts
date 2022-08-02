@@ -5,8 +5,11 @@ export const SEARCH_CHAT_LOG_QUE = gql`
     ChatLog(chat_room: $chatRoom) {
       log
       createAt
-      uid
-      nickname
+      uid {
+        imgPath
+        _id
+        nickname
+      }
     }
   }
 `;
@@ -24,6 +27,7 @@ export const CHECK_CHAT_ACTION_SUB = gql`
       uid
       createAt
       nickname
+      imgPath
     }
   }
 `;
@@ -33,6 +37,7 @@ export const SEND_CHAT_MUT = gql`
     $chat_room: ID!
     $log: String
     $uid: ID
+    $imgPath: String
     $nickname: String
     $createAt: Date
   ) {
@@ -40,6 +45,7 @@ export const SEND_CHAT_MUT = gql`
       chat_room: $chat_room
       log: $log
       uid: $uid
+      imgPath: $imgPath
       nickname: $nickname
       createAt: $createAt
     )

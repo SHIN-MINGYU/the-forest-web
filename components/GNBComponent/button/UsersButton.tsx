@@ -26,6 +26,7 @@ const UsersButton = ({ userInfo, userType }: props) => {
 
   const [dropDownVisible, setDropDownVisible] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+
   const userLogout = () => {
     // send Logout mutaition
     LogOut();
@@ -46,11 +47,14 @@ const UsersButton = ({ userInfo, userType }: props) => {
         }}>
         <button className="flex justify-center items-center space-x-2">
           <span>Welcome </span>
-          <span className="flex items-center font-bold text-green-600 text-md tracking-wider">
+          <span className="flex items-center font-bold text-green-600 text-md tracking-wider space-x-2">
             {imgPath ? (
               <Image
                 className="rounded-full"
-                src={imgPath}
+                src={
+                  imgPath ||
+                  process.env.NEXT_PUBLIC_API_ENDPOINT! + "/img/profile.png"
+                }
                 width={20}
                 height={20}
                 layout={"intrinsic"}
@@ -66,7 +70,7 @@ const UsersButton = ({ userInfo, userType }: props) => {
                   alt={"profileImage"}></Image>
               </>
             )}
-            {nickname} !
+            <span>{nickname} </span>!
           </span>
         </button>
         {dropDownVisible && (

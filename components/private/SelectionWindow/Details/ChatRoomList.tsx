@@ -1,96 +1,32 @@
 import { chatList, MainData } from "@type/privateRoom";
+import { useQuery } from "@apollo/client";
 import { Dispatch, SetStateAction } from "react";
 import ChatRoomCard from "./Card/ChatRoomCard";
+import { GET_PRIVATE_ROOM_LIST_QUE } from "@query/privateChatQuery";
 
 type props = {
   setData: Dispatch<SetStateAction<MainData>>;
 };
 
-const testData: chatList[] = [
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test1",
-    chatLog: "have a good day thank you",
-    afterNow: "1 min ago",
-    chatRoom: "1",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test2",
-    chatLog: "how about you?",
-    afterNow: "1 min ago",
-    chatRoom: "1",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test3",
-    chatLog: "how did you think about this coding style",
-    afterNow: "1 min ago",
-    chatRoom: "1",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test4",
-    chatLog: "well i think i can write more simply",
-    afterNow: "1 min ago",
-    chatRoom: "1",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test5",
-    chatLog: "then try!",
-    afterNow: "1 min ago",
-    chatRoom: "1",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test6",
-    chatLog: "yeah i will see code more more more",
-    afterNow: "1 min ago",
-    chatRoom: "1",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test7",
-    chatLog: "and try apply in my code",
-    afterNow: "1 min ago",
-    chatRoom: "1",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test8",
-    chatLog: "i will be leader this society",
-    afterNow: "1 min ago",
-    chatRoom: "1",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test9",
-    chatLog: "yeah i can do, i will lead to good direction in global world",
-    afterNow: "1 min ago",
-    chatRoom: "1",
-  },
-];
-
 const ChatRoomList = ({ setData }: props) => {
-  /* 
-        required Info
-            1. user ImgPath
-            2. user nickname
-            3. latest chatLog, afterNow 
-    */
+  const { data } = useQuery(GET_PRIVATE_ROOM_LIST_QUE);
+
   return (
     <>
-      {testData &&
-        testData.map((chatList: chatList, index: number) => (
+      {data &&
+        data.GetPrivateRoomList.map((chatList: chatList, index: number) => (
           <ChatRoomCard
+            /* private room list */
             height={20}
             key={index}
             chatList={chatList}
             onClick={() => {
-              setData({ type: "ChatDetail", chatRoom: chatList.chatRoom });
-            }}
-          ></ChatRoomCard>
+              setData({
+                type: "ChatDetail",
+                chatRoom: chatList.chatRoom,
+                opponentNickname: chatList.user[0].nickname,
+              });
+            }}></ChatRoomCard>
         ))}
     </>
   );

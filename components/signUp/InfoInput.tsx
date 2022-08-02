@@ -56,10 +56,10 @@ function InfoInput(props: props) {
   // a value  that changes by validator
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const passwordVisibleHandler = (e : React.MouseEvent<SVGAElement>) => {
+  const passwordVisibleHandler = (e: React.MouseEvent<SVGAElement>) => {
     e.preventDefault();
     setVisible(!visible);
-  }
+  };
 
   return (
     <div className="relative">
@@ -73,7 +73,7 @@ function InfoInput(props: props) {
           value = state.value
           onChange = state.onChange
           */
-          type={type ? (visible ? "text": "password") : "text"}
+          type={type ? (visible ? "text" : "password") : "text"}
           ref={inputRef}
           onBlur={validator ? () => validator(setValidation) : () => {}}
           className={`peer p-0
@@ -114,15 +114,23 @@ function InfoInput(props: props) {
              `}>
           {label}
         </label>
-        {
-          type === "password" && 
+        {type === "password" &&
           // MouseDown Event => event bubbling to other text then, the other text is selected
-            (visible ? 
-              <AiOutlineEye onMouseDown={(e)=>e.preventDefault()} onClick={passwordVisibleHandler} size={20} className="absolute cursor-pointer right-0"/> 
-              : 
-              <AiOutlineEyeInvisible onMouseDown={(e)=>e.preventDefault()} onClick={passwordVisibleHandler} size={20} className="absolute cursor-pointer right-0"/>
-              )
-        }
+          (visible ? (
+            <AiOutlineEye
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={passwordVisibleHandler}
+              size={20}
+              className="absolute cursor-pointer right-0"
+            />
+          ) : (
+            <AiOutlineEyeInvisible
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={passwordVisibleHandler}
+              size={20}
+              className="absolute cursor-pointer right-0"
+            />
+          ))}
         {button}
       </div>
       <div>

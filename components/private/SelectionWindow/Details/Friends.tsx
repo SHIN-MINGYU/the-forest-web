@@ -1,68 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useMyInfo } from "@hooks/useGetMyInfo";
-import { GET_F4F_LIST } from "@query/userQuery";
-import { MainData, _userInfo } from "@type/privateRoom";
-import { userInfo } from "@type/userInfo";
 import { Dispatch, SetStateAction, useState } from "react";
+
+import { GET_F4F_LIST } from "@query/userQuery";
+
 import UserCard from "./Card/UserCard";
-
-const testData = [
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test1",
-    description: "have a good day thank you",
-    gender: "",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test2",
-    description: "how about you?",
-    gender: "",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test3",
-    description: "how did you think about this coding style",
-    gender: "",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test4",
-    description: "well i think i can write more simply",
-    gender: "",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test5",
-    description: "then try!",
-    gender: "",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test6",
-    description: "yeah i will see code more more more",
-    gender: "",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test7",
-    description: "and try apply in my code",
-    gender: "",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test8",
-    description: "i will be leader this society",
-    gender: "",
-  },
-  {
-    imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
-    nickname: "test9",
-    description: "yeah i can do, i will lead to good direction in global world",
-    gender: "",
-  },
-];
-
+import { MainData, _userInfo } from "@type/privateRoom";
 type props = {
   setData: Dispatch<SetStateAction<MainData>>;
 };
@@ -72,12 +15,7 @@ const Friends = ({ setData }: props) => {
   const [friendsVisible, setFriendsVisible] = useState<Boolean>(true);
   const { data, loading }: { data: any; loading: boolean } =
     useQuery(GET_F4F_LIST);
-  // required info
-  /* 
-        1. imgPath
-        2. nickname
-        3. description
-    */
+
   return (
     <>
       {/* my info card */}
@@ -88,8 +26,7 @@ const Friends = ({ setData }: props) => {
         <span
           className="cursor-pointer text-xl"
           onClick={() => setFriendsVisible(!friendsVisible)}
-          onMouseDown={(e) => e.preventDefault()}
-        >
+          onMouseDown={(e) => e.preventDefault()}>
           {friendsVisible ? "▾" : "◂"}
         </span>
       </div>
@@ -102,8 +39,9 @@ const Friends = ({ setData }: props) => {
               key={index}
               height={20}
               userInfo={userInfo}
-              onClick={() => setData({ type: "UserDetail", userInfo })}
-            ></UserCard>
+              onClick={() =>
+                setData({ type: "UserDetail", userInfo })
+              }></UserCard>
           );
         })}
     </>

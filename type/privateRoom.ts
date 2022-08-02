@@ -1,10 +1,14 @@
+import { ObjectId } from "bson";
 import { userInfo } from "./userInfo";
 
 export type chatList = {
-  imgPath: string;
-  nickname: string;
-  chatLog: string;
-  afterNow: string;
+  user: Array<{
+    _id: ObjectId;
+    imgPath: string;
+    nickname: string;
+  }>;
+  createAt: string;
+  lastChat: string;
   chatRoom: string;
 };
 
@@ -20,6 +24,7 @@ export interface UserDetail {
 export interface ChatDetail {
   type: "ChatDetail";
   chatRoom: string;
+  opponentNickname: string;
 }
 
 export type MainData = UserDetail | ChatDetail | undefined;

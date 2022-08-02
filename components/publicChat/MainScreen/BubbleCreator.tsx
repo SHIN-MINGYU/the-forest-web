@@ -5,18 +5,16 @@ import { CHECK_CHAT_ACTION_SUB } from "@query/publicChatQuery";
 import ChatBubble from "./ChatBubble";
 
 import { ChatLog } from "@type/chatType";
-import { imgPath } from "@type/userInfo";
+
 type props = {
   /* subscribeToNewChat: any; */
   chatRoom: string;
-  imgPath: imgPath;
   uid: string;
 };
 
 function BubbleCreator({
   /* subscribeToNewChat, */
   chatRoom,
-  imgPath,
   uid,
 }: props) {
   /*   useEffect(() => {
@@ -41,16 +39,12 @@ function BubbleCreator({
   const renderItem = useCallback(
     // preventing rerendering
     () =>
-      message.map((el: ChatLog, index: number) => {
+      message.map((chatLog: ChatLog, index: number) => {
         return (
-          <ChatBubble
-            key={index}
-            imgPath={imgPath}
-            uid={uid}
-            chatLog={el}></ChatBubble>
+          <ChatBubble key={index} uid={uid} chatLog={chatLog}></ChatBubble>
         );
       }),
-    [imgPath, message, uid]
+    [message, uid]
   );
 
   if (loading) {

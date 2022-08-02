@@ -33,22 +33,21 @@ const SelectionWindow = ({ setData }: props) => {
   return (
     <div className="flex w-full md:basis-1/4">
       <MenuContainer>
+        {/* menu icon start */}
         <BsPeople
           className="cursor-pointer"
           onClick={() => modeChanger("Friends")}
-          size={30}
-        ></BsPeople>
+          size={30}></BsPeople>
         <BsChatRightText
           className="cursor-pointer"
           onClick={() => modeChanger("ChatRoomList")}
           values=""
-          size={30}
-        ></BsChatRightText>
+          size={30}></BsChatRightText>
         <AiOutlineSetting
           className="cursor-pointer"
           onClick={() => modeChanger("Setting")}
-          size={30}
-        ></AiOutlineSetting>
+          size={30}></AiOutlineSetting>
+        {/* menu icon end */}
       </MenuContainer>
       <div className="basis-5/6 border overflow-y-scroll scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700">
         <ModeDetail setData={setData}></ModeDetail>

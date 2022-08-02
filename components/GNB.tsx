@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { ComponentType, useState } from "react";
+import React, { useState } from "react";
 
 import ThemeIcon from "./GNBComponent/icon/ThemeIcon";
 import GuestsButton from "./GNBComponent/button/GuestsButton";
@@ -24,8 +24,7 @@ function GNB() {
             src="/favicon.ico"
             width={50}
             height={50}
-            alt="favicon"
-          ></Image>
+            alt="favicon"></Image>
           <span className="ml-2 text-2xl text-green-700 font-bold">
             The Forest
           </span>
@@ -55,15 +54,13 @@ function GNB() {
       <div className="items-center flex md:hidden  cursor-pointer">
         <AiOutlineMenu
           onClick={() => setSideBarVisible(true)}
-          size={30}
-        ></AiOutlineMenu>
+          size={30}></AiOutlineMenu>
       </div>
       {sideBarVisible && (
         <>
           <div
             onClick={() => setSideBarVisible(false)}
-            className="fixed top-0 bottom-0 right-0 left-0 backdrop-blur-md"
-          ></div>
+            className="fixed top-0 bottom-0 right-0 left-0 backdrop-blur-md"></div>
           <SideBar />
         </>
       )}

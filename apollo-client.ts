@@ -29,8 +29,6 @@ const httpLink: httpLink =
       })
     : null;
 
-
-
 const wsLink: wsLink =
   typeof window !== "undefined"
     ? new GraphQLWsLink(
@@ -50,6 +48,7 @@ const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       for (let err of graphQLErrors) {
+        console.log(err);
         switch (err.extensions.code) {
           case "UNAUTHENTICATED":
             return new Observable((observer) => {

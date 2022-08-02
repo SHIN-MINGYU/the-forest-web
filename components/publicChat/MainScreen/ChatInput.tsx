@@ -12,7 +12,7 @@ type props = {
 function ChatInput({ chatRoom }: props) {
   const {
     uid,
-    userInfo: { nickname },
+    userInfo: { nickname, imgPath },
   } = useMyInfo()();
   const { reset, ...message } = useInput("");
   const sendButton = useRef<HTMLButtonElement>(null);
@@ -34,8 +34,7 @@ function ChatInput({ chatRoom }: props) {
             if (sendButton.current) sendButton?.current.click();
           }
         }}
-        placeholder="input some massage"
-      ></input>
+        placeholder="input some massage"></input>
       <button
         ref={sendButton}
         onClick={() => {
@@ -45,13 +44,13 @@ function ChatInput({ chatRoom }: props) {
               log: message.value,
               uid,
               nickname,
+              imgPath,
               createAt: new Date().toISOString(),
             },
           });
           reset();
         }}
-        className="h-full w-1/6  bg-green-200"
-      >
+        className="h-full w-1/6  bg-green-200">
         send
       </button>
     </div>
