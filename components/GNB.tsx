@@ -14,7 +14,6 @@ function GNB() {
   const getInfo = useMyInfo();
   const { ...myInfo } = getInfo();
   const [sideBarVisible, setSideBarVisible] = useState(false);
-  console.log("sideBarVisible : ", sideBarVisible);
   const SideBar = dynamic(import("./GNBComponent/SideBar"));
   return (
     <div className="flex shadow-md justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">

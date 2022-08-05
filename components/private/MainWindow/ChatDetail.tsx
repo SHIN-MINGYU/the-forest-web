@@ -7,6 +7,8 @@ import BubbleCreator from "../../publicChat/MainScreen/BubbleCreator";
 import { SEARCH_CHAT_LOG_QUE } from "@query/publicChatQuery";
 
 import { ChatDetail } from "@type/privateRoom";
+import { useEffect } from "react";
+
 type props = {
   data: ChatDetail;
 };
@@ -16,7 +18,9 @@ const ChatDetail = ({ data: { chatRoom, opponentNickname } }: props) => {
     variables: {
       chatRoom,
     },
+    fetchPolicy: "no-cache",
   });
+
   const coldChat = data?.ChatLog;
   const { uid } = useMyInfo()();
   return (

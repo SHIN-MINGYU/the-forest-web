@@ -13,6 +13,7 @@ import { getMainDefinition, Observable } from "@apollo/client/utilities";
 import { onError } from "@apollo/client/link/error";
 import { GraphQLClient, gql } from "graphql-request";
 import { getLocalStorage, setLocalStorage } from "./utils/localStorage";
+import { GRAPHQL_ENDPOINT, SOCKET_ENDPOINT } from "./utils/loadEnv";
 
 type httpLink = HttpLink | null;
 type wsLink = GraphQLWsLink | null;
@@ -21,7 +22,7 @@ type splitLink = ApolloLink | null;
 const httpLink: httpLink =
   typeof window !== "undefined"
     ? new HttpLink({
-        uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!,
+        uri: GRAPHQL_ENDPOINT!,
         headers: {
           Authorization: getLocalStorage("accessToken"),
         },
@@ -33,7 +34,7 @@ const wsLink: wsLink =
   typeof window !== "undefined"
     ? new GraphQLWsLink(
         createClient({
-          url: process.env.NEXT_PUBLIC_SOCKET_ENDPOINT!,
+          url: SOCKET_ENDPOINT!,
         })
       )
     : null;
@@ -52,10 +53,9 @@ const errorLink = onError(
         switch (err.extensions.code) {
           case "UNAUTHENTICATED":
             return new Observable((observer) => {
-              const graphQLClient = new GraphQLClient(
-                process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!,
-                { credentials: "include" }
-              );
+              const graphQLClient = new GraphQLClient(GRAPHQL_ENDPOINT!, {
+                credentials: "include",
+              });
               graphQLClient
                 .request(RESTORE_ACCESS_TOKEN)
                 .then((res) => {

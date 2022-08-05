@@ -1,11 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { useMyInfo } from "@hooks/useGetMyInfo";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { GET_F4F_LIST } from "@query/userQuery";
 
 import UserCard from "./Card/UserCard";
-import { MainData, _userInfo } from "@type/privateRoom";
+import { MainData, UserDetail, _userInfo } from "@type/privateRoom";
 type props = {
   setData: Dispatch<SetStateAction<MainData>>;
 };
@@ -15,7 +15,9 @@ const Friends = ({ setData }: props) => {
   const [friendsVisible, setFriendsVisible] = useState<Boolean>(true);
   const { data, loading }: { data: any; loading: boolean } =
     useQuery(GET_F4F_LIST);
-
+  useEffect(() => {
+    return () => console.log("unmount this");
+  }, []);
   return (
     <>
       {/* my info card */}
@@ -40,7 +42,12 @@ const Friends = ({ setData }: props) => {
               height={20}
               userInfo={userInfo}
               onClick={() =>
-                setData({ type: "UserDetail", userInfo })
+                setData((prevData) => {
+                  return Object.assign({}, { ...prevData }, {
+                    type: "UserDetail",
+                    userInfo,
+                  } as UserDetail);
+                })
               }></UserCard>
           );
         })}

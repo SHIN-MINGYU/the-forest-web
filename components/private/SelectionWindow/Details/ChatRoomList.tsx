@@ -1,6 +1,6 @@
-import { chatList, MainData } from "@type/privateRoom";
+import { ChatDetail, chatList, MainData } from "@type/privateRoom";
 import { useQuery } from "@apollo/client";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ChatRoomCard from "./Card/ChatRoomCard";
 import { GET_PRIVATE_ROOM_LIST_QUE } from "@query/privateChatQuery";
 
@@ -9,7 +9,18 @@ type props = {
 };
 
 const ChatRoomList = ({ setData }: props) => {
-  const { data } = useQuery(GET_PRIVATE_ROOM_LIST_QUE);
+  const { data, loading } = useQuery(GET_PRIVATE_ROOM_LIST_QUE, {
+    fetchPolicy: "cache-and-network",
+  });
+  const coldData = useRef();
+
+  useEffect(() => {
+    console.log("data : ", data);
+    if (data) {
+      coldData.current = data;
+      console.log(coldData.current);
+    }
+  }, [data]);
 
   return (
     <>
@@ -21,10 +32,12 @@ const ChatRoomList = ({ setData }: props) => {
             key={index}
             chatList={chatList}
             onClick={() => {
-              setData({
-                type: "ChatDetail",
-                chatRoom: chatList.chatRoom,
-                opponentNickname: chatList.user[0].nickname,
+              setData((prevData) => {
+                return Object.assign({}, { ...prevData }, {
+                  type: "ChatDetail",
+                  chatRoom: chatList.chatRoom,
+                  opponentNickname: chatList.user[0].nickname,
+                } as ChatDetail);
               });
             }}></ChatRoomCard>
         ))}

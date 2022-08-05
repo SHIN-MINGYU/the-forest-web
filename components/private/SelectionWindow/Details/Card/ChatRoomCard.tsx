@@ -1,6 +1,8 @@
+import { useSubscription } from "@apollo/client";
 import { chatList } from "@type/privateRoom";
 import moment from "moment";
 import Image from "next/image";
+import { CHECK_CHAT_ACTION_SUB } from "@query/publicChatQuery";
 import CardContainer from "./Container/CardContainer";
 
 type props = {
@@ -10,6 +12,11 @@ type props = {
 };
 
 const ChatListCard = ({ height, chatList, onClick }: props) => {
+  const { data } = useSubscription(CHECK_CHAT_ACTION_SUB, {
+    variables: {
+      chatRoom: chatList.chatRoom,
+    },
+  });
   return (
     <CardContainer height={height} onClick={onClick}>
       <div className="basis-1/4 grid grid-flow-col grid-cols-2 grid-rows-2 p-2">
@@ -30,10 +37,17 @@ const ChatListCard = ({ height, chatList, onClick }: props) => {
         <div className="flex justify-between">
           <p>{chatList.user[0].nickname}</p>
           <p className="text-sm text-gray-500 truncate">
-            {moment(chatList.createAt).fromNow()}
+            {data
+              ? moment(data?.CheckChat.createAt).fromNow()
+              : moment(chatList.createAt).fromNow()}
           </p>
         </div>
-        <p className="text-sm text-gray-500 truncate">{chatList.lastChat}</p>
+        <div className="flex justify-between">
+          <p className="text-sm text-gray-500 truncate">
+            {data ? data?.CheckChat.log : chatList.lastChat}
+          </p>
+          <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+        </div>
       </div>
     </CardContainer>
   );

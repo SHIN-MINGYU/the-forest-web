@@ -19,7 +19,8 @@
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@query/*": ["query/*"],
-      "@type/*": ["type/*"]
+      "@type/*": ["type/*"],
+      "@utils/*": ["utils/*"]
       //path alias
     }
   },

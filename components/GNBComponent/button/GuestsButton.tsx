@@ -29,6 +29,7 @@ const GuestsButton = ({ userType, userInfo }: props) => {
     //transfer to LoginPage
     router.push("/login");
   };
+
   return (
     <div
       onMouseEnter={() => {

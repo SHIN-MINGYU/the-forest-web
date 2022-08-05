@@ -56,7 +56,11 @@ const UserDetail = ({ data: { userInfo }, setData }: props) => {
               <AiFillWechat size={100}></AiFillWechat>
               <p>1:1 chat</p>
             </div>
-            <div className="flex flex-col items-center">
+            <div
+              className="flex flex-col items-center"
+              onClick={() =>
+                window.open("yourPageURL", "mywindow", "status=1,toolbar=0")
+              }>
               <IoMdVideocam size={100}></IoMdVideocam>
               <p>video chat</p>
             </div>

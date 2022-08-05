@@ -1,15 +1,16 @@
 import { useQuery } from "@apollo/client";
 import { useCallback, useEffect, useState } from "react";
-import { GET_USER } from "../query/userQuery";
-import { getLocalStorage } from "../utils/localStorage";
-import { getSessionStorage } from "../utils/sessionStorage";
+import { GET_USER } from "query/userQuery";
+import { API_ENDPOINT } from "utils/loadEnv";
+import { getLocalStorage } from "utils/localStorage";
+import { getSessionStorage } from "utils/sessionStorage";
 
 const initailValue = {
   //Guest's initail Value
   nickname: "Stranger",
   gender: "none",
   description: "Hello, Nice to meet you. Have a good day",
-  imgPath: process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png",
+  imgPath: API_ENDPOINT + "/img/profile.png",
 };
 
 export const useMyInfo = () => {

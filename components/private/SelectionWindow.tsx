@@ -12,28 +12,27 @@ type props = {
 
 const SelectionWindow = ({ setData }: props) => {
   // mode => change detail components
-  const [mode, setMode] = useState("");
+  const [mode, setMode] = useState<"Friends" | "ChatRoomList" | "Setting">(
+    "Friends"
+  );
 
-  // default component in react => ComponentClass<P> | FunctionComponent<P>
-  // P => props
-  // (dynamic import)'s return type is ComponentType<{}> => Component what have not props
-  // so if want press down props to child component at dynamic import,
-  // write in the generic arguments what we want to press down props
-  const ModeDetail: ComponentType<props> = dynamic(
-    () => import(`./SelectionWindow/Details/${mode}`),
+  const Friends: ComponentType<props> = dynamic(
+    () => import("./SelectionWindow/Details/Friends"),
     {
       ssr: false,
     }
   );
-
-  const modeChanger = (mode: string) => {
+  const ChatRoomList: ComponentType<props> = dynamic(
+    () => import("./SelectionWindow/Details/ChatRoomList"),
+    { ssr: false }
+  );
+  const modeChanger = (mode: "Friends" | "ChatRoomList" | "Setting") => {
     setMode(mode);
     setData(undefined);
   };
   return (
     <div className="flex w-full md:basis-1/4">
       <MenuContainer>
-        {/* menu icon start */}
         <BsPeople
           className="cursor-pointer"
           onClick={() => modeChanger("Friends")}
@@ -50,7 +49,10 @@ const SelectionWindow = ({ setData }: props) => {
         {/* menu icon end */}
       </MenuContainer>
       <div className="basis-5/6 border overflow-y-scroll scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700">
-        <ModeDetail setData={setData}></ModeDetail>
+        {mode === "Friends" && <Friends setData={setData}></Friends>}
+        {mode === "ChatRoomList" && (
+          <ChatRoomList setData={setData}></ChatRoomList>
+        )}
       </div>
     </div>
   );

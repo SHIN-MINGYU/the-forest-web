@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import useInput from "@hooks/useInput";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER_INFO } from "@query/userQuery";
-import { getLocalStorage, setLocalStorage } from "utils/localStorage";
+import { getLocalStorage, setLocalStorage } from "@utils/localStorage";
+import { API_ENDPOINT } from "@utils/loadEnv";
 import axios from "axios";
 
 import {
@@ -87,14 +88,10 @@ const ProfileModal = ({ hide, userInfo, userType }: props) => {
         const formData = new FormData();
         formData.append("profileImg", avatarFile);
         await axios
-          .post(
-            process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/upload",
-            formData,
-            {
-              withCredentials: true,
-              headers: { Authorization: getLocalStorage("accessToken") },
-            }
-          )
+          .post(API_ENDPOINT + "/img/upload", formData, {
+            withCredentials: true,
+            headers: { Authorization: getLocalStorage("accessToken") },
+          })
           .catch((err) => console.log(err));
       }
       return;
@@ -122,6 +119,8 @@ const ProfileModal = ({ hide, userInfo, userType }: props) => {
     description,
     router,
   ]);
+
+  console.log(API_ENDPOINT);
 
   return (
     /* background blur window */
@@ -173,9 +172,7 @@ const ProfileModal = ({ hide, userInfo, userType }: props) => {
                 width={96}
                 height={96}
                 layout="responsive"
-                src={
-                  process.env.NEXT_PUBLIC_API_ENDPOINT + "/img/profile.png"
-                }></Image>
+                src={API_ENDPOINT + "/img/profile.png"}></Image>
             </div>
           )}
           {/* main input */}

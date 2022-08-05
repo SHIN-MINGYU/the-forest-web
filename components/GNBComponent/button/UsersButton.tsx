@@ -6,6 +6,7 @@ import { useState } from "react";
 import { AiFillProfile, AiOutlineLogout } from "@components/icon";
 import { userInfo } from "@type/userInfo";
 import dynamic from "next/dynamic";
+import { API_ENDPOINT } from "@utils/loadEnv";
 
 type props = {
   userInfo: userInfo;
@@ -51,10 +52,7 @@ const UsersButton = ({ userInfo, userType }: props) => {
             {imgPath ? (
               <Image
                 className="rounded-full"
-                src={
-                  imgPath ||
-                  process.env.NEXT_PUBLIC_API_ENDPOINT! + "/img/profile.png"
-                }
+                src={imgPath || API_ENDPOINT! + "/img/profile.png"}
                 width={20}
                 height={20}
                 layout={"intrinsic"}

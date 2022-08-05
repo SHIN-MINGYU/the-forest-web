@@ -148,15 +148,12 @@ function OneOnOneChat({ chatRoom }: query) {
         <ChatScreen
           opponentLeave={leaveEvent.data?.LeaveRoom}
           opponentInfo={opponentInfo}
-          imgPath={imgPath}
           uid={uid}
-          chatRoom={chatRoom}
-        ></ChatScreen>
+          chatRoom={chatRoom}></ChatScreen>
       </div>
       <OpponentChatCard
         opponentInfo={opponentInfo}
-        leave={leaveEvent.data?.LeaveRoom.leave}
-      ></OpponentChatCard>
+        leave={leaveEvent.data?.LeaveRoom.leave}></OpponentChatCard>
     </ChatContainer>
   );
 }
