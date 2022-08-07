@@ -15,10 +15,8 @@ const ChatRoomList = ({ setData }: props) => {
   const coldData = useRef();
 
   useEffect(() => {
-    console.log("data : ", data);
     if (data) {
       coldData.current = data;
-      console.log(coldData.current);
     }
   }, [data]);
 

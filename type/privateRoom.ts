@@ -27,4 +27,9 @@ export interface ChatDetail {
   opponentNickname: string;
 }
 
-export type MainData = UserDetail | ChatDetail | undefined;
+export interface SettingDetail {
+  type: "Setting Detail";
+  category: string;
+}
+
+export type MainData = UserDetail | ChatDetail | SettingDetail | undefined;

@@ -1,4 +1,9 @@
-import { ChatDetail, MainData, UserDetail } from "@type/privateRoom";
+import {
+  ChatDetail,
+  MainData,
+  SettingDetail,
+  UserDetail,
+} from "@type/privateRoom";
 import dynamic from "next/dynamic";
 import React, { ComponentType, Dispatch, SetStateAction } from "react";
 
@@ -16,8 +21,10 @@ const MainWindow = ({ data, setData }: props) => {
     data: UserDetail;
     setData: Dispatch<SetStateAction<ChatDetail>>;
   }> = dynamic(import("./MainWindow/UserDetail"), { ssr: false });
-  // if designate variable in dynamic import path, all file is built in /MainWindow folder
-  // so need care for use
+
+  const SettingDetail: ComponentType<{
+    data: SettingDetail;
+  }> = dynamic(import("./MainWindow/SettingDetail"), { ssr: false });
 
   return (
     <div className="hidden md:block md:basis-3/4">
@@ -28,6 +35,9 @@ const MainWindow = ({ data, setData }: props) => {
           setData={
             setData as Dispatch<SetStateAction<ChatDetail>>
           }></UserDetail>
+      )}
+      {data?.type === "Setting Detail" && (
+        <SettingDetail data={data}></SettingDetail>
       )}
     </div>
   );

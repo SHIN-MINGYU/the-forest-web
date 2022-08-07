@@ -15,9 +15,7 @@ const Friends = ({ setData }: props) => {
   const [friendsVisible, setFriendsVisible] = useState<Boolean>(true);
   const { data, loading }: { data: any; loading: boolean } =
     useQuery(GET_F4F_LIST);
-  useEffect(() => {
-    return () => console.log("unmount this");
-  }, []);
+
   return (
     <>
       {/* my info card */}

@@ -68,3 +68,22 @@ export const GET_F4F_LIST = gql`
     }
   }
 `;
+export const SEND_FOLLOW = gql`
+  mutation ($uid: ID!) {
+    SendFollow(uid: $uid)
+  }
+`;
+
+export const SEND_UNFOLLOW = gql`
+  mutation ($uid: ID!) {
+    SendUnFollow(uid: $uid)
+  }
+`;
+
+export const GET_FOLLOWING = gql`
+  query GetFollowing {
+    UserInfo {
+      following
+    }
+  }
+`;

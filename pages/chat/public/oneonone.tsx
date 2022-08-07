@@ -17,7 +17,7 @@ import {
   LEAVE_ROOM_MUT,
 } from "@query/publicChatQuery";
 
-import { imgPath, opponentInfoType } from "@type/userInfo";
+import { opponentInfoType } from "@type/userInfo";
 type query = {
   //type of query
   chatRoom: string;
@@ -32,13 +32,15 @@ function OneOnOneChat({ chatRoom }: query) {
   const getInfo = useMyInfo();
   const { uid, userType, userInfo } = getInfo();
   const [opponentInfo, setOpponentInfo] = useState<opponentInfoType>();
-  const [imgPath, setImgPath] = useState<imgPath>({});
 
   // ENTERROOM SUBSCRIBE, MUTATION
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
   const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
     variables: { chatRoom },
+    fetchPolicy: "network-only",
   });
+
+  console.log(enterEvent);
 
   // LEAVEROOM SUBSCRIBE, MUTATION
   const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
@@ -59,18 +61,6 @@ function OneOnOneChat({ chatRoom }: query) {
     }
     leaveRoom();
   }, [leaveRoom]);
-
-  useEffect(() => {
-    // when componentdidmount my impPath push in imgPath object state
-    if (userInfo.imgPath && uid) {
-      const obj: { [key: string]: string } = {};
-      obj[uid] = userInfo.imgPath;
-      setImgPath((prevState) => ({
-        ...prevState,
-        ...obj,
-      }));
-    }
-  }, [uid, userInfo.imgPath]);
 
   useEffect(() => {
     /* 
@@ -100,14 +90,8 @@ function OneOnOneChat({ chatRoom }: query) {
             ...prevState,
             ...enterEvent.data?.EnterRoom,
           }));
-          const opponentImgPath: { [key: string]: string } = {};
-          const key: string = enterEvent.data?.EnterRoom.uid;
-          opponentImgPath[key] = enterEvent.data?.EnterRoom.userInfo.imgPath;
-          setImgPath((prevState) => ({
-            ...prevState,
-            ...opponentImgPath,
-          }));
           // and occur one more
+          console.log("this will be occured");
           enterRoom({
             variables: {
               uid,

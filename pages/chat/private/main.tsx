@@ -18,7 +18,7 @@ const Main = () => {
     // the userType is GUEST, replace to main page;
     if (userType == "GUEST") router.replace("/");
   }, [getUser, router]);
-  console.log(data);
+
   return (
     <PrivateContainer>
       <SelectionWindow setData={setData} />

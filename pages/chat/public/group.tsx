@@ -31,6 +31,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
 
   const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
     variables: { chatRoom },
+    fetchPolicy: "no-cache",
   });
 
   // LEAVE ROOM SUBSCRIBE, MUTATION
@@ -45,6 +46,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
 
   const { ...leaveEvent } = useSubscription(LEAVE_ROOM_SUB, {
     variables: { chatRoom },
+    fetchPolicy: "no-cache",
   });
 
   const cleanUp = useCallback(() => {

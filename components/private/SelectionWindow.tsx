@@ -26,6 +26,10 @@ const SelectionWindow = ({ setData }: props) => {
     () => import("./SelectionWindow/Details/ChatRoomList"),
     { ssr: false }
   );
+  const Setting: ComponentType<props> = dynamic(
+    () => import("./SelectionWindow/Details/Setting")
+  );
+
   const modeChanger = (mode: "Friends" | "ChatRoomList" | "Setting") => {
     setMode(mode);
     setData(undefined);
@@ -53,6 +57,7 @@ const SelectionWindow = ({ setData }: props) => {
         {mode === "ChatRoomList" && (
           <ChatRoomList setData={setData}></ChatRoomList>
         )}
+        {mode === "Setting" && <Setting setData={setData}></Setting>}
       </div>
     </div>
   );

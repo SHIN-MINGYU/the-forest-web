@@ -5,12 +5,15 @@ export interface userInfo {
   gender: string;
 }
 
+export interface userInfoQuery {
+  _id: string;
+  nickname: string;
+  imgPath: string;
+  description: string;
+}
+
 export interface opponentInfoType {
   uid: string;
   userType: string;
   userInfo: userInfo;
-}
-
-export interface imgPath {
-  [key: string]: string;
 }
