@@ -10,7 +10,7 @@ const initailValue = {
   nickname: "Stranger",
   gender: "none",
   description: "Hello, Nice to meet you. Have a good day",
-  imgPath: API_ENDPOINT + "/img/profile.png",
+  imgPath: API_ENDPOINT + "img/profile.png",
 };
 
 export const useMyInfo = () => {

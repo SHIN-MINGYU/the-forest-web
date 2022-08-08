@@ -52,7 +52,7 @@ const UsersButton = ({ userInfo, userType }: props) => {
             {imgPath ? (
               <Image
                 className="rounded-full"
-                src={imgPath || API_ENDPOINT! + "/img/profile.png"}
+                src={imgPath || API_ENDPOINT! + "img/profile.png"}
                 width={20}
                 height={20}
                 layout={"intrinsic"}

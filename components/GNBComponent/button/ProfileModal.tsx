@@ -120,8 +120,6 @@ const ProfileModal = ({ hide, userInfo, userType }: props) => {
     router,
   ]);
 
-  console.log(API_ENDPOINT);
-
   return (
     /* background blur window */
     <div
@@ -154,7 +152,8 @@ const ProfileModal = ({ hide, userInfo, userType }: props) => {
                 height={96}
                 layout="responsive"
                 src={
-                  avatarUri.startsWith("http://")
+                  avatarUri.startsWith("http://") ||
+                  avatarUri.startsWith("https://")
                     ? avatarUri
                     : "data:" + avatarUri
                 }></Image>
@@ -172,7 +171,7 @@ const ProfileModal = ({ hide, userInfo, userType }: props) => {
                 width={96}
                 height={96}
                 layout="responsive"
-                src={API_ENDPOINT + "/img/profile.png"}></Image>
+                src={API_ENDPOINT + "img/profile.png"}></Image>
             </div>
           )}
           {/* main input */}

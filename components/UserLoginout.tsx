@@ -17,13 +17,21 @@ const UserLogin = () => {
   const [login] = useMutation(USER_LOGIN);
   const [logout] = useMutation(USER_LOGOUT);
   useEffect(() => {
-    login();
+    login().catch((err) => {
+      if (err.message === "GUEST") {
+        return null;
+      }
+    });
     // if user in web page, user's status in db true
     window.onbeforeunload = () => {
-      logout();
+      logout().catch((err) => {
+        if (err.message === "GUEST") {
+          return null;
+        }
+      });
     };
     // if user out of web page , user's status in db false
-  }, []);
+  }, [login, logout]);
 
   return <></>;
 };

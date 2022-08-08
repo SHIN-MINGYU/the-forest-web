@@ -40,8 +40,6 @@ function OneOnOneChat({ chatRoom }: query) {
     fetchPolicy: "network-only",
   });
 
-  console.log(enterEvent);
-
   // LEAVEROOM SUBSCRIBE, MUTATION
   const [leaveRoom] = useMutation(LEAVE_ROOM_MUT, {
     variables: {
@@ -91,7 +89,6 @@ function OneOnOneChat({ chatRoom }: query) {
             ...enterEvent.data?.EnterRoom,
           }));
           // and occur one more
-          console.log("this will be occured");
           enterRoom({
             variables: {
               uid,

@@ -21,8 +21,6 @@ const CheckFollower = () => {
     getFollower();
   }, [getFollower]);
 
-  console.log(data);
-
   return (
     <>
       <div className="h-5 pl-10 py-1">
