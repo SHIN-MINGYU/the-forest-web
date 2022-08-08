@@ -21,7 +21,7 @@ const Login: NextPage = () => {
         variables: { username: username.value, password: password.value },
       });
       setLocalStorage("accessToken", res.data.Login);
-      location.href = "/";
+      /*       location.href = "/"; */
     } catch (err) {
       alert("user info is not incurrent");
     }

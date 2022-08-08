@@ -23,6 +23,8 @@ const UserLogin = () => {
       }
     });
     // if user in web page, user's status in db true
+  }, [login]);
+  if (typeof window != "undefined") {
     window.onbeforeunload = () => {
       logout().catch((err) => {
         if (err.message === "GUEST") {
@@ -30,9 +32,8 @@ const UserLogin = () => {
         }
       });
     };
-    // if user out of web page , user's status in db false
-  }, [login, logout]);
-
+  }
+  // if user out of web page , user's status in db false
   return <></>;
 };
 

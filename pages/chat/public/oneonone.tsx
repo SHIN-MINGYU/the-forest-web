@@ -37,7 +37,7 @@ function OneOnOneChat({ chatRoom }: query) {
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
   const { ...enterEvent } = useSubscription(ENTER_ROOM_SUB, {
     variables: { chatRoom },
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-first",
   });
 
   // LEAVEROOM SUBSCRIBE, MUTATION
@@ -115,11 +115,11 @@ function OneOnOneChat({ chatRoom }: query) {
   useEffect(() => {
     return () => cleanUp();
   }, [cleanUp]);
-
-  onbeforeunload = () => {
-    cleanUp();
-  };
-
+  if (typeof window != "undefined") {
+    window.onbeforeunload = (e) => {
+      cleanUp();
+    };
+  }
   //View
   return (
     <ChatContainer>

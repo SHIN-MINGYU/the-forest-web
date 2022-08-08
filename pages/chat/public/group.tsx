@@ -132,10 +132,11 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
     return () => cleanUp();
   }, [cleanUp]);
 
-  onbeforeunload = () => {
-    cleanUp();
-  };
-
+  if (typeof window != "undefined") {
+    window.onbeforeunload = () => {
+      cleanUp();
+    };
+  }
   // View
   return (
     <ChatContainer>
