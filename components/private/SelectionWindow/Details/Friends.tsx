@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useMyInfo } from "@hooks/useGetMyInfo";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import { GET_F4F_LIST } from "@query/userQuery";
 
@@ -13,8 +13,12 @@ type props = {
 const Friends = ({ setData }: props) => {
   const { userInfo } = useMyInfo()();
   const [friendsVisible, setFriendsVisible] = useState<Boolean>(true);
-  const { data, loading }: { data: any; loading: boolean } =
-    useQuery(GET_F4F_LIST);
+  const { data, loading }: { data: any; loading: boolean } = useQuery(
+    GET_F4F_LIST,
+    {
+      fetchPolicy: "no-cache",
+    }
+  );
 
   return (
     <>

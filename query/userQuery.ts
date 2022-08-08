@@ -65,6 +65,7 @@ export const GET_F4F_LIST = gql`
       nickname
       description
       gender
+      status
     }
   }
 `;

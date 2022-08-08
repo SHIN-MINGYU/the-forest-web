@@ -49,7 +49,6 @@ const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       for (let err of graphQLErrors) {
-        console.log(err);
         switch (err.extensions.code) {
           case "UNAUTHENTICATED":
             return new Observable((observer) => {

@@ -9,7 +9,7 @@ type props = {
 };
 
 const ChatRoomList = ({ setData }: props) => {
-  const { data, loading } = useQuery(GET_PRIVATE_ROOM_LIST_QUE, {
+  const { data } = useQuery(GET_PRIVATE_ROOM_LIST_QUE, {
     fetchPolicy: "cache-and-network",
   });
   const coldData = useRef();

@@ -2,6 +2,7 @@ import { useLazyQuery } from "@apollo/client";
 import { GET_PRIVATE_ROOM_QUE } from "@query/privateChatQuery";
 import { ChatDetail, UserDetail } from "@type/privateRoom";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 import { AiFillWechat } from "react-icons/ai";
 import { IoMdVideocam } from "react-icons/io";
@@ -18,7 +19,8 @@ const UserDetail = ({ data: { userInfo }, setData }: props) => {
       type: "oneonone",
       category: "private",
     },
-  }); // if 1:1 chatbutton click, occur get privateRoomId and change component to chatdetail
+  });
+  // if 1:1 chatbutton click, occur get privateRoomId and change component to chatdetail
 
   return (
     <>
@@ -59,7 +61,11 @@ const UserDetail = ({ data: { userInfo }, setData }: props) => {
             <div
               className="flex flex-col items-center"
               onClick={() =>
-                window.open("yourPageURL", "mywindow", "status=1,toolbar=0")
+                window.open(
+                  `video/uid=${userInfo._id}`,
+                  "mywindow",
+                  "status=1,toolbar=0"
+                )
               }>
               <IoMdVideocam size={100}></IoMdVideocam>
               <p>video chat</p>

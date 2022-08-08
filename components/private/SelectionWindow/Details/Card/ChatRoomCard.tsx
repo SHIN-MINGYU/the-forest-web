@@ -46,7 +46,7 @@ const ChatListCard = ({ height, chatList, onClick }: props) => {
           <p className="text-sm text-gray-500 truncate">
             {data ? data?.CheckChat.log : chatList.lastChat}
           </p>
-          <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+          {/*        <div className="w-2 h-2 bg-red-500 rounded-full"></div> */}
         </div>
       </div>
     </CardContainer>
