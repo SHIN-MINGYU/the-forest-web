@@ -4,7 +4,7 @@ const path = require("path");
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ["localhost"],
+    domains: ["localhost", process.env.NEXT_PUBLIC_PRODUCTION_API_ENDPOINT],
   },
 };
 
