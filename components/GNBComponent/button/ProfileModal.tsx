@@ -88,7 +88,7 @@ const ProfileModal = ({ hide, userInfo, userType }: props) => {
         const formData = new FormData();
         formData.append("profileImg", avatarFile);
         await axios
-          .post(API_ENDPOINT + "/img/upload", formData, {
+          .post(API_ENDPOINT + "img/upload", formData, {
             withCredentials: true,
             headers: { Authorization: getLocalStorage("accessToken") },
           })
