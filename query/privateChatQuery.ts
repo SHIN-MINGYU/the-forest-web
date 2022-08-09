@@ -20,3 +20,11 @@ export const GET_PRIVATE_ROOM_LIST_QUE = gql`
     }
   }
 `;
+
+export const GET_OFF_CALL_SUB = gql`
+  subscription getOffCall($chatRoom: ID) {
+    GetOffCall(chat_room: $chatRoom) {
+      leave
+    }
+  }
+`;

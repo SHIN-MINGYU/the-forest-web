@@ -1,8 +1,7 @@
-import { useLazyQuery } from "@apollo/client";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { GET_PRIVATE_ROOM_QUE } from "@query/privateChatQuery";
 import { ChatDetail, UserDetail } from "@type/privateRoom";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 import { AiFillWechat } from "react-icons/ai";
 import { IoMdVideocam } from "react-icons/io";
@@ -12,6 +11,12 @@ type props = {
   setData: Dispatch<SetStateAction<ChatDetail>>;
 };
 
+const SEND_CALL = gql`
+  mutation SendCall($uid: ID) {
+    SendCall(uid: $uid)
+  }
+`;
+
 const UserDetail = ({ data: { userInfo }, setData }: props) => {
   const [getData] = useLazyQuery(GET_PRIVATE_ROOM_QUE, {
     variables: {
@@ -20,7 +25,35 @@ const UserDetail = ({ data: { userInfo }, setData }: props) => {
       category: "private",
     },
   });
+  const [sendCall] = useMutation(SEND_CALL);
   // if 1:1 chatbutton click, occur get privateRoomId and change component to chatdetail
+
+  const loadVideoChatPage = () => {
+    console.log(userInfo._id);
+    if (userInfo.status === true) {
+      // 여기서 send Call을 해주니까 video chat component가 mount 되기 전에
+      // event가 일어나서 유저가 그 전에 취소를 눌러버리면 cancle event가
+      // 일어나지 않을 수 있음
+
+      sendCall({
+        variables: {
+          uid: userInfo._id,
+        },
+      })
+        .then((res) => {
+          window.open(
+            `video/${res.data?.SendCall}`,
+            "mywindow",
+            "status=1,toolbar=0"
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      alert("this user is not logined");
+    }
+  };
 
   return (
     <>
@@ -60,13 +93,7 @@ const UserDetail = ({ data: { userInfo }, setData }: props) => {
             </div>
             <div
               className="flex flex-col items-center"
-              onClick={() =>
-                window.open(
-                  `video/uid=${userInfo._id}`,
-                  "mywindow",
-                  "status=1,toolbar=0"
-                )
-              }>
+              onClick={() => loadVideoChatPage()}>
               <IoMdVideocam size={100}></IoMdVideocam>
               <p>video chat</p>
             </div>

@@ -15,13 +15,14 @@ const Login: NextPage = () => {
   const username = useInput("");
   const password = useInput("");
   const [autificate] = useLazyQuery(LOGIN_QUE);
+
   const sendLoginReq = async () => {
     try {
       const res = await autificate({
         variables: { username: username.value, password: password.value },
       });
       setLocalStorage("accessToken", res.data.Login);
-      /*       location.href = "/"; */
+      location.href = "/";
     } catch (err) {
       alert("user info is not incurrent");
     }

@@ -10,7 +10,8 @@ import { ObjectId } from "bson";
 import { getSessionStorage, setSessionStorage } from "../utils/sessionStorage";
 import GNB from "@components/GNB";
 import Footer from "@components/Footer";
-import UserLoginout from "../components/UserLoginout";
+import UserLoginout from "../components/util/UserLoginout";
+import SubscribeCall from "../components/util/SubscribeCall";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -21,15 +22,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className="flex flex-col overflow-x-auto">
       <ApolloProvider client={client}>
-        {router.pathname != "/chat/private/video/[uid]" && (
+        {router.pathname != "/chat/private/video/[room]" && (
           <>
             <UserLoginout />
+            <SubscribeCall />
             <GNB></GNB>
             <Component {...pageProps} />
             <Footer></Footer>
           </>
         )}
-        {router.pathname === "/chat/private/video/[uid]" && (
+        {router.pathname === "/chat/private/video/[room]" && (
           <Component {...pageProps} />
         )}
       </ApolloProvider>

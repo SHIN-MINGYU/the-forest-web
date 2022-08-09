@@ -2,10 +2,10 @@ import {
   ApolloClient,
   ApolloLink,
   HttpLink,
-  InMemoryCache,
   Operation,
   split,
   from,
+  InMemoryCache,
 } from "@apollo/client";
 import { createClient } from "graphql-ws";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
@@ -49,11 +49,11 @@ const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       for (let err of graphQLErrors) {
-        switch (err.message) {
+        switch (err?.message) {
           case "GUEST":
             return undefined;
         }
-        switch (err.extensions.code) {
+        switch (err?.extensions?.code) {
           case "UNAUTHENTICATED":
             return new Observable((observer) => {
               const graphQLClient = new GraphQLClient(GRAPHQL_ENDPOINT!, {
@@ -82,7 +82,7 @@ const errorLink = onError(
         }
       }
     }
-
+    console.log(networkError?.name);
     if (networkError) {
       console.log(`[Network error] : ${networkError} `);
     }

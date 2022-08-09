@@ -16,6 +16,7 @@ const USER_LOGOUT = gql`
 const UserLogin = () => {
   const [login] = useMutation(USER_LOGIN);
   const [logout] = useMutation(USER_LOGOUT);
+
   useEffect(() => {
     login().catch((err) => {
       if (err.message === "GUEST") {
@@ -24,6 +25,7 @@ const UserLogin = () => {
     });
     // if user in web page, user's status in db true
   }, [login]);
+
   if (typeof window != "undefined") {
     window.onbeforeunload = () => {
       logout().catch((err) => {
