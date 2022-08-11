@@ -36,8 +36,9 @@ const MainWindow = ({ chatRoom, uid }: props) => {
         process.env.NODE_ENV === "production"
           ? new URL(API_ENDPOINT!).pathname
           : "localhost",
-      port: 9000,
+      port: process.env.NODE_ENV === "production" ? 433 : 9000,
       path: "/peer",
+      secure: process.env.NODE_ENV === "production" ? true : false,
     });
     // create peer that use my objectId in database
 
