@@ -1,6 +1,7 @@
 import { gql, useMutation, useSubscription } from "@apollo/client";
 import { useEffect } from "react";
 import { useMyInfo } from "../../hooks/useGetMyInfo";
+import { GET_OFF_CALL_MUT } from "../../query/privateChatQuery";
 
 const GET_CALL = gql`
   subscription getCall($uid: ID!) {
@@ -11,30 +12,33 @@ const GET_CALL = gql`
   }
 `;
 
-const GET_OFF_CALL_MUT = gql`
-  mutation getOffCall($chatRoom: ID) {
-    GetOffCall(chat_room: $chatRoom)
-  }
-`;
-
 const SubscribeCall = () => {
   const { uid, userType } = useMyInfo()();
-
-  const { data, error } = useSubscription(GET_CALL, {
+  const { data } = useSubscription(GET_CALL, {
     variables: { uid },
   });
 
   const [getOffCall] = useMutation(GET_OFF_CALL_MUT);
+
   useEffect(() => {
-    if (data) {
-      const getCall = confirm(`call from ${data.GetCall?.from}`);
-      if (getCall) {
-      } else {
-        getOffCall({
-          variables: {
-            chatRoom: data.GetCall?.chatRoom,
-          },
-        });
+    if (userType === "USER") {
+      if (data) {
+        const getCall = confirm(`call from ${data.GetCall?.from}`);
+        // the variables decide accept or deny when have a call
+        if (getCall) {
+          window.open(
+            `/chat/private/video/${data.GetCall.chatRoom}`,
+            "mywindow", // this is important infomation for enter the video room
+            "status=1,toolbar=0"
+          );
+        } else {
+          // if call denied by user, send deny signal
+          getOffCall({
+            variables: {
+              chatRoom: data.GetCall?.chatRoom,
+            },
+          });
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

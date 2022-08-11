@@ -28,3 +28,19 @@ export const GET_OFF_CALL_SUB = gql`
     }
   }
 `;
+
+export const GET_OFF_CALL_MUT = gql`
+  mutation getOffCall($chatRoom: ID) {
+    GetOffCall(chat_room: $chatRoom)
+  }
+`;
+
+export const GET_USER_IN_CHAT = gql`
+  query getUser($chatRoom: ID!) {
+    GetUserInChat(chat_room: $chatRoom) {
+      _id
+      nickname
+      imgPath
+    }
+  }
+`;

@@ -1,74 +1,82 @@
-import { useSubscription } from "@apollo/client";
+import { useQuery, useSubscription } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { TiDeleteOutline } from "react-icons/ti";
-import { GET_OFF_CALL_SUB } from "@query/privateChatQuery";
+import { useEffect, useState } from "react";
 
-const Video = () => {
+import { GET_OFF_CALL_SUB, GET_USER_IN_CHAT } from "@query/privateChatQuery";
+import MainWindow from "components/private/VideoWindow/MainWindow";
+import Image from "next/image";
+
+type props = {
+  chatRoom: string;
+};
+
+const Video = ({ chatRoom }: props) => {
   const [auth, setAuth] = useState<boolean>(false);
+
   const router = useRouter();
-  const { data, loading, error } = useSubscription(GET_OFF_CALL_SUB, {
+
+  const { data: user } = useQuery(GET_USER_IN_CHAT, {
     variables: {
-      chatRoom: router.query.room,
+      chatRoom,
     },
     fetchPolicy: "network-only",
   });
 
-  console.log(data, loading, error);
-  const myVideo = useRef<HTMLVideoElement>(null);
-  if (typeof window != "undefined") {
-    console.log(window);
-    console.log(navigator);
-  }
+  const { data } = useSubscription(GET_OFF_CALL_SUB, {
+    variables: {
+      chatRoom: router.query.room,
+    },
+  });
+
   useEffect(() => {
     if (typeof window != "undefined") {
+      console.log(window.frames.name);
       if (window.frames.name == "mywindow") {
         if (!auth) setAuth(true);
       } else {
         location.href = "/404";
       }
     }
-    if (auth) {
-      import("peerjs").then(({ default: Peer }) => {
-        const peer = new Peer("secret", {
-          host: "/",
-          port: 3001,
-        });
-
-        peer.on("open", (id) => {
-          console.log("join-room", id);
-        });
-      });
-      myVideo.current!.muted = true;
-      navigator.mediaDevices
-        .getUserMedia({
-          video: true,
-          audio: true,
-        })
-        .then((stream) => {
-          myVideo.current!.srcObject = stream;
-          myVideo.current!.onloadedmetadata = () => {
-            myVideo.current!.play();
-          };
-        });
-    }
   }, [auth]);
+
+  useEffect(() => {
+    if (data?.GetOffCall.leave)
+      setTimeout(() => {
+        window.close();
+      }, 3000);
+  }, [data]);
 
   if (!auth) {
     return <div className="h-screen w-screen bg-black "></div>;
   } else {
     return (
-      <div className="relative">
-        <video ref={myVideo} className="w-full h-full"></video>
-        <div className="absolute top-0 m-2 bg-black w-32 h-32 z-20"></div>
-        <div className="absolute bottom-0 h-20 w-full flex justify-center">
-          <div className="flex justify-center items-center w-16 h-16 rounded-full bg-green-300">
-            <TiDeleteOutline className="text-white" size={30}></TiDeleteOutline>
+      <div className="relative w-screen h-screen">
+        {data?.GetOffCall.leave && (
+          <div className="flex flex-col bg-gray-200 w-full h-full justify-center items-center space-y-10">
+            <p>{user?.GetUserInChat[0].nickname}</p>
+            <Image
+              src={user?.GetUserInChat[0].imgPath}
+              width={300}
+              height={300}
+              alt="profile img"></Image>
+            <p className="text-2xl">opponent user is getOff your call</p>
+            <p>this window will be close after 3 seconds</p>
           </div>
-        </div>
+        )}
+        {!data?.GetOffCall.leave && (
+          <MainWindow chatRoom={chatRoom} uid={user?.GetUserInChat[0]._id} />
+        )}
       </div>
     );
   }
 };
+
+export async function getServerSideProps({ query }: any) {
+  return {
+    props: {
+      chatRoom: query.room,
+    },
+  };
+}
 
 export default Video;
