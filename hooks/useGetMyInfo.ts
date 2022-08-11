@@ -17,7 +17,9 @@ export const useMyInfo = () => {
   const [uid, setUid] = useState<string>("");
   const [userType, setUserType] = useState<string>("");
   const [userInfo, setUserInfo] = useState(initailValue);
-  const { ...result } = useQuery(GET_USER);
+  const { ...result } = useQuery(GET_USER, {
+    fetchPolicy: "network-only",
+  });
   useEffect(() => {
     if (result.data) {
       // if result.data is exist
