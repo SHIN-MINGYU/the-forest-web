@@ -4,7 +4,7 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { useMyInfo } from "hooks/useGetMyInfo";
 import { GET_OFF_CALL_MUT } from "query/privateChatQuery";
 import { useMutation } from "@apollo/client";
-import { API_ENDPOINT } from "utils/loadEnv";
+import { PEER_ENDPOINT } from "utils/loadEnv";
 
 type props = {
   chatRoom: string;
@@ -34,10 +34,10 @@ const MainWindow = ({ chatRoom, uid }: props) => {
     const peer = new Peer(myId, {
       host:
         process.env.NODE_ENV === "production"
-          ? new URL(API_ENDPOINT!).pathname
+          ? new URL(PEER_ENDPOINT!).pathname
           : "localhost",
       port: process.env.NODE_ENV === "production" ? 433 : 9000,
-      path: "/peer",
+      path: "/forest",
       secure: process.env.NODE_ENV === "production" ? true : false,
     });
     // create peer that use my objectId in database
