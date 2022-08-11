@@ -21,7 +21,7 @@ const Video = ({ chatRoom }: props) => {
     },
     fetchPolicy: "network-only",
   });
-
+  console.log(user);
   const { data } = useSubscription(GET_OFF_CALL_SUB, {
     variables: {
       chatRoom: router.query.room,
@@ -63,7 +63,7 @@ const Video = ({ chatRoom }: props) => {
             <p>this window will be close after 3 seconds</p>
           </div>
         )}
-        {!data?.GetOffCall.leave && (
+        {!data?.GetOffCall.leave && user && (
           <MainWindow chatRoom={chatRoom} uid={user?.GetUserInChat[0]._id} />
         )}
       </div>
