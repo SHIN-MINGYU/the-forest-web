@@ -1,18 +1,24 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useQuery } from "@apollo/client";
 import { Dispatch, SetStateAction, useState } from "react";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
 import { GET_F4F_LIST } from "@query/userQuery";
 
+// 4. associated with component
 import UserCard from "./Card/UserCard";
-import { MainData, UserDetail } from "@type/privateRoom";
-import { UserInfo } from "../../../../type/userInfo";
 
-type props = {
-  setData: Dispatch<SetStateAction<MainData>>;
+// 5. types
+import { MainData, UserDetail } from "types/privateRoom";
+import { UserInfo } from "types/user.type";
+type Props = {
   userInfo: UserInfo;
+  setData: Dispatch<SetStateAction<MainData>>;
 };
 
-const Friends = ({ setData, userInfo }: props) => {
+const Friends = ({ setData, userInfo }: Props) => {
   const [friendsVisible, setFriendsVisible] = useState<Boolean>(true);
   const { data, loading }: { data: any; loading: boolean } =
     useQuery(GET_F4F_LIST);
@@ -42,7 +48,7 @@ const Friends = ({ setData, userInfo }: props) => {
               userInfo={userInfo}
               onClick={() =>
                 setData((prevData) => {
-                  return Object.assign({}, { ...prevData }, {
+                  return Object.assign({ ...prevData }, {
                     type: "UserDetail",
                     userInfo,
                   } as UserDetail);

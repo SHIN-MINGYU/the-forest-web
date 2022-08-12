@@ -1,8 +1,8 @@
 import NormalToast from "../../../toast/NormalToast";
 import { AiFillWarning, FaRegCheckCircle } from "@components/icon";
 
-import { opponentInfoType } from "@type/userInfo";
-import { leaveEvent } from "@type/chatType";
+import { opponentInfoType } from "types/userInfo";
+import { leaveEvent } from "types/chatType";
 
 type props = {
   opponentInfo: opponentInfoType | undefined;

@@ -2,7 +2,7 @@ import Image from "next/image";
 import moment from "moment";
 import React from "react";
 
-import { ChatLog } from "@type/chatType";
+import { ChatLog } from "types/chatType";
 
 type props = {
   chatLog: ChatLog;

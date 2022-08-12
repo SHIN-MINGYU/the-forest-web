@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import useInterval from "@hooks/useInterval";
 import { useMyInfo } from "@hooks/useGetMyInfo";
 
-import { loadingPageQuery } from "@type/routingQuery";
+import { loadingPageQuery } from "types/routingQuery";
 
 import { SEARCH_RANDOM_ROOM_MUT } from "@query/publicChatQuery";
 

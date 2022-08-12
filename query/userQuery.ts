@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_USER = gql`
-  query {
+  query getUser {
     UserInfo {
       _id
       username
@@ -14,13 +14,13 @@ export const GET_USER = gql`
 `;
 
 export const SEARCH_USER = gql`
-  query ($username: String) {
+  query searchUser($username: String) {
     SearchUser(username: $username)
   }
 `;
 
 export const SIGN_UP = gql`
-  mutation (
+  mutation signUp(
     $username: String!
     $nickname: String!
     $password: String!
@@ -36,19 +36,23 @@ export const SIGN_UP = gql`
 `;
 
 export const LOG_OUT = gql`
-  mutation {
+  mutation logOut {
     LogOut
   }
 `;
 
 export const REQUEST_SEND_MAIL = gql`
-  mutation ($email: String!) {
+  mutation requestSendMail($email: String!) {
     SendMail(email: $email)
   }
 `;
 
 export const UPDATE_USER_INFO = gql`
-  mutation ($nickname: String, $gender: String, $description: String) {
+  mutation updateUserInfo(
+    $nickname: String
+    $gender: String
+    $description: String
+  ) {
     UpdateUserInfo(
       nickname: $nickname
       gender: $gender
@@ -70,13 +74,13 @@ export const GET_F4F_LIST = gql`
   }
 `;
 export const SEND_FOLLOW = gql`
-  mutation ($uid: ID!) {
+  mutation sendFollow($uid: ID!) {
     SendFollow(uid: $uid)
   }
 `;
 
 export const SEND_UNFOLLOW = gql`
-  mutation ($uid: ID!) {
+  mutation sendUnfollow($uid: ID!) {
     SendUnFollow(uid: $uid)
   }
 `;

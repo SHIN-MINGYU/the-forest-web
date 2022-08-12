@@ -1,27 +1,37 @@
+// 1. hooks or react/next and ...etc built-in function
 import { RefObject, useCallback, useEffect, useRef, useState } from "react";
-import { TiDeleteOutline } from "react-icons/ti";
 import { useMyInfo } from "hooks/useGetMyInfo";
-import { GET_OFF_CALL_MUT } from "query/privateChatQuery";
 import { useMutation } from "@apollo/client";
-import { PEER_ENDPOINT } from "utils/loadEnv";
-import Peer from "peerjs";
 import Image from "next/image";
-import { UserInfo } from "../../../type/userInfo";
+import Peer from "peerjs";
 
-type props = {
+// 2. util or hand-made function
+import { PEER_ENDPOINT } from "utils/loadEnv";
+
+// 3. query for graphql
+import { GET_OFF_CALL_MUT } from "query/privateChatQuery";
+
+// 4. associated with component
+import { TiDeleteOutline } from "react-icons/ti";
+
+// 5. types
+import { UserInfo } from "types/user.type";
+type Props = {
   chatRoom: string;
   opponentInfo: Omit<UserInfo, "description" | "gender" | "status">;
 };
 
-const MainWindow = ({ chatRoom, opponentInfo }: props) => {
+const MainWindow = ({ chatRoom, opponentInfo }: Props) => {
   const myVideo = useRef<HTMLVideoElement>(null);
   const opponentVideo = useRef<HTMLVideoElement>(null);
   const [peer, setPeer] = useState<Peer | undefined>(undefined);
-  const [waitForUser, setWaitForUser] = useState(true);
+  const [waitForUser, setWaitForUser] = useState<boolean>(true);
 
-  const { uid: myId } = useMyInfo()();
+  const {
+    userInfo: { _id },
+  } = useMyInfo()();
   const [getOffCall] = useMutation(GET_OFF_CALL_MUT);
-  console.log(opponentInfo);
+
   const connectToVideo = (
     ref: RefObject<HTMLVideoElement>,
     stream: MediaStream
@@ -38,7 +48,7 @@ const MainWindow = ({ chatRoom, opponentInfo }: props) => {
 
   const connectPeer = useCallback(async () => {
     const { default: Peer } = await import("peerjs");
-    const peer = new Peer(myId, {
+    const peer = new Peer(_id, {
       // peer server's option
       host:
         process.env.NODE_ENV === "production"
@@ -50,7 +60,7 @@ const MainWindow = ({ chatRoom, opponentInfo }: props) => {
     });
     // setState the own peer
     setPeer(peer);
-  }, [myId]);
+  }, [_id]);
 
   const connectVideo = async (peer: Peer) => {
     // create peer that use my objectId in database

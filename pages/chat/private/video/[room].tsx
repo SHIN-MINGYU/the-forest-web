@@ -5,11 +5,11 @@ import { GET_OFF_CALL_SUB, GET_USER_IN_CHAT } from "@query/privateChatQuery";
 import MainWindow from "components/private/VideoWindow/MainWindow";
 import Image from "next/image";
 
-type props = {
+type Props = {
   chatRoom: string;
 };
 
-const Video = ({ chatRoom }: props) => {
+const Video = ({ chatRoom }: Props) => {
   const [auth, setAuth] = useState<boolean>(false);
 
   const { data: user } = useQuery(GET_USER_IN_CHAT, {

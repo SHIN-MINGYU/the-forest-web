@@ -1,29 +1,30 @@
-import { ChatDetail, chatList, MainData } from "@type/privateRoom";
+// 1. hooks or react/next built-in function
 import { useQuery } from "@apollo/client";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import ChatRoomCard from "./Card/ChatRoomCard";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+
+// 2. util or hand-made function
+
+// 3. query for graphql
 import { GET_PRIVATE_ROOM_LIST_QUE } from "@query/privateChatQuery";
 
-type props = {
+// 4. associated with component
+import ChatRoomCard from "./Card/ChatRoomCard";
+
+// 5. types
+import { ChatDetail, ChatList, MainData } from "types/privateRoom";
+type Props = {
   setData: Dispatch<SetStateAction<MainData>>;
 };
 
-const ChatRoomList = ({ setData }: props) => {
+const ChatRoomList = ({ setData }: Props) => {
   const { data } = useQuery(GET_PRIVATE_ROOM_LIST_QUE, {
     fetchPolicy: "cache-and-network",
   });
-  const coldData = useRef();
-
-  useEffect(() => {
-    if (data) {
-      coldData.current = data;
-    }
-  }, [data]);
 
   return (
     <>
       {data &&
-        data.GetPrivateRoomList.map((chatList: chatList, index: number) => (
+        data.GetPrivateRoomList.map((chatList: ChatList, index: number) => (
           <ChatRoomCard
             /* private room list */
             height={20}

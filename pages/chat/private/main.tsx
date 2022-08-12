@@ -1,18 +1,25 @@
+// 1. hooks or react/next built-in function
 import { useMyInfo } from "@hooks/useGetMyInfo";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import {
   PrivateContainer,
   SelectionWindow,
   MainWindow,
 } from "@components/private";
 
-import { MainData } from "@type/privateRoom";
+// 5. types
+import { MainData } from "types/privateRoom";
 
 const Main = () => {
   const getUser = useMyInfo();
-  const { uid, userType, userInfo } = getUser();
+  const { userType, userInfo } = getUser();
   const router = useRouter();
   const [data, setData] = useState<MainData>();
 
@@ -28,7 +35,7 @@ const Main = () => {
         {userType === "USER" && (
           <>
             <SelectionWindow setData={setData} userInfo={userInfo} />
-            <MainWindow data={data} setData={setData} />
+            <MainWindow data={data} setData={setData} _id={userInfo._id} />
           </>
         )}
       </>

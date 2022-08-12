@@ -16,7 +16,7 @@ import {
 import Image from "next/image";
 import InfoInput from "../../signUp/InfoInput";
 
-import { UserInfo } from "@type/userInfo";
+import { UserInfo } from "types/userInfo";
 
 type props = {
   hide: () => void;

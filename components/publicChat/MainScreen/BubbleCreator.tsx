@@ -4,7 +4,7 @@ import { CHECK_CHAT_ACTION_SUB } from "@query/publicChatQuery";
 
 import ChatBubble from "./ChatBubble";
 
-import { ChatLog } from "@type/chatType";
+import { ChatLog } from "types/chatType";
 
 type props = {
   /* subscribeToNewChat: any; */

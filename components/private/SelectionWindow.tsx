@@ -1,38 +1,42 @@
+// 1. hooks or react/next and ...etc built-in function
 import { ComponentType, Dispatch, SetStateAction, useState } from "react";
 import dynamic from "next/dynamic";
 
-import MenuContainer from "./SelectionWindow/MenuContainer";
-import { BsChatRightText, BsPeople } from "react-icons/bs";
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import { AiOutlineSetting } from "react-icons/ai";
-import { MainData } from "@type/privateRoom";
-import { UserInfo } from "../../type/userInfo";
+import { BsChatRightText, BsPeople } from "react-icons/bs";
 
-interface props {
-  userInfo?: UserInfo;
-  setData: Dispatch<SetStateAction<MainData>>;
-}
+import MenuContainer from "./SelectionWindow/MenuContainer";
 
-interface FriendsType extends props {
+// 5. types
+import { MainData } from "types/privateRoom";
+import { UserInfo } from "types/user.type";
+type Props = {
   userInfo: UserInfo;
-}
+  setData: Dispatch<SetStateAction<MainData>>;
+};
 
-const SelectionWindow = ({ userInfo, setData }: props) => {
+const SelectionWindow = ({ userInfo, setData }: Props) => {
   // mode => change detail components
   const [mode, setMode] = useState<"Friends" | "ChatRoomList" | "Setting">(
     "Friends"
   );
 
-  const Friends: ComponentType<FriendsType> = dynamic(
+  const Friends: ComponentType<Props> = dynamic(
     () => import("./SelectionWindow/Details/Friends"),
     {
       ssr: false,
     }
   );
-  const ChatRoomList: ComponentType<props> = dynamic(
+  const ChatRoomList: ComponentType<Omit<Props, "userInfo">> = dynamic(
     () => import("./SelectionWindow/Details/ChatRoomList"),
     { ssr: false }
   );
-  const Setting: ComponentType<props> = dynamic(
+  const Setting: ComponentType<Omit<Props, "userInfo">> = dynamic(
     () => import("./SelectionWindow/Details/Setting")
   );
 
@@ -40,6 +44,7 @@ const SelectionWindow = ({ userInfo, setData }: props) => {
     setMode(mode);
     setData(undefined);
   };
+
   return (
     <div className="flex w-full md:basis-1/4">
       <MenuContainer>

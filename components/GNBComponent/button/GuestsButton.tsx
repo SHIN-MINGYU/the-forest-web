@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 
 import { AiFillProfile, AiOutlineLogin } from "react-icons/ai";
 
-import { userInfo } from "@type/userInfo";
+import { userInfo } from "types/userInfo";
 type props = {
   userType: string;
   userInfo: userInfo;

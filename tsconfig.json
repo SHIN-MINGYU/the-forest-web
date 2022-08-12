@@ -19,7 +19,7 @@
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@query/*": ["query/*"],
-      "@type/*": ["type/*"],
+      "@type/*": ["types/*"],
       "@utils/*": ["utils/*"]
       //path alias
     }

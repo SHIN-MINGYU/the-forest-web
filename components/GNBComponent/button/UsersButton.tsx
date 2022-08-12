@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { AiFillProfile, AiOutlineLogout } from "@components/icon";
-import { userInfo } from "@type/userInfo";
+import { userInfo } from "types/userInfo";
 import dynamic from "next/dynamic";
 import { API_ENDPOINT } from "@utils/loadEnv";
 

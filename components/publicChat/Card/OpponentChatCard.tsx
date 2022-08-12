@@ -1,4 +1,4 @@
-import { opponentInfoType } from "@type/userInfo";
+import { opponentInfoType } from "types/userInfo";
 import ChatCard from "./ChatCard";
 import DefaultChatCard from "./DefaultChatCard";
 

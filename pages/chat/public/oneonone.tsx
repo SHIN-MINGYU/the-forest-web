@@ -17,7 +17,7 @@ import {
   LEAVE_ROOM_MUT,
 } from "@query/publicChatQuery";
 
-import { opponentInfoType } from "@type/userInfo";
+import { opponentInfoType } from "types/userInfo";
 type query = {
   //type of query
   chatRoom: string;

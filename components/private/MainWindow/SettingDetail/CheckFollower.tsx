@@ -1,7 +1,7 @@
 import { useLazyQuery, gql } from "@apollo/client";
 import Image from "next/image";
 import { useEffect } from "react";
-import { userInfo } from "@type/userInfo";
+import { userInfo } from "types/userInfo";
 import FollowerCard from "./Card/FollowerCard";
 
 const NOT_F4F_FOLLOWER = gql`

@@ -1,30 +1,35 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useQuery } from "@apollo/client";
-import { useMyInfo } from "@hooks/useGetMyInfo";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
+import { SEARCH_CHAT_LOG_QUE } from "@query/publicChatQuery";
+
+// 4. associated with component
 import ChatBubble from "../../publicChat/MainScreen/ChatBubble";
 import { ChatInput } from "@components/publicChat/MainScreen";
 import BubbleCreator from "../../publicChat/MainScreen/BubbleCreator";
-import { SEARCH_CHAT_LOG_QUE } from "@query/publicChatQuery";
 
-import { ChatDetail } from "@type/privateRoom";
-import { useEffect } from "react";
-
-type props = {
+// 5. types
+import { ChatDetail } from "types/privateRoom";
+type Props = {
   data: ChatDetail;
+  _id: string;
 };
 
-const ChatDetail = ({ data: { chatRoom, opponentNickname } }: props) => {
-  const { data } = useQuery(SEARCH_CHAT_LOG_QUE, {
+const ChatDetail = ({ data, _id }: Props) => {
+  const { chatRoom, opponentNickname } = data;
+  const { data: chatQuery } = useQuery(SEARCH_CHAT_LOG_QUE, {
     variables: {
       chatRoom,
     },
     fetchPolicy: "no-cache",
   });
 
-  const coldChat = data?.ChatLog;
-  const { uid } = useMyInfo()();
+  const coldChat = chatQuery?.ChatLog;
+
   return (
-    uid &&
     coldChat && (
       <div className="w-full h-full flex flex-col">
         <div className="h-16 flex justify-center items-center border-b-2">
@@ -33,9 +38,9 @@ const ChatDetail = ({ data: { chatRoom, opponentNickname } }: props) => {
         {/* header */}
         <div className="flex-1 border-b-2 px-2 flex flex-col-reverse overflow-auto">
           {/* myBubble */}
-          <BubbleCreator chatRoom={chatRoom} uid={uid}></BubbleCreator>
+          <BubbleCreator chatRoom={chatRoom} uid={_id}></BubbleCreator>
           {coldChat!.map((el: any, index: number) => (
-            <ChatBubble chatLog={el} key={index} uid={uid} />
+            <ChatBubble chatLog={el} key={index} uid={_id} />
           ))}
         </div>
         {/* main */}

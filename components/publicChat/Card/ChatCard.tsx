@@ -1,6 +1,6 @@
 import { useMutation, gql, useQuery } from "@apollo/client";
 import Image from "next/image";
-import { userInfo } from "@type/userInfo";
+import { userInfo } from "types/userInfo";
 import { useEffect, useState } from "react";
 import { GET_FOLLOWING, SEND_FOLLOW, SEND_UNFOLLOW } from "@query/userQuery";
 import { useMyInfo } from "hooks/useGetMyInfo";

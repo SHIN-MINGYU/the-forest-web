@@ -1,8 +1,8 @@
 import BubbleCreator from "./BubbleCreator";
 import SingleUserToast from "./toastGroup/SingleUserToast";
 
-import { opponentInfoType } from "@type/userInfo";
-import { leaveEvent } from "@type/chatType";
+import { opponentInfoType } from "types/userInfo";
+import { leaveEvent } from "types/chatType";
 import MultiUserToast from "./toastGroup/MultiUserToast";
 type props = {
   uid: string;

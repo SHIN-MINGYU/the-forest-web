@@ -1,25 +1,35 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useSubscription } from "@apollo/client";
-import { chatList } from "@type/privateRoom";
-import moment from "moment";
 import Image from "next/image";
+import moment from "moment";
+
+// 2. util or hand-made function
+
+// 3. query for graphql
 import { CHECK_CHAT_ACTION_SUB } from "@query/publicChatQuery";
+
+// 4. associated with component
 import CardContainer from "./Container/CardContainer";
 
-type props = {
+// 5. types
+import { ChatList } from "types/privateRoom";
+type Props = {
   height: number;
+  chatList: ChatList;
   onClick: () => void;
-  chatList: chatList;
 };
 
-const ChatListCard = ({ height, chatList, onClick }: props) => {
+const ChatListCard = ({ height, chatList, onClick }: Props) => {
   const { data } = useSubscription(CHECK_CHAT_ACTION_SUB, {
     variables: {
       chatRoom: chatList.chatRoom,
     },
   });
+
   return (
     <CardContainer height={height} onClick={onClick}>
       <div className="basis-1/4 grid grid-flow-col grid-cols-2 grid-rows-2 p-2">
+        {/* section of profile img */}
         {chatList.user.map((user, index) => {
           if (index > 3) return; // private rooms profile image's index limit 4
           return (
@@ -34,6 +44,7 @@ const ChatListCard = ({ height, chatList, onClick }: props) => {
         })}
       </div>
       <div className="basis-2/3 w-72 my-auto space-y-2 overflow-hidden">
+        {/* section of details on chatRoom */}
         <div className="flex justify-between">
           <p>{chatList.user[0].nickname}</p>
           <p className="text-sm text-gray-500 truncate">
@@ -43,6 +54,7 @@ const ChatListCard = ({ height, chatList, onClick }: props) => {
           </p>
         </div>
         <div className="flex justify-between">
+          {/* session of status on chatRoom */}
           <p className="text-sm text-gray-500 truncate">
             {data ? data?.CheckChat.log : chatList.lastChat}
           </p>

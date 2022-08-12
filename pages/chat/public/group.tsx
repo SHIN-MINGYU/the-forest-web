@@ -9,8 +9,8 @@ import {
   ChatScreen,
 } from "@components/publicChat/MainScreen";
 
-import { opponentInfoType } from "@type/userInfo";
-import { chatRoomQuery } from "@type/routingQuery";
+import { opponentInfoType } from "types/userInfo";
+import { chatRoomQuery } from "types/routingQuery";
 
 import {
   ENTER_ROOM_MUT,

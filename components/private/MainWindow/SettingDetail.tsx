@@ -1,11 +1,19 @@
-import { SettingDetail } from "@type/privateRoom";
+// 1. hooks or react/next and ...etc built-in function
 import dynamic from "next/dynamic";
 
-type props = {
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
+
+// 5. types
+import { SettingDetail } from "types/privateRoom";
+type Props = {
   data: SettingDetail;
 };
 
-const SettingDetail = ({ data }: props) => {
+const SettingDetail = ({ data }: Props) => {
   const CheckFollower = dynamic(import("./SettingDetail/CheckFollower"), {
     ssr: false,
   });

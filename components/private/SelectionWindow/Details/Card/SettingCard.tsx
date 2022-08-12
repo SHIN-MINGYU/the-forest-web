@@ -1,14 +1,21 @@
+// 1. hooks or react/next and ...etc built-in function
+
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import { IconType } from "react-icons";
-import { RiUserFollowLine } from "react-icons/ri";
 import CardContainer from "./Container/CardContainer";
 
-type props = {
+// 5. types
+type Props = {
   Icon: IconType;
   value: string;
   onClick: () => void;
 };
 
-const SettingCard = ({ Icon, value, onClick }: props) => {
+const SettingCard = ({ Icon, value, onClick }: Props) => {
   return (
     <CardContainer height={20} onClick={onClick}>
       <div className="basis-1/4 flex justify-center items-center">

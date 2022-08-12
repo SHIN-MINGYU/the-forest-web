@@ -1,12 +1,7 @@
-import { ObjectId } from "bson";
-import { UserInfo } from "./userInfo";
+import { UserInfo } from "./user.type";
 
-export type chatList = {
-  user: Array<{
-    _id: ObjectId;
-    imgPath: string;
-    nickname: string;
-  }>;
+export type ChatList = {
+  user: Array<Omit<UserInfo, "description" | "gender" | "status">>;
   createAt: string;
   lastChat: string;
   chatRoom: string;

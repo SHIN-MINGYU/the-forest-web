@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
 import ChatCategoryCard from "@components/Card/ChatCategory";
 
-import { loadingPageQuery } from "@type/routingQuery";
+import { loadingPageQuery } from "types/routingQuery";
 import { useMyInfo } from "@hooks/useGetMyInfo";
 
 const Home: NextPage = () => {
