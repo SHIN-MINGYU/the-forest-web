@@ -15,16 +15,18 @@ const Video = ({ chatRoom }: props) => {
 
   const router = useRouter();
 
+  console.log(chatRoom);
   const { data: user } = useQuery(GET_USER_IN_CHAT, {
     variables: {
       chatRoom,
     },
     fetchPolicy: "network-only",
   });
+
   console.log(user);
   const { data } = useSubscription(GET_OFF_CALL_SUB, {
     variables: {
-      chatRoom: router.query.room,
+      chatRoom: chatRoom,
     },
   });
 
