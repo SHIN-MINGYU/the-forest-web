@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import { userInfo } from "./userInfo";
+import { UserInfo } from "./userInfo";
 
 export type chatList = {
   user: Array<{
@@ -12,13 +12,9 @@ export type chatList = {
   chatRoom: string;
 };
 
-export interface _userInfo extends userInfo {
-  _id: string;
-}
-
 export interface UserDetail {
   type: "UserDetail";
-  userInfo: _userInfo;
+  userInfo: UserInfo;
 }
 
 export interface ChatDetail {

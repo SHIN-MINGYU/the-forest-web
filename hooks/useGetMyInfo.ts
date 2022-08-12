@@ -17,19 +17,18 @@ export const useMyInfo = () => {
   const [uid, setUid] = useState<string>("");
   const [userType, setUserType] = useState<string>("");
   const [userInfo, setUserInfo] = useState(initailValue);
-  const { ...result } = useQuery(GET_USER, {
-    fetchPolicy: "network-only",
-  });
+  const { data, loading, error } = useQuery(GET_USER);
+
   useEffect(() => {
-    if (result.data) {
-      // if result.data is exist
+    if (data) {
+      // if data is exist
       // set the value in state
-      setUid(result.data.UserInfo._id);
+      setUid(data.UserInfo._id);
       setUserInfo({
-        ...result.data.UserInfo,
+        ...data.UserInfo,
       });
       setUserType("USER");
-    } else if (result.error) {
+    } else if (error) {
       // if error occued
       // 1. inquire localStorage what key is userInfo
       let getUserInfo = JSON.parse(getLocalStorage("userInfo") || "{}");
@@ -51,10 +50,11 @@ export const useMyInfo = () => {
       setUserInfo(getUserInfo);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [result.loading]);
+  }, [loading]);
 
   const getInfo = useCallback(() => {
     // Immutable for useEffect's second argument
+    console.log({ uid, userType, userInfo });
     return { uid, userType, userInfo };
   }, [uid, userType, userInfo]);
 

@@ -16,11 +16,11 @@ import {
 import Image from "next/image";
 import InfoInput from "../../signUp/InfoInput";
 
-import { userInfo } from "@type/userInfo";
+import { UserInfo } from "@type/userInfo";
 
 type props = {
   hide: () => void;
-  userInfo: userInfo;
+  userInfo: UserInfo;
   userType: string;
 };
 

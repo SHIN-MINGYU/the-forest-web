@@ -1,5 +1,4 @@
 import { useQuery, useSubscription } from "@apollo/client";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { GET_OFF_CALL_SUB, GET_USER_IN_CHAT } from "@query/privateChatQuery";
@@ -13,9 +12,6 @@ type props = {
 const Video = ({ chatRoom }: props) => {
   const [auth, setAuth] = useState<boolean>(false);
 
-  const router = useRouter();
-
-  console.log(chatRoom);
   const { data: user } = useQuery(GET_USER_IN_CHAT, {
     variables: {
       chatRoom,
@@ -23,7 +19,6 @@ const Video = ({ chatRoom }: props) => {
     fetchPolicy: "network-only",
   });
 
-  console.log(user);
   const { data } = useSubscription(GET_OFF_CALL_SUB, {
     variables: {
       chatRoom: chatRoom,
@@ -31,14 +26,14 @@ const Video = ({ chatRoom }: props) => {
   });
 
   useEffect(() => {
-    if (typeof window != "undefined") {
+    /*     if (typeof window != "undefined") {
       console.log(window.frames.name);
-      if (window.frames.name == "mywindow") {
-        if (!auth) setAuth(true);
-      } else {
+      if (window.frames.name == "mywindow") { */
+    if (!auth) setAuth(true);
+    /*       } else {
         location.href = "/404";
       }
-    }
+    } */
   }, [auth]);
 
   useEffect(() => {
@@ -66,7 +61,10 @@ const Video = ({ chatRoom }: props) => {
           </div>
         )}
         {!data?.GetOffCall.leave && user && (
-          <MainWindow chatRoom={chatRoom} uid={user?.GetUserInChat[0]._id} />
+          <MainWindow
+            chatRoom={chatRoom}
+            opponentInfo={user?.GetUserInChat[0]}
+          />
         )}
       </div>
     );

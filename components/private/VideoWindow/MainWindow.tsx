@@ -1,37 +1,45 @@
-import { useRouter } from "next/router";
-import { RefObject, useEffect, useRef } from "react";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { TiDeleteOutline } from "react-icons/ti";
 import { useMyInfo } from "hooks/useGetMyInfo";
 import { GET_OFF_CALL_MUT } from "query/privateChatQuery";
 import { useMutation } from "@apollo/client";
 import { PEER_ENDPOINT } from "utils/loadEnv";
+import Peer from "peerjs";
+import Image from "next/image";
+import { UserInfo } from "../../../type/userInfo";
 
 type props = {
   chatRoom: string;
-  uid: string;
+  opponentInfo: Omit<UserInfo, "description" | "gender" | "status">;
 };
 
-const MainWindow = ({ chatRoom, uid }: props) => {
+const MainWindow = ({ chatRoom, opponentInfo }: props) => {
   const myVideo = useRef<HTMLVideoElement>(null);
   const opponentVideo = useRef<HTMLVideoElement>(null);
+  const [peer, setPeer] = useState<Peer | undefined>(undefined);
+  const [waitForUser, setWaitForUser] = useState(true);
 
   const { uid: myId } = useMyInfo()();
   const [getOffCall] = useMutation(GET_OFF_CALL_MUT);
-
+  console.log(opponentInfo);
   const connectToVideo = (
     ref: RefObject<HTMLVideoElement>,
     stream: MediaStream
   ) => {
     // connect to current stream on current video
+    if (ref === opponentVideo) {
+      setWaitForUser(false);
+    }
     ref.current!.srcObject = stream;
     ref.current!.onloadedmetadata = () => {
       ref.current!.play();
     };
   };
 
-  const connetVideo = async () => {
+  const connectPeer = useCallback(async () => {
     const { default: Peer } = await import("peerjs");
     const peer = new Peer(myId, {
+      // peer server's option
       host:
         process.env.NODE_ENV === "production"
           ? new URL(PEER_ENDPOINT!).pathname
@@ -40,8 +48,12 @@ const MainWindow = ({ chatRoom, uid }: props) => {
       path: "/forest",
       secure: process.env.NODE_ENV === "production" ? true : false,
     });
-    // create peer that use my objectId in database
+    // setState the own peer
+    setPeer(peer);
+  }, [myId]);
 
+  const connectVideo = async (peer: Peer) => {
+    // create peer that use my objectId in database
     myVideo.current!.muted = true;
     // myVideo's audio is not required
 
@@ -63,7 +75,7 @@ const MainWindow = ({ chatRoom, uid }: props) => {
           });
         });
 
-        const call = peer.call(uid, stream);
+        const call = peer.call(opponentInfo._id, stream);
         call.on("stream", (stream) => {
           connectToVideo(opponentVideo, stream);
         });
@@ -71,16 +83,33 @@ const MainWindow = ({ chatRoom, uid }: props) => {
   };
 
   useEffect(() => {
-    connetVideo();
+    connectPeer();
+  }, [connectPeer]);
 
+  useEffect(() => {
+    if (typeof peer != "undefined") connectVideo(peer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [peer]);
+
   return (
     <>
-      <video ref={myVideo} className="w-full h-full"></video>
-      <video
-        ref={opponentVideo}
-        className="absolute top-0 m-2w-32 h-32 z-20"></video>
+      <video ref={opponentVideo} className="w-full h-full bg-black"></video>
+      {waitForUser && (
+        <div className="absolute inset-0 flex  flex-col justify-center items-center">
+          <div className="animate-bounce border-2 p-6 rounded-full max-w-40 max-h-40 flex flex-col justify-center items-center bg-blue-300">
+            <Image
+              src={opponentInfo.imgPath}
+              width={100}
+              height={100}
+              alt="profile image"></Image>
+            <p className="text-2xl mt-2 font-bold text-white">
+              {opponentInfo.nickname}
+            </p>
+          </div>
+          <p className="text-white">waiting user...</p>
+        </div>
+      )}
+      <video ref={myVideo} className="absolute top-0 m-2w-32 h-32 z-20"></video>
       <div className="absolute bottom-0 h-20 w-full flex justify-center">
         <div className="flex justify-center items-center w-16 h-16 rounded-full bg-green-300">
           <TiDeleteOutline
@@ -91,8 +120,9 @@ const MainWindow = ({ chatRoom, uid }: props) => {
                 variables: {
                   chatRoom,
                 },
+              }).then(() => {
+                window.close();
               });
-              window.close();
             }}
             size={30}></TiDeleteOutline>
         </div>

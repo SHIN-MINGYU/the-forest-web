@@ -2,10 +2,10 @@ import Image from "next/image";
 
 import CardContainer from "./Container/CardContainer";
 
-import { userInfo } from "@type/userInfo";
+import { UserInfo } from "@type/userInfo";
 type props = {
   height: number;
-  userInfo: userInfo;
+  userInfo: UserInfo;
   onClick?: () => void;
 };
 

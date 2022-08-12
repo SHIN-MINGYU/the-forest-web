@@ -5,18 +5,24 @@ import MenuContainer from "./SelectionWindow/MenuContainer";
 import { BsChatRightText, BsPeople } from "react-icons/bs";
 import { AiOutlineSetting } from "react-icons/ai";
 import { MainData } from "@type/privateRoom";
+import { UserInfo } from "../../type/userInfo";
 
-type props = {
+interface props {
+  userInfo?: UserInfo;
   setData: Dispatch<SetStateAction<MainData>>;
-};
+}
 
-const SelectionWindow = ({ setData }: props) => {
+interface FriendsType extends props {
+  userInfo: UserInfo;
+}
+
+const SelectionWindow = ({ userInfo, setData }: props) => {
   // mode => change detail components
   const [mode, setMode] = useState<"Friends" | "ChatRoomList" | "Setting">(
     "Friends"
   );
 
-  const Friends: ComponentType<props> = dynamic(
+  const Friends: ComponentType<FriendsType> = dynamic(
     () => import("./SelectionWindow/Details/Friends"),
     {
       ssr: false,
@@ -53,7 +59,9 @@ const SelectionWindow = ({ setData }: props) => {
         {/* menu icon end */}
       </MenuContainer>
       <div className="basis-5/6 border overflow-y-scroll scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700">
-        {mode === "Friends" && <Friends setData={setData}></Friends>}
+        {mode === "Friends" && (
+          <Friends userInfo={userInfo!} setData={setData}></Friends>
+        )}
         {mode === "ChatRoomList" && (
           <ChatRoomList setData={setData}></ChatRoomList>
         )}

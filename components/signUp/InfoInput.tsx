@@ -22,6 +22,7 @@ type props = {
   waringMassage?: string;
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
 };
+
 function InfoInput(props: props) {
   /* 
   params

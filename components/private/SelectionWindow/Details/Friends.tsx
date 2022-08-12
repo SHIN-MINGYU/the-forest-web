@@ -1,24 +1,21 @@
 import { useQuery } from "@apollo/client";
-import { useMyInfo } from "@hooks/useGetMyInfo";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import { GET_F4F_LIST } from "@query/userQuery";
 
 import UserCard from "./Card/UserCard";
-import { MainData, UserDetail, _userInfo } from "@type/privateRoom";
+import { MainData, UserDetail } from "@type/privateRoom";
+import { UserInfo } from "../../../../type/userInfo";
+
 type props = {
   setData: Dispatch<SetStateAction<MainData>>;
+  userInfo: UserInfo;
 };
 
-const Friends = ({ setData }: props) => {
-  const { userInfo } = useMyInfo()();
+const Friends = ({ setData, userInfo }: props) => {
   const [friendsVisible, setFriendsVisible] = useState<Boolean>(true);
-  const { data, loading }: { data: any; loading: boolean } = useQuery(
-    GET_F4F_LIST,
-    {
-      fetchPolicy: "no-cache",
-    }
-  );
+  const { data, loading }: { data: any; loading: boolean } =
+    useQuery(GET_F4F_LIST);
 
   return (
     <>
@@ -37,7 +34,7 @@ const Friends = ({ setData }: props) => {
       {/* freinds cards */}
       {friendsVisible &&
         !loading &&
-        data?.GetF4F.map((userInfo: _userInfo, index: number) => {
+        data?.GetF4F.map((userInfo: UserInfo, index: number) => {
           return (
             <UserCard
               key={index}

@@ -1,4 +1,5 @@
 import PrivateContainer from "./PrivateContainer";
 import SelectionWindow from "./SelectionWindow";
+import MainWindow from "./MainWindow";
 
-export { PrivateContainer, SelectionWindow };
+export { PrivateContainer, SelectionWindow, MainWindow };
