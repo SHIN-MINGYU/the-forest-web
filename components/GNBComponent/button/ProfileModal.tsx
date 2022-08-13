@@ -1,30 +1,36 @@
+// 1. hooks or react/next and ...etc built-in function
 import { ChangeEvent, useCallback, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import useInput from "@hooks/useInput";
 import { useMutation } from "@apollo/client";
-import { UPDATE_USER_INFO } from "@query/userQuery";
-import { getLocalStorage, setLocalStorage } from "@utils/localStorage";
-import { API_ENDPOINT } from "@utils/loadEnv";
+import Image from "next/image";
 import axios from "axios";
 
+// 2. util or hand-made function
+import { getLocalStorage, setLocalStorage } from "@utils/localStorage";
+import { API_ENDPOINT } from "@utils/loadEnv";
+
+// 3. query for graphql
+import { UPDATE_USER_INFO } from "@query/userQuery";
+
+// 4. associated with component
 import {
   AiOutlineClose,
   MdTransgender,
   MdOutlineDescription,
   FaRegUserCircle,
 } from "@components/icon";
-import Image from "next/image";
 import InfoInput from "../../signUp/InfoInput";
 
-import { UserInfo } from "types/userInfo";
-
-type props = {
+// 5. types
+import { UserInfo } from "types/user.type";
+type Props = {
   hide: () => void;
-  userInfo: UserInfo;
+  userInfo: Omit<UserInfo, "status">;
   userType: string;
 };
 
-const ProfileModal = ({ hide, userInfo, userType }: props) => {
+const ProfileModal = ({ hide, userInfo, userType }: Props) => {
   /* 
     @parmas
     hide : modal hider

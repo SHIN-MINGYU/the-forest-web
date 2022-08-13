@@ -1,10 +1,17 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useQuery, useSubscription } from "@apollo/client";
 import { useEffect, useState } from "react";
-
-import { GET_OFF_CALL_SUB, GET_USER_IN_CHAT } from "@query/privateChatQuery";
-import MainWindow from "components/private/VideoWindow/MainWindow";
 import Image from "next/image";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
+import { GET_OFF_CALL_SUB, GET_USER_IN_CHAT } from "@query/privateChatQuery";
+
+// 4. associated with component
+import MainWindow from "components/private/VideoWindow/MainWindow";
+
+// 5. types
 type Props = {
   chatRoom: string;
 };

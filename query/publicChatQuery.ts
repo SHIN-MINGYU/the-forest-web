@@ -74,22 +74,17 @@ export const LEAVE_ROOM_SUB = gql`
 `;
 
 export const ENTER_ROOM_MUT = gql`
-  mutation ($chatRoom: ID!, $uid: ID!, $userType: String, $userInfo: String) {
-    EnterRoom(
-      chat_room: $chatRoom
-      uid: $uid
-      userType: $userType
-      userInfo: $userInfo
-    )
+  mutation ($chatRoom: ID!, $userType: String, $userInfo: String) {
+    EnterRoom(chat_room: $chatRoom, userType: $userType, userInfo: $userInfo)
   }
 `;
 
 export const ENTER_ROOM_SUB = gql`
   subscription ($chatRoom: ID!) {
     EnterRoom(chat_room: $chatRoom) {
-      uid
       userType
       userInfo {
+        _id
         nickname
         gender
         description

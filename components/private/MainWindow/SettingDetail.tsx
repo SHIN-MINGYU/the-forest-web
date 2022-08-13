@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 // 4. associated with component
 
 // 5. types
-import { SettingDetail } from "types/privateRoom";
+import { SettingDetail } from "@type/privateRoom.type.";
 type Props = {
   data: SettingDetail;
 };

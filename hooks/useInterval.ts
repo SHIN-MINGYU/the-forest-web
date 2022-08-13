@@ -1,5 +1,13 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useEffect, useRef } from "react";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
+
+// 5. types
 type UseInterval = (callback: () => unknown, delay: number | null) => void;
 
 const useInterval: UseInterval = (

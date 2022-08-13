@@ -12,13 +12,14 @@ import { ChatInput } from "@components/publicChat/MainScreen";
 import BubbleCreator from "../../publicChat/MainScreen/BubbleCreator";
 
 // 5. types
-import { ChatDetail } from "types/privateRoom";
+import { ChatDetail } from "@type/privateRoom.type.";
+import { UserInfo } from "types/user.type";
 type Props = {
   data: ChatDetail;
-  _id: string;
+  userInfo: Omit<UserInfo, "status">;
 };
 
-const ChatDetail = ({ data, _id }: Props) => {
+const ChatDetail = ({ data, userInfo }: Props) => {
   const { chatRoom, opponentNickname } = data;
   const { data: chatQuery } = useQuery(SEARCH_CHAT_LOG_QUE, {
     variables: {
@@ -38,13 +39,13 @@ const ChatDetail = ({ data, _id }: Props) => {
         {/* header */}
         <div className="flex-1 border-b-2 px-2 flex flex-col-reverse overflow-auto">
           {/* myBubble */}
-          <BubbleCreator chatRoom={chatRoom} uid={_id}></BubbleCreator>
+          <BubbleCreator chatRoom={chatRoom} uid={userInfo._id}></BubbleCreator>
           {coldChat!.map((el: any, index: number) => (
-            <ChatBubble chatLog={el} key={index} uid={_id} />
+            <ChatBubble chatLog={el} key={index} uid={userInfo._id} />
           ))}
         </div>
         {/* main */}
-        <ChatInput chatRoom={chatRoom} />
+        <ChatInput chatRoom={chatRoom} userInfo={userInfo} />
         {/* input */}
       </div>
     )

@@ -1,11 +1,19 @@
+// 1. hooks or react/next and ...etc built-in function
+
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import NormalToast from "../../../toast/NormalToast";
 import { AiFillWarning, FaRegCheckCircle } from "@components/icon";
 
-import { opponentInfoType } from "types/userInfo";
-import { leaveEvent } from "types/chatType";
+// 5. types
+import { UserFromHook } from "types/user.type";
+import { leaveEvent } from "@type/chat.type";
 
 type props = {
-  opponentInfo: opponentInfoType | undefined;
+  opponentInfo: UserFromHook | undefined;
   opponentLeave: leaveEvent | undefined;
 };
 

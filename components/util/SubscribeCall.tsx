@@ -1,8 +1,12 @@
+// 1. hooks or react/next and ...etc built-in function
 import { gql, useMutation, useSubscription } from "@apollo/client";
 import { useEffect } from "react";
 import { useMyInfo } from "../../hooks/useGetMyInfo";
-import { GET_OFF_CALL_MUT } from "../../query/privateChatQuery";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
+import { GET_OFF_CALL_MUT } from "query/privateChatQuery";
 const GET_CALL = gql`
   subscription getCall($uid: ID!) {
     GetCall(uid: $uid) {
@@ -12,10 +16,14 @@ const GET_CALL = gql`
   }
 `;
 
+// 4. associated with component
+
+// 5. types
+
 const SubscribeCall = () => {
-  const { uid, userType } = useMyInfo()();
+  const { userInfo, userType } = useMyInfo()();
   const { data } = useSubscription(GET_CALL, {
-    variables: { uid },
+    variables: { uid: userInfo._id },
   });
 
   const [getOffCall] = useMutation(GET_OFF_CALL_MUT);

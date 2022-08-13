@@ -1,15 +1,12 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useCallback, useEffect, useState } from "react";
 import { useMutation, useSubscription } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useMyInfo } from "@hooks/useGetMyInfo";
 
-import {
-  ChatScreen,
-  ChatInput,
-  ChatContainer,
-} from "@components/publicChat/MainScreen";
-import { ChatCard, OpponentChatCard } from "@components/publicChat/Card";
+// 2. util or hand-made function
 
+// 3. query for graphql
 import {
   LEAVE_ROOM_SUB,
   ENTER_ROOM_MUT,
@@ -17,21 +14,30 @@ import {
   LEAVE_ROOM_MUT,
 } from "@query/publicChatQuery";
 
-import { opponentInfoType } from "types/userInfo";
-type query = {
-  //type of query
+// 4. associated with component
+import {
+  ChatScreen,
+  ChatInput,
+  ChatContainer,
+} from "@components/publicChat/MainScreen";
+import { ChatCard, OpponentChatCard } from "@components/publicChat/Card";
+
+// 5. types
+import { UserFromHook } from "types/user.type";
+
+type Props = {
   chatRoom: string;
 };
 
 let timeOutCancleToken: NodeJS.Timeout; // setTimeout cancel token
 
-function OneOnOneChat({ chatRoom }: query) {
+function OneOnOneChat({ chatRoom }: Props) {
   const router = useRouter();
 
   // info variables
   const getInfo = useMyInfo();
-  const { uid, userType, userInfo } = getInfo();
-  const [opponentInfo, setOpponentInfo] = useState<opponentInfoType>();
+  const { userType, userInfo } = getInfo();
+  const [opponentInfo, setOpponentInfo] = useState<UserFromHook>();
 
   // ENTERROOM SUBSCRIBE, MUTATION
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
@@ -61,6 +67,7 @@ function OneOnOneChat({ chatRoom }: query) {
   }, [leaveRoom]);
 
   useEffect(() => {
+    console.log("came here?");
     /* 
       if user enter the room and have value, enterRoom Mutation occur.
       this mutation is call the enterEvent subscription fields
@@ -68,7 +75,6 @@ function OneOnOneChat({ chatRoom }: query) {
     if (userType && userInfo) {
       enterRoom({
         variables: {
-          uid,
           chatRoom,
           userType,
           userInfo: JSON.stringify(userInfo),
@@ -82,7 +88,7 @@ function OneOnOneChat({ chatRoom }: query) {
     if (enterEvent.data) {
       //if enterEvent occur
       if (!opponentInfo) {
-        if (enterEvent.data?.EnterRoom.uid !== uid) {
+        if (enterEvent.data?.EnterRoom.userInfo._id !== userInfo._id) {
           // set the opponent's info
           setOpponentInfo((prevState) => ({
             ...prevState,
@@ -91,7 +97,6 @@ function OneOnOneChat({ chatRoom }: query) {
           // and occur one more
           enterRoom({
             variables: {
-              uid,
               chatRoom,
               userType,
               userInfo: JSON.stringify(userInfo),
@@ -120,26 +125,28 @@ function OneOnOneChat({ chatRoom }: query) {
       cleanUp();
     };
   }
+
   //View
   return (
     <ChatContainer>
       <ChatCard userType={userType} userInfo={userInfo}></ChatCard>
       <div className="w-full md:w-1/2 h-full bg-white  flex flex-col-reverse mx-auto mb-0 p-0 bottom-0 left-0 right-0">
-        <ChatInput chatRoom={chatRoom}></ChatInput>
+        <ChatInput chatRoom={chatRoom} userInfo={userInfo}></ChatInput>
         <ChatScreen
           opponentLeave={leaveEvent.data?.LeaveRoom}
           opponentInfo={opponentInfo}
-          uid={uid}
+          uid={userInfo._id}
           chatRoom={chatRoom}></ChatScreen>
       </div>
       <OpponentChatCard
+        myInfo={{ userType, userInfo }}
         opponentInfo={opponentInfo}
         leave={leaveEvent.data?.LeaveRoom.leave}></OpponentChatCard>
     </ChatContainer>
   );
 }
 
-export function getServerSideProps({ query }: { query: query }) {
+export function getServerSideProps({ query }: { query: Props }) {
   const { chatRoom } = query;
   if (!chatRoom) {
     // if chat room is not exist, return 404 page

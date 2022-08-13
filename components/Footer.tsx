@@ -1,4 +1,13 @@
+// 1. hooks or react/next and ...etc built-in function
+
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import { BsGithub } from "react-icons/bs";
+
+// 5. types
 
 function Footer() {
   return (

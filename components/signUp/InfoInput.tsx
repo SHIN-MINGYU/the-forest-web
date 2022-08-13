@@ -1,5 +1,4 @@
-import { IconType } from "react-icons";
-import { CustomInputElementAddReset } from "@hooks/useInput";
+// 1. hooks or react/next and ...etc built-in function
 import React, {
   Dispatch,
   KeyboardEvent,
@@ -7,9 +6,19 @@ import React, {
   useRef,
   useState,
 } from "react";
+
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import { AiOutlineEye, AiOutlineEyeInvisible } from "@components/icon";
 
-type props = {
+// 5. types
+import { IconType } from "react-icons";
+import { CustomInputElementAddReset } from "@hooks/useInput";
+
+type Props = {
   Icon: IconType;
   stateHandler: CustomInputElementAddReset<string>;
   label: string;
@@ -23,7 +32,7 @@ type props = {
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
 };
 
-function InfoInput(props: props) {
+const InfoInput = (props: Props) => {
   /* 
   params
   Icon : display to front of input tag
@@ -164,6 +173,6 @@ function InfoInput(props: props) {
       </div>
     </div>
   );
-}
+};
 
 export default InfoInput;

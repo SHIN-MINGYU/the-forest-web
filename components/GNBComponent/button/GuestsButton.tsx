@@ -1,23 +1,28 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import { AiFillProfile, AiOutlineLogin } from "react-icons/ai";
 
-import { userInfo } from "types/userInfo";
-type props = {
-  userType: string;
-  userInfo: userInfo;
-};
+// 5. types
+import { IGuest } from "types/user.interface";
+type Props = IGuest;
 
-const GuestsButton = ({ userType, userInfo }: props) => {
+const GuestsButton = ({ userType, userInfo }: Props) => {
+  // @dynamic-import-start
   const ProfileModal = dynamic(() => import("./ProfileModal"));
   const DropDownContainer = dynamic(
     () => import("./dropdown/DropDownContainer")
   );
   const DropDownContent = dynamic(() => import("./dropdown/DropDownContent"));
-  //code spliting
+  // @dynamic-import-end
 
   const router = useRouter();
   const { nickname, imgPath } = userInfo;

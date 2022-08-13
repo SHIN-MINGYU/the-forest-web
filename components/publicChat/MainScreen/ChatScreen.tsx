@@ -1,24 +1,26 @@
+// 1. hooks or react/next and ...etc built-in function
+
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import BubbleCreator from "./BubbleCreator";
 import SingleUserToast from "./toastGroup/SingleUserToast";
-
-import { opponentInfoType } from "types/userInfo";
-import { leaveEvent } from "types/chatType";
 import MultiUserToast from "./toastGroup/MultiUserToast";
-type props = {
+
+// 5. types
+import { leaveEvent } from "@type/chat.type";
+import { UserFromHook } from "types/user.type";
+
+type Props = {
   uid: string;
   chatRoom: string;
-  opponentInfo: opponentInfoType | opponentInfoType[] | undefined;
+  opponentInfo: UserFromHook | UserFromHook[] | undefined;
   opponentLeave: leaveEvent | undefined;
 };
 
-function ChatScreen({ opponentLeave, opponentInfo, uid, chatRoom }: props) {
-  /*   const { subscribeToMore, ...result } = useQuery(SEARCH_CHAT_LOG_QUE, {
-    variables: { chatRoom },
-  }); */
-  //subscribeToMore is working
-  //if mutaition is occur, subscription is catch about that,
-  //then update is detected because of subscription, then query is update
-
+function ChatScreen({ opponentLeave, opponentInfo, uid, chatRoom }: Props) {
   return (
     <div
       className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse
@@ -36,49 +38,6 @@ function ChatScreen({ opponentLeave, opponentInfo, uid, chatRoom }: props) {
         )}
         <BubbleCreator chatRoom={chatRoom} uid={uid} />
       </>
-
-      {/* 
-      ! this method is supported by graphql
-      but in my logic this statement occur error
-      because of remaining prev data
-      so if opponent is not exist, deservedly, the img path is not exist , then img tag have not src property 
-      */}
-      {/*       <BubbleCreator  data={{
-        ChatLog: []
-      }} imgPath={undefined} uid={""}/> */}
-      {/* <div
-      className="overflow-scroll overflow-x-hidden h-full flex flex-col-reverse
-    scrollbar scrollbar-thumb-green-600 scrollbar-track-gray-100 active:scrollbar-thumb-green-700">
-      <BubbleCreator
-        {...result}
-        imgPath={imgPath}
-        uid={uid}
-        subscribeToNewChat={
-          () =>
-            subscribeToMore({
-              document: CHECK_CHAT_ACTION_SUB,
-              variables: { chatRoom },
-              updateQuery: (
-                prev: { ChatLog: [ChatLog] },
-                {
-                  subscriptionData,
-                }: { subscriptionData: { data: { CheckChat: [ChatLog] } } }
-              ) => {
-                if (!subscriptionData.data) {
-                  return prev;
-                }
-                const newChat: Array<ChatLog> = subscriptionData.data.CheckChat;
-                return Object.assign({}, prev, {
-                  ChatLog: [newChat, ...prev.ChatLog],
-                });
-              },
-            })
-          //subscribeToMore(
-          //  document : subscripbtion,
-          //  variables : send variabels to subscription
-          //  updateQuery : combine old chatLog and new chatLog to Array )
-        }
-      /> */}
     </div>
   );
 }

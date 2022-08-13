@@ -1,14 +1,21 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useLazyQuery } from "@apollo/client";
-import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { KeyboardEvent } from "react";
-import { setLocalStorage } from "utils/localStorage";
 import useInput from "@hooks/useInput";
 
+// 2. util or hand-made function
+import { setLocalStorage } from "utils/localStorage";
+
+// 3. query for graphql
+import { LOGIN_QUE } from "@query/publicChatQuery";
+
+// 4. associated with component
 import { FaRegUserCircle, RiLockPasswordLine } from "@components/icon";
 import InfoInput from "@components/signUp/InfoInput";
 
-import { LOGIN_QUE } from "@query/publicChatQuery";
+// 5. types
+import { NextPage } from "next";
+import { KeyboardEvent } from "react";
 
 const Login: NextPage = () => {
   const router = useRouter();

@@ -1,16 +1,23 @@
+// 1. hooks or react/next and ...etc built-in function
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useMyInfo } from "../hooks/useGetMyInfo";
+import dynamic from "next/dynamic";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import ThemeIcon from "./GNBComponent/icon/ThemeIcon";
 import GuestsButton from "./GNBComponent/button/GuestsButton";
 import UsersButton from "./GNBComponent/button/UsersButton";
-
-import { useMyInfo } from "../hooks/useGetMyInfo";
 import { AiOutlineMenu } from "react-icons/ai";
-import dynamic from "next/dynamic";
 
-function GNB() {
+// 5. types
+
+const GNB = () => {
   const getInfo = useMyInfo();
   const { ...myInfo } = getInfo();
   const [sideBarVisible, setSideBarVisible] = useState(false);
@@ -60,11 +67,11 @@ function GNB() {
           <div
             onClick={() => setSideBarVisible(false)}
             className="fixed top-0 bottom-0 right-0 left-0 backdrop-blur-md"></div>
-          <SideBar />
+          <SideBar {...myInfo} />
         </>
       )}
     </div>
   );
-}
+};
 
 export default GNB;

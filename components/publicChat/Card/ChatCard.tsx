@@ -1,14 +1,21 @@
-import { useMutation, gql, useQuery } from "@apollo/client";
-import Image from "next/image";
-import { userInfo } from "types/userInfo";
+// 1. hooks or react/next and ...etc built-in function
 import { useEffect, useState } from "react";
-import { GET_FOLLOWING, SEND_FOLLOW, SEND_UNFOLLOW } from "@query/userQuery";
-import { useMyInfo } from "hooks/useGetMyInfo";
+import Image from "next/image";
+import { useMutation, useQuery } from "@apollo/client";
 
-type props = {
-  uid?: string;
+// 2. util or hand-made function
+
+// 3. query for graphql
+import { GET_FOLLOWING, SEND_FOLLOW, SEND_UNFOLLOW } from "@query/userQuery";
+
+// 4. associated with component
+
+// 5. types
+import { UserFromHook, UserInfo } from "types/user.type";
+type Props = {
+  myInfo?: UserFromHook;
   userType: string;
-  userInfo: userInfo;
+  userInfo: Omit<UserInfo, "status">;
   opponentLeave?: boolean;
 };
 
@@ -49,7 +56,7 @@ const FollowButton = ({ uid }: { uid: string }) => {
   );
 };
 
-const ChatCard = ({ uid, userType, userInfo, opponentLeave }: props) => {
+const ChatCard = ({ myInfo, userType, userInfo, opponentLeave }: Props) => {
   /* 
     @params 
     userType : user's Type ("USER || GUEST")
@@ -57,8 +64,6 @@ const ChatCard = ({ uid, userType, userInfo, opponentLeave }: props) => {
   */
 
   const { nickname, gender, description, imgPath } = userInfo;
-
-  const myInfo = useMyInfo()();
 
   return (
     <div
@@ -75,8 +80,8 @@ const ChatCard = ({ uid, userType, userInfo, opponentLeave }: props) => {
           height={150}
           layout={"intrinsic"}
           alt="user profile"></Image>
-        {userType === "USER" && uid && myInfo.userType === "USER" && (
-          <FollowButton uid={uid}></FollowButton>
+        {myInfo && userType === "USER" && myInfo.userType === "USER" && (
+          <FollowButton uid={myInfo.userInfo._id}></FollowButton>
         )}
         <div>
           <div>

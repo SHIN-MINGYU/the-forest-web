@@ -14,19 +14,20 @@ import {
   MainData,
   SettingDetail,
   UserDetail,
-} from "types/privateRoom";
+} from "@type/privateRoom.type.";
+import { UserInfo } from "types/user.type";
 type Props = {
   data: MainData;
   setData: Dispatch<SetStateAction<MainData>>;
-  _id: string;
+  userInfo: Omit<UserInfo, "status">;
 };
 
-const MainWindow = ({ data, setData, _id }: Props) => {
+const MainWindow = ({ data, setData, userInfo }: Props) => {
   // @dynamic import start
-  const ChatDetail: ComponentType<{ data: ChatDetail; _id: string }> = dynamic(
-    import("./MainWindow/ChatDetail"),
-    { ssr: false }
-  );
+  const ChatDetail: ComponentType<{
+    data: ChatDetail;
+    userInfo: Omit<UserInfo, "status">;
+  }> = dynamic(import("./MainWindow/ChatDetail"), { ssr: false });
   const UserDetail: ComponentType<{
     data: UserDetail;
     setData: Dispatch<SetStateAction<ChatDetail>>;
@@ -40,7 +41,7 @@ const MainWindow = ({ data, setData, _id }: Props) => {
   return (
     <div className="hidden md:block md:basis-3/4">
       {data?.type === "ChatDetail" && (
-        <ChatDetail data={data} _id={_id}></ChatDetail>
+        <ChatDetail data={data} userInfo={userInfo}></ChatDetail>
       )}
       {data?.type === "UserDetail" && (
         <UserDetail

@@ -1,17 +1,11 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useMyInfo } from "@hooks/useGetMyInfo";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation, useSubscription } from "@apollo/client";
 
-import { ChatCard, OpponentChatCard } from "@components/publicChat/Card";
-import {
-  ChatContainer,
-  ChatInput,
-  ChatScreen,
-} from "@components/publicChat/MainScreen";
+// 2. util or hand-made function
 
-import { opponentInfoType } from "types/userInfo";
-import { chatRoomQuery } from "types/routingQuery";
-
+// 3. query for graphql
 import {
   ENTER_ROOM_MUT,
   ENTER_ROOM_SUB,
@@ -19,12 +13,26 @@ import {
   LEAVE_ROOM_SUB,
 } from "@query/publicChatQuery";
 
-const GroupChat = ({ chatRoom }: chatRoomQuery) => {
+// 4. associated with component
+import { ChatCard, OpponentChatCard } from "@components/publicChat/Card";
+import {
+  ChatContainer,
+  ChatInput,
+  ChatScreen,
+} from "@components/publicChat/MainScreen";
+
+// 5. types
+import { UserFromHook } from "types/user.type";
+type Props = {
+  chatRoom: string;
+};
+
+const GroupChat = ({ chatRoom }: Props) => {
   // info variables
   const getInfo = useMyInfo();
   const hotFilterdUser = useRef<string>("");
-  const { uid, userType, userInfo } = getInfo();
-  const [opponentInfo, setOpponentInfo] = useState<Array<opponentInfoType>>([]);
+  const { userType, userInfo } = getInfo();
+  const [opponentInfo, setOpponentInfo] = useState<Array<UserFromHook>>([]);
 
   // ENTER ROOM SUBSCRIBE, MUTATION
   const [enterRoom] = useMutation(ENTER_ROOM_MUT);
@@ -40,7 +48,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
       chatRoom,
       chatType: "group",
       nickname: userInfo.nickname,
-      uid,
+      uid: userInfo._id,
     },
   });
 
@@ -62,7 +70,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
     if (userType && userInfo) {
       enterRoom({
         variables: {
-          uid,
+          uid: userInfo._id,
           chatRoom,
           userType,
           userInfo: JSON.stringify(userInfo),
@@ -79,7 +87,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
       // if opponentInfo has same user, returned;
       opponentInfo?.forEach((el) => {
         if (
-          el.uid === enterEvent.data?.EnterRoom.uid ||
+          el.userInfo._id === enterEvent.data?.EnterRoom.uid ||
           hotFilterdUser.current === enterEvent.data?.EnterRoom.uid
         ) {
           isExist = true;
@@ -87,7 +95,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
       });
       if (!isExist) {
         hotFilterdUser.current = enterEvent.data?.EnterRoom.uid;
-        if (enterEvent.data?.EnterRoom.uid !== uid) {
+        if (enterEvent.data?.EnterRoom.uid !== userInfo._id) {
           // set the opponent's info
           const newOpponentArr = [
             {
@@ -100,7 +108,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
           // and occur one more
           enterRoom({
             variables: {
-              uid,
+              uid: userInfo._id,
               chatRoom,
               userType,
               userInfo: JSON.stringify(userInfo),
@@ -121,7 +129,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
           prevState.find((info) => info.uid === leaveEvent.data?.LeaveRoom.uid)!
             .uid || ""; */
         const filterdArr = prevState.filter(
-          (info) => info.uid != leaveEvent.data?.LeaveRoom.uid
+          (info) => info.userInfo._id != leaveEvent.data?.LeaveRoom.uid
         );
         return filterdArr;
       });
@@ -143,22 +151,25 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
       <div className="flex flex-col justify-around items-center">
         <ChatCard userType={userType} userInfo={userInfo}></ChatCard>
         <OpponentChatCard
+          myInfo={{ userType, userInfo }}
           opponentInfo={opponentInfo[0]}
           leave={false}></OpponentChatCard>
       </div>
       <div className="w-full md:w-1/2 h-full bg-white  flex flex-col-reverse mb-0 p-0 bottom-0 left-0 right-0 ">
-        <ChatInput chatRoom={chatRoom}></ChatInput>
+        <ChatInput userInfo={userInfo} chatRoom={chatRoom}></ChatInput>
         <ChatScreen
           opponentLeave={leaveEvent.data?.LeaveRoom}
           opponentInfo={opponentInfo}
-          uid={uid}
+          uid={userInfo._id}
           chatRoom={chatRoom}></ChatScreen>
       </div>
       <div className="flex flex-col justify-around">
         <OpponentChatCard
+          myInfo={{ userType, userInfo }}
           opponentInfo={opponentInfo[1]}
           leave={false}></OpponentChatCard>
         <OpponentChatCard
+          myInfo={{ userType, userInfo }}
           opponentInfo={opponentInfo[2]}
           leave={false}></OpponentChatCard>
       </div>
@@ -168,7 +179,7 @@ const GroupChat = ({ chatRoom }: chatRoomQuery) => {
 
 export default GroupChat;
 
-export function getServerSideProps({ query }: { query: chatRoomQuery }) {
+export function getServerSideProps({ query }: { query: Props }) {
   const { chatRoom } = query;
   if (!chatRoom) {
     // if chat room is not exist, return 404 page

@@ -1,7 +1,16 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useEffect, useState } from "react";
+
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
+
+// 5. types
 import { IconType } from "react-icons";
 
-type props = {
+type Props = {
   Icon: IconType;
   comment: string;
   category: string;
@@ -15,7 +24,7 @@ const ChatCategoryCard = ({
   category,
   onClick,
   size,
-}: props) => {
+}: Props) => {
   /* 
   @params 
     Icon : icon of profile
@@ -40,11 +49,9 @@ const ChatCategoryCard = ({
       className="px-10 flex justify-center"
       onClick={(e) => {
         onClick();
-      }}
-    >
+      }}>
       <div
-        className={`w-full sm:w-${sm} sm:h-64 md:w-${md} md:h-72 lg:w-${lg} lg:h-80 flex px-3 flex-col justify-center items-center bg-green-400 active:bg-green-600 rounded-md`}
-      >
+        className={`w-full sm:w-${sm} sm:h-64 md:w-${md} md:h-72 lg:w-${lg} lg:h-80 flex px-3 flex-col justify-center items-center bg-green-400 active:bg-green-600 rounded-md`}>
         <Icon size={100}></Icon>
         <p>{comment}</p>
         <p>{category}</p>

@@ -1,9 +1,14 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useMutation } from "@apollo/client";
-import { useMyInfo } from "@hooks/useGetMyInfo";
-import { LOG_OUT } from "@query/userQuery";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
+import { LOG_OUT } from "@query/userQuery";
 import {
   AiOutlineContacts,
   AiOutlineHome,
@@ -13,12 +18,12 @@ import {
 } from "react-icons/ai";
 import { MdOutlineLocalPolice } from "react-icons/md";
 
-const SideBar = () => {
+// 5. types
+import { UserFromHook } from "types/user.type";
+type Props = UserFromHook;
+
+const SideBar = ({ userInfo, userType }: Props) => {
   const [visible, setVisible] = useState(false);
-  const {
-    userInfo: { imgPath, nickname },
-    userType,
-  } = useMyInfo()();
 
   useEffect(() => {
     setVisible(true);
@@ -47,22 +52,24 @@ const SideBar = () => {
     <div
       className={`fixed ease-in duration-300 top-0 right-0 h-full delay-100 rounded-md w-64 space-y-4 bg-white ${
         visible ? "translate-x-0 " : "translate-x-full"
-      }`}
-    >
+      }`}>
       <div className="h-20 flex justify-center items-center space-x-4">
         <Image
           src={"/favicon.ico"}
           width={30}
           height={30}
-          alt="favicon"
-        ></Image>
+          alt="favicon"></Image>
         <span className="text-xl text-green-800">The Forest</span>
       </div>
       <div className="h-20 border flex items-center justify-around">
         <span>welcome! </span>
         <span className="flex items-center font-bold text-green-600 text-md space-x-3">
-          <Image src={imgPath} width={30} height={30} alt="profile"></Image>
-          <span>{nickname}</span>
+          <Image
+            src={userInfo.imgPath}
+            width={30}
+            height={30}
+            alt="profile"></Image>
+          <span>{userInfo.nickname}</span>
         </span>
       </div>
       <div className="flex flex-col px-10 space-y-3">
@@ -70,33 +77,28 @@ const SideBar = () => {
         <div className="flex flex-col px-10 space-y-5">
           <div
             onClick={() => transferToPage("Home")}
-            className="flex space-x-3"
-          >
+            className="flex space-x-3">
             <AiOutlineHome className="basis-1/4" size={20}></AiOutlineHome>
             <span className="basis-3/4">Home</span>
           </div>
           <div
             onClick={() => transferToPage("About")}
-            className="flex space-x-3"
-          >
+            className="flex space-x-3">
             <AiOutlineQuestionCircle
               className="basis-1/4"
-              size={20}
-            ></AiOutlineQuestionCircle>
+              size={20}></AiOutlineQuestionCircle>
             <span className="basis-3/4">About</span>
           </div>
           <div className="flex space-x-3">
             <MdOutlineLocalPolice
               className="basis-1/4"
-              size={20}
-            ></MdOutlineLocalPolice>
+              size={20}></MdOutlineLocalPolice>
             <span className="basis-3/4">Policy</span>
           </div>
           <div className="flex space-x-3">
             <AiOutlineContacts
               className="basis-1/4"
-              size={20}
-            ></AiOutlineContacts>
+              size={20}></AiOutlineContacts>
             <span className="basis-3/4">Contact</span>
           </div>
         </div>
@@ -104,8 +106,7 @@ const SideBar = () => {
       <div className="flex">
         <label
           htmlFor="default-toggle-size"
-          className="inline-flex mx-auto relative items-center cursor-pointer"
-        >
+          className="inline-flex mx-auto relative items-center cursor-pointer">
           <input
             type="checkbox"
             id="default-toggle-size"
@@ -120,8 +121,7 @@ const SideBar = () => {
       {userType === "GUEST" && (
         <div
           onClick={() => transferToPage("Login")}
-          className="absolute border flex bottom-0 w-full space-x-3 items-center justify-center"
-        >
+          className="absolute border flex bottom-0 w-full space-x-3 items-center justify-center">
           <AiOutlineLogin size={20}></AiOutlineLogin>
           <span>Login</span>
         </div>
@@ -129,8 +129,7 @@ const SideBar = () => {
       {userType === "USER" && (
         <div
           onClick={() => userLogout()}
-          className="absolute border flex bottom-0 w-full space-x-3 items-center justify-center"
-        >
+          className="absolute border flex bottom-0 w-full space-x-3 items-center justify-center">
           <AiOutlineLogout size={20}></AiOutlineLogout>
           <span>Logout</span>
         </div>

@@ -1,7 +1,17 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useEffect, useState } from "react";
-import { IconType } from "react-icons";
 
-type props = {
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
+
+// 5. types
+import { IconType } from "react-icons";
+import { IStringToS } from "types/signature.interface";
+
+type Props = {
   Icon?: IconType;
   circular?: boolean;
   info: string;
@@ -9,23 +19,19 @@ type props = {
   timer?: boolean;
 };
 
-type objectSig = {
-  [key: string]: any;
-};
-
-const bgColors: objectSig = {
+const bgColors: IStringToS = {
   success: "bg-blue-500",
   loading: "bg-lime-500",
   warning: "bg-red-500",
 };
 
-const NormalToast = ({ Icon, circular, info, message, timer }: props) => {
+const NormalToast = ({ Icon, circular, info, message, timer }: Props) => {
   const [visible, setVisible] = useState<boolean>(true);
   const [closeAnimation, setCloseAnimation] = useState<string>("opacity-100");
 
   const closeToast = () => {
     setCloseAnimation("opacity-0");
-    setVisible(false)
+    setVisible(false);
   };
 
   useEffect(() => {
@@ -36,7 +42,7 @@ const NormalToast = ({ Icon, circular, info, message, timer }: props) => {
       return () => clearTimeout(closeToken);
     }
   }, [timer]);
-  console.log(visible)
+  console.log(visible);
   return (
     <>
       {visible && (

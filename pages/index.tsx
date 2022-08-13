@@ -1,18 +1,23 @@
+// 1. hooks or react/next and ...etc built-in function
 import type { NextPage } from "next";
 import Head from "next/head";
 import { RefObject, useRef } from "react";
 import { useRouter } from "next/router";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
 import ChatCategoryCard from "@components/Card/ChatCategory";
 
+// 5. types
 import { loadingPageQuery } from "types/routingQuery";
-import { useMyInfo } from "@hooks/useGetMyInfo";
 
 const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
   const router = useRouter();
-  const { userType } = useMyInfo()();
   const transferToLoading = async ({ category, type }: loadingPageQuery) => {
     // transfre to loading page what have "type" query
     router.push(
@@ -26,10 +31,11 @@ const Home: NextPage = () => {
       "/chat/loading"
     );
   };
-  const transferToFriendsWindow = async () => {
-    if (userType === "USER") router.push("/chat/private/main");
-    else alert("YOU ARE NOT LOGINED USER");
+
+  const transferToPrivateWindow = async () => {
+    router.push("/chat/private/main");
   };
+
   return (
     <div className="overflow-x-hidden">
       <Head>
@@ -52,8 +58,7 @@ const Home: NextPage = () => {
                 onClick={() =>
                   transferToLoading({ category: "public", type: "oneonone" })
                 }
-                className="bg-gradient-to-r  hover:from-green-500 hover:to-green-900 delay-100 mt-4 px-16 py-4 "
-              >
+                className="bg-gradient-to-r  hover:from-green-500 hover:to-green-900 delay-100 mt-4 px-16 py-4 ">
                 <span className="text-white font-bold md:text-lg lg:text-2xl">
                   JOIN
                 </span>
@@ -85,24 +90,8 @@ const Home: NextPage = () => {
           </div>
           <h1 className="text-3xl font-bold text-center py-6">Private</h1>
           <div className="px-2">
-            {/*  <ChatCategoryCard
-              onClick={() =>
-                transferToFriendsWindow()
-              }
-              Icon={BsPeople}
-              comment={"Chat with freind"}
-              category={"1 v 1 chat"}
-            />
             <ChatCategoryCard
-              onClick={() =>
-                transferToFriendsWindow()
-              }
-              Icon={TiGroupOutline}
-              comment={"Chat with freind"}
-              category={"1 v N chat"}
-            /> */}
-            <ChatCategoryCard
-              onClick={() => transferToFriendsWindow()}
+              onClick={() => transferToPrivateWindow()}
               Icon={CgScreen}
               comment={"Enter Private Room"}
               category={"chat with friends!"}

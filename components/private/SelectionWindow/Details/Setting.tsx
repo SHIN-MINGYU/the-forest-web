@@ -10,7 +10,7 @@ import { RiUserFollowLine } from "react-icons/ri";
 import SettingCard from "./Card/SettingCard";
 
 // 5. types
-import { MainData } from "types/privateRoom";
+import { MainData } from "@type/privateRoom.type.";
 type Props = {
   setData: Dispatch<SetStateAction<MainData>>;
 };

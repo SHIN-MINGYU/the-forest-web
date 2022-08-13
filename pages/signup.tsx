@@ -1,10 +1,16 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useLazyQuery, useMutation } from "@apollo/client";
 import Head from "next/head";
-import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import useInput from "@hooks/useInput";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
+import { REQUEST_SEND_MAIL, SEARCH_USER, SIGN_UP } from "@query/userQuery";
+
+// 4. associated with component
 import {
   FaRegUserCircle,
   RiLockPasswordLine,
@@ -12,7 +18,8 @@ import {
 } from "@components/icon";
 import { SendButton, InfoInput } from "@components/signUp";
 
-import { REQUEST_SEND_MAIL, SEARCH_USER, SIGN_UP } from "@query/userQuery";
+// 5. types
+import { NextPage } from "next";
 
 const SignUp: NextPage = () => {
   const router = useRouter();

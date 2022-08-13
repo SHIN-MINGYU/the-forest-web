@@ -12,7 +12,7 @@ import CardContainer from "./Container/CardContainer";
 import { UserInfo } from "types/user.type";
 type Props = {
   height: number;
-  userInfo: UserInfo;
+  userInfo: UserInfo | Omit<UserInfo, "status">;
   onClick?: () => void;
 };
 

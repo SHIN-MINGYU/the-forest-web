@@ -1,16 +1,28 @@
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+// 1. hooks or react/next and ...etc built-in function
+import { useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useInterval from "@hooks/useInterval";
 import { useMyInfo } from "@hooks/useGetMyInfo";
 
-import { loadingPageQuery } from "types/routingQuery";
+// 2. util or hand-made function
 
+// 3. query for graphql
 import { SEARCH_RANDOM_ROOM_MUT } from "@query/publicChatQuery";
 
-function Loading({ type, category }: loadingPageQuery) {
+// 4. associated with component
+
+// 5. types
+type Props = {
+  type: string;
+  category: string;
+};
+
+function Loading({ type, category }: Props) {
   const getInfo = useMyInfo();
-  const { uid } = getInfo();
+  const {
+    userInfo: { _id },
+  } = getInfo();
   const [searchRoom, { data }] = useLazyQuery(SEARCH_RANDOM_ROOM_MUT, {
     fetchPolicy: "network-only",
   });
@@ -23,12 +35,12 @@ function Loading({ type, category }: loadingPageQuery) {
   }, 1000);
 
   useEffect(() => {
-    if (!data && type && category && uid) {
+    if (!data && type && category && _id) {
       //if mutation is not occured and query is exist
       setTimeout(() => {
         searchRoom({
           variables: {
-            uid,
+            uid: _id,
             category,
             type,
           },
@@ -74,7 +86,7 @@ function Loading({ type, category }: loadingPageQuery) {
   );
 }
 
-export function getServerSideProps({ query }: { query: loadingPageQuery }) {
+export function getServerSideProps({ query }: { query: Props }) {
   const { type, category } = query;
   if (!type || !category) {
     // if chat type is not exist, return 404 page

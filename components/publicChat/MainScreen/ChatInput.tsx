@@ -1,19 +1,23 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useMutation } from "@apollo/client";
 import { useRef } from "react";
 import useInput from "@hooks/useInput";
 
-import { SEND_CHAT_MUT } from "@query/publicChatQuery";
-import { useMyInfo } from "@hooks/useGetMyInfo";
+// 2. util or hand-made function
 
-type props = {
+// 3. query for graphql
+import { SEND_CHAT_MUT } from "@query/publicChatQuery";
+
+// 4. associated with component
+
+// 5. types
+import { UserInfo } from "types/user.type";
+type Props = {
   chatRoom: string;
+  userInfo: Omit<UserInfo, "status">;
 };
 
-function ChatInput({ chatRoom }: props) {
-  const {
-    uid,
-    userInfo: { nickname, imgPath },
-  } = useMyInfo()();
+function ChatInput({ chatRoom, userInfo }: Props) {
   const { reset, ...message } = useInput("");
   const sendButton = useRef<HTMLButtonElement>(null);
   const [sendChat] = useMutation(SEND_CHAT_MUT);
@@ -42,9 +46,9 @@ function ChatInput({ chatRoom }: props) {
             variables: {
               chat_room: chatRoom,
               log: message.value,
-              uid,
-              nickname,
-              imgPath,
+              uid: userInfo._id,
+              nickname: userInfo.nickname,
+              imgPath: userInfo.imgPath,
               createAt: new Date().toISOString(),
             },
           });

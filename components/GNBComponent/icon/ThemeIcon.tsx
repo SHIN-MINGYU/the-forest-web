@@ -1,7 +1,16 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useEffect, useState } from "react";
+
+// 2. util or hand-made function
 import { getLocalStorage } from "utils/localStorage";
+
+// 3. query for graphql
+
+// 4. associated with component
 import DarkModeIcon from "./DarkModeIcon";
 import LightModeIcon from "./LightModeIcon";
+
+// 5. types
 
 const ThemeIcon = () => {
   const [theme, setTheme] = useState(getLocalStorage("theme"));

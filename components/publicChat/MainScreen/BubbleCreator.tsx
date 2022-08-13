@@ -1,28 +1,24 @@
+// 1. hooks or react/next and ...etc built-in function
 import React, { useCallback, useEffect, useState } from "react";
 import { useSubscription } from "@apollo/client";
+
+// 2. util or hand-made function
+
+// 3. query for graphql
 import { CHECK_CHAT_ACTION_SUB } from "@query/publicChatQuery";
 
+// 4. associated with component
 import ChatBubble from "./ChatBubble";
 
-import { ChatLog } from "types/chatType";
-
-type props = {
-  /* subscribeToNewChat: any; */
+// 5. types
+import { ChatLog } from "@type/chat.type";
+type Props = {
   chatRoom: string;
   uid: string;
 };
 
-function BubbleCreator({
-  /* subscribeToNewChat, */
-  chatRoom,
-  uid,
-}: props) {
-  /*   useEffect(() => {
-    subscribeToNewChat();
-    // it is work for connect mutationn and query at subscription
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); */
-  const { data, loading, error } = useSubscription(CHECK_CHAT_ACTION_SUB, {
+const BubbleCreator = ({ chatRoom, uid }: Props) => {
+  const { data, loading } = useSubscription(CHECK_CHAT_ACTION_SUB, {
     variables: {
       chatRoom,
     },
@@ -51,5 +47,5 @@ function BubbleCreator({
     return <></>;
   }
   return <div className="flex flex-col">{data && renderItem()}</div>;
-}
+};
 export default BubbleCreator;

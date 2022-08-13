@@ -1,6 +1,10 @@
+// 1. hooks or react/next and ...etc built-in function
 import { gql, useMutation } from "@apollo/client";
 import { useEffect } from "react";
 
+// 2. util or hand-made function
+
+// 3. query for graphql
 const USER_LOGIN = gql`
   mutation Login {
     UserLogin
@@ -12,6 +16,10 @@ const USER_LOGOUT = gql`
     UserLogout
   }
 `;
+
+// 4. associated with component
+
+// 5. types
 
 const UserLogin = () => {
   const [login] = useMutation(USER_LOGIN);

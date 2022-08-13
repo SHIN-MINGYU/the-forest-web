@@ -1,12 +1,20 @@
-import { IconType } from "react-icons";
+// 1. hooks or react/next and ...etc built-in function
 
-type props = {
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
+
+// 5. types
+import { IconType } from "react-icons";
+type Props = {
   Icon: IconType;
   content: string;
   onClick?: () => void;
 };
 
-const DropDownContent = ({ Icon, content, onClick }: props) => {
+const DropDownContent = ({ Icon, content, onClick }: Props) => {
   /* 
   @params
     Icon : DropDownContent's Icon

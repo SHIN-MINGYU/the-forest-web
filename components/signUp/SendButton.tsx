@@ -1,9 +1,18 @@
-type props = {
+// 1. hooks or react/next and ...etc built-in function
+
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
+
+// 5. types
+type Props = {
   onClick: () => void;
   title: string;
 };
 
-const SendButton = (props: props) => {
+const SendButton = (props: Props) => {
   const { title, ...attribute } = props;
   return (
     <button

@@ -10,12 +10,11 @@ export interface IUserInfo extends IStringToS {
 }
 
 interface IRequiredInfoInHook {
-  userInfo: Omit<UserInfo, "_id" | "status">;
+  userInfo: Omit<UserInfo, "status">;
 }
 
 export interface IUser extends IRequiredInfoInHook {
   userType: "USER";
-  userInfo: UserInfo;
 }
 
 export interface IGuest extends IRequiredInfoInHook {

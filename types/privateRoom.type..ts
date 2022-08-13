@@ -7,20 +7,20 @@ export type ChatList = {
   chatRoom: string;
 };
 
-export interface UserDetail {
+export type UserDetail = {
   type: "UserDetail";
   userInfo: UserInfo;
-}
+};
 
-export interface ChatDetail {
+export type ChatDetail = {
   type: "ChatDetail";
   chatRoom: string;
   opponentNickname: string;
-}
+};
 
-export interface SettingDetail {
+export type SettingDetail = {
   type: "Setting Detail";
   category: string;
-}
+};
 
 export type MainData = UserDetail | ChatDetail | SettingDetail | undefined;

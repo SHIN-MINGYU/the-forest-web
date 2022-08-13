@@ -1,30 +1,36 @@
+// 1. hooks or react/next and ...etc built-in function
 import { useMutation } from "@apollo/client";
-import { LOG_OUT } from "@query/userQuery";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { AiFillProfile, AiOutlineLogout } from "@components/icon";
-import { userInfo } from "types/userInfo";
 import dynamic from "next/dynamic";
+
+// 2. util or hand-made function
 import { API_ENDPOINT } from "@utils/loadEnv";
 
-type props = {
-  userInfo: userInfo;
-  userType: string;
-};
+// 3. query for graphql
+import { LOG_OUT } from "@query/userQuery";
 
-const UsersButton = ({ userInfo, userType }: props) => {
+// 4. associated with component
+import { AiFillProfile, AiOutlineLogout } from "@components/icon";
+
+// 5. types
+import { IUser } from "types/user.interface";
+
+type Props = IUser;
+
+const UsersButton = ({ userInfo, userType }: Props) => {
+  // @dynamic-import-start
   const ProfileModal = dynamic(() => import("./ProfileModal"));
   const DropDownContainer = dynamic(
     () => import("./dropdown/DropDownContainer")
   );
   const DropDownContent = dynamic(() => import("./dropdown/DropDownContent"));
-  //code spliting
+  // @dynamic-import-end
 
   const router = useRouter();
   const [LogOut] = useMutation(LOG_OUT);
   const { nickname, imgPath } = userInfo;
-
   const [dropDownVisible, setDropDownVisible] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 

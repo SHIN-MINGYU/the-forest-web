@@ -1,16 +1,27 @@
-import { opponentInfoType } from "types/userInfo";
+// 1. hooks or react/next and ...etc built-in function
+
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import ChatCard from "./ChatCard";
 import DefaultChatCard from "./DefaultChatCard";
 
-type props = {
-  opponentInfo: opponentInfoType | undefined;
+// 5. types
+import { UserFromHook } from "types/user.type";
+type Props = {
+  myInfo: UserFromHook;
+  opponentInfo: UserFromHook | undefined;
   leave: boolean;
 };
 
-const OpponentChatCard = ({ opponentInfo, leave }: props) => {
+const OpponentChatCard = ({ myInfo, leave, opponentInfo }: Props) => {
   return (
     <>
-      {opponentInfo && <ChatCard opponentLeave={leave} {...opponentInfo} />}
+      {opponentInfo && (
+        <ChatCard myInfo={myInfo} opponentLeave={leave} {...opponentInfo} />
+      )}
       {!opponentInfo && <DefaultChatCard />}
     </>
   );

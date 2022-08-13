@@ -15,7 +15,7 @@ import {
 } from "@components/private";
 
 // 5. types
-import { MainData } from "types/privateRoom";
+import { MainData } from "@type/privateRoom.type.";
 
 const Main = () => {
   const getUser = useMyInfo();
@@ -35,7 +35,7 @@ const Main = () => {
         {userType === "USER" && (
           <>
             <SelectionWindow setData={setData} userInfo={userInfo} />
-            <MainWindow data={data} setData={setData} _id={userInfo._id} />
+            <MainWindow data={data} setData={setData} userInfo={userInfo} />
           </>
         )}
       </>

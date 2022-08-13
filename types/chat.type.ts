@@ -1,15 +1,9 @@
 export type ChatLog = {
   __typename: string;
-  uid:
-    | string
-    | {
-        _id: string;
-        imgPath: string;
-        nickname: string;
-      };
+  uid: string;
   log: string;
   createAt: Date;
-  imgPath?: string;
+  imgPath: string;
   nickname?: string;
 };
 //  if uid is string => subscribe action

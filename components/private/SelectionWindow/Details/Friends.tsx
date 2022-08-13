@@ -11,10 +11,10 @@ import { GET_F4F_LIST } from "@query/userQuery";
 import UserCard from "./Card/UserCard";
 
 // 5. types
-import { MainData, UserDetail } from "types/privateRoom";
+import { MainData, UserDetail } from "@type/privateRoom.type.";
 import { UserInfo } from "types/user.type";
 type Props = {
-  userInfo: UserInfo;
+  userInfo: Omit<UserInfo, "status">;
   setData: Dispatch<SetStateAction<MainData>>;
 };
 

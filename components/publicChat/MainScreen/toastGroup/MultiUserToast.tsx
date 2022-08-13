@@ -1,16 +1,23 @@
+// 1. hooks or react/next and ...etc built-in function
+import { useEffect, useState } from "react";
+
+// 2. util or hand-made function
+
+// 3. query for graphql
+
+// 4. associated with component
 import NormalToast from "../../../toast/NormalToast";
 import { AiFillWarning, FaRegCheckCircle } from "@components/icon";
 
-import { opponentInfoType } from "types/userInfo";
-import { leaveEvent } from "types/chatType";
-import { useEffect, useRef, useState } from "react";
-
-type props = {
-  opponentInfo: opponentInfoType[];
+// 5. types
+import { UserFromHook } from "types/user.type";
+import { leaveEvent } from "@type/chat.type";
+type Props = {
+  opponentInfo: UserFromHook[];
   opponentLeave: leaveEvent | undefined;
 };
 
-const MultiUserToast = ({ opponentInfo, opponentLeave }: props) => {
+const MultiUserToast = ({ opponentInfo, opponentLeave }: Props) => {
   const [currentNewUser, setCurrentNewUser] = useState(0);
   const [toastMessage, setToastMessage] = useState<JSX.Element>(
     <NormalToast info="loading" message="please wating for match!" circular />

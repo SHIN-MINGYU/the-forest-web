@@ -13,10 +13,10 @@ import { BsChatRightText, BsPeople } from "react-icons/bs";
 import MenuContainer from "./SelectionWindow/MenuContainer";
 
 // 5. types
-import { MainData } from "types/privateRoom";
+import { MainData } from "@type/privateRoom.type.";
 import { UserInfo } from "types/user.type";
 type Props = {
-  userInfo: UserInfo;
+  userInfo: Omit<UserInfo, "status">;
   setData: Dispatch<SetStateAction<MainData>>;
 };
 
