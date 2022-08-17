@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import PortalToGNB from "../../modal/PortalToGNB";
 
 // 2. util or hand-made function
 import { API_ENDPOINT } from "@utils/loadEnv";
@@ -94,13 +95,17 @@ const UsersButton = ({ userInfo, userType }: Props) => {
           </DropDownContainer>
         )}
       </div>
-      {modalVisible && (
-        <ProfileModal
-          userType={userType}
-          userInfo={userInfo}
-          hide={() => setModalVisible(false)}
-        />
-      )}
+      <PortalToGNB>
+        <>
+          {modalVisible && (
+            <ProfileModal
+              userType={userType}
+              userInfo={userInfo}
+              hide={() => setModalVisible(false)}
+            />
+          )}
+        </>
+      </PortalToGNB>
     </>
   );
 };

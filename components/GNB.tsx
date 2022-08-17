@@ -23,7 +23,9 @@ const GNB = () => {
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const SideBar = dynamic(import("./GNBComponent/SideBar"));
   return (
-    <div className="flex shadow-md justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
+    <div
+      id="gnb"
+      className="flex shadow-md justify-around top-0 z-50 bg-white min-w-full p-3 dark:bg-black ">
       <Link href="/">
         <div className="flex items-center" style={{ cursor: "pointer" }}>
           <Image

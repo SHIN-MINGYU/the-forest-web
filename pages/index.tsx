@@ -13,12 +13,15 @@ import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
 import ChatCategoryCard from "@components/Card/ChatCategory";
 
 // 5. types
-import { loadingPageQuery } from "types/routingQuery";
+type query = {
+  category: string;
+  type: string;
+};
 
 const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
   const router = useRouter();
-  const transferToLoading = async ({ category, type }: loadingPageQuery) => {
+  const transferToLoading = async ({ category, type }: query) => {
     // transfre to loading page what have "type" query
     router.push(
       {
@@ -67,7 +70,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className="bg-white dark:bg-black text-black dark:text-white py-2">
-          <h1 className="text-3xl font-bold text-center py-6">Public</h1>
+          <h1 className="text-2xl font-bold text-center py-6">Public</h1>
           <div className="grid md:grid-cols-2 md:grid-flow-col px-2 mb-3 space-y-10 md:space-y-0">
             <ChatCategoryCard
               onClick={() =>
@@ -88,7 +91,7 @@ const Home: NextPage = () => {
               size={80}
             />
           </div>
-          <h1 className="text-3xl font-bold text-center py-6">Private</h1>
+          <h1 className="text-2xl font-bold text-center py-6">Private</h1>
           <div className="px-2">
             <ChatCategoryCard
               onClick={() => transferToPrivateWindow()}

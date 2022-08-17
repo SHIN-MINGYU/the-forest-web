@@ -13,6 +13,7 @@ import { AiFillProfile, AiOutlineLogin } from "react-icons/ai";
 
 // 5. types
 import { IGuest } from "types/user.interface";
+import PortalToGNB from "../../modal/PortalToGNB";
 type Props = IGuest;
 
 const GuestsButton = ({ userType, userInfo }: Props) => {
@@ -74,12 +75,16 @@ const GuestsButton = ({ userType, userInfo }: Props) => {
           {/* container end */}
         </DropDownContainer>
       )}
-      {modalVisible && (
-        <ProfileModal
-          userType={userType}
-          userInfo={userInfo}
-          hide={() => setModalVisible(false)}></ProfileModal>
-      )}
+      <PortalToGNB>
+        <>
+          {modalVisible && (
+            <ProfileModal
+              userType={userType}
+              userInfo={userInfo}
+              hide={() => setModalVisible(false)}></ProfileModal>
+          )}
+        </>
+      </PortalToGNB>
     </div>
   );
 };

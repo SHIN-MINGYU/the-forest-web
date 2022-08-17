@@ -85,21 +85,22 @@ const GroupChat = ({ chatRoom }: Props) => {
       //if enterEvent occur
       let isExist = false;
       // if opponentInfo has same user, returned;
+      console.log(opponentInfo);
+      console.log(enterEvent.data?.EnterRoom);
       opponentInfo?.forEach((el) => {
         if (
-          el.userInfo._id === enterEvent.data?.EnterRoom.uid ||
-          hotFilterdUser.current === enterEvent.data?.EnterRoom.uid
+          el.userInfo._id === enterEvent.data?.EnterRoom.userInfo._id ||
+          hotFilterdUser.current === enterEvent.data?.EnterRoom.userInfo._id
         ) {
           isExist = true;
         }
       });
       if (!isExist) {
-        hotFilterdUser.current = enterEvent.data?.EnterRoom.uid;
-        if (enterEvent.data?.EnterRoom.uid !== userInfo._id) {
+        hotFilterdUser.current = enterEvent.data?.EnterRoom.userInfo._id;
+        if (enterEvent.data?.EnterRoom.userInfo._id !== userInfo._id) {
           // set the opponent's info
           const newOpponentArr = [
             {
-              uid: enterEvent.data?.EnterRoom.uid,
               userType: enterEvent.data?.EnterRoom.userType,
               userInfo: enterEvent.data?.EnterRoom.userInfo,
             },

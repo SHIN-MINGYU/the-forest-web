@@ -36,7 +36,11 @@ function ChatScreen({ opponentLeave, opponentInfo, uid, chatRoom }: Props) {
             opponentLeave={opponentLeave}
             opponentInfo={opponentInfo}></MultiUserToast>
         )}
-        <BubbleCreator chatRoom={chatRoom} uid={uid} />
+        <BubbleCreator
+          chatRoom={chatRoom}
+          uid={uid}
+          opponentInfo={opponentInfo!}
+        />
       </>
     </div>
   );

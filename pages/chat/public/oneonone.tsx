@@ -67,7 +67,6 @@ function OneOnOneChat({ chatRoom }: Props) {
   }, [leaveRoom]);
 
   useEffect(() => {
-    console.log("came here?");
     /* 
       if user enter the room and have value, enterRoom Mutation occur.
       this mutation is call the enterEvent subscription fields

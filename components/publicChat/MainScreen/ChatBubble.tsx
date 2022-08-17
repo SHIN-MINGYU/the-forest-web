@@ -1,7 +1,7 @@
 // 1. hooks or react/next and ...etc built-in function
 import Image from "next/image";
 import moment from "moment";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 // 2. util or hand-made function
 
@@ -11,29 +11,32 @@ import React from "react";
 
 // 5. types
 import { ChatLog } from "@type/chat.type";
+
 type Props = {
   chatLog: ChatLog;
   // 0 : current user's img
   // 1 : opponent user's img
   uid: string;
+  onClick: Dispatch<SetStateAction<string>>;
 };
 
-function ChatBubble({ chatLog, uid }: Props) {
+function ChatBubble({ chatLog, uid, onClick }: Props) {
   //Chat Bubble Component
   const MY_CHAT: boolean = chatLog.uid === uid;
 
   return (
     <div className={`flex items-start px-6 ${MY_CHAT ? "justify-end" : ""}`}>
-      <div className="mt-2">
-        {!MY_CHAT && (
+      {!MY_CHAT && (
+        <div onClick={() => onClick(uid)} className="mt-2">
           <Image
-            className="rounded-full border-2 border-black"
+            className="rounded-full"
             src={chatLog.imgPath}
             width={50}
             height={50}
             alt="user profile"></Image>
-        )}
-      </div>
+        </div>
+      )}
+
       {/* profile image */}
       <div className={`flex flex-col m-2 mx-4 ${MY_CHAT && "items-end"}`}>
         {/* chat container */}

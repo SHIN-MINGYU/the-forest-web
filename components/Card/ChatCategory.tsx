@@ -45,16 +45,15 @@ const ChatCategoryCard = ({
     }
   }, [lg]);
   return (
-    <div
-      className="px-10 flex justify-center"
-      onClick={(e) => {
-        onClick();
-      }}>
+    <div className="px-10 flex min-h-[200px] justify-center">
       <div
-        className={`w-full sm:w-${sm} sm:h-64 md:w-${md} md:h-72 lg:w-${lg} lg:h-80 flex px-3 flex-col justify-center items-center bg-green-400 active:bg-green-600 rounded-md`}>
-        <Icon size={100}></Icon>
-        <p>{comment}</p>
-        <p>{category}</p>
+        className={`w-full sm:w-${sm} sm:h-64 md:w-${md} md:h-72 lg:w-${lg} lg:h-80 flex px-3 justify-center items-center border border-green-200 active:bg-green-500 active:text-white rounded-md space-x-10`}
+        onClick={onClick}>
+        <Icon size={60} className="text-black"></Icon>
+        <div>
+          <p>{comment}</p>
+          <p>{category}</p>
+        </div>
       </div>
     </div>
   );

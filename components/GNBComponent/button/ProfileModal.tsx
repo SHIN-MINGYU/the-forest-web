@@ -16,14 +16,15 @@ import { UPDATE_USER_INFO } from "@query/userQuery";
 // 4. associated with component
 import {
   AiOutlineClose,
-  MdTransgender,
   MdOutlineDescription,
   FaRegUserCircle,
 } from "@components/icon";
-import InfoInput from "../../signUp/InfoInput";
+import ModalContainer from "../../modal/ModalContainer";
+import { InfoRadio, InfoInput } from "@components/input";
 
 // 5. types
 import { UserInfo } from "types/user.type";
+
 type Props = {
   hide: () => void;
   userInfo: Omit<UserInfo, "status">;
@@ -127,100 +128,93 @@ const ProfileModal = ({ hide, userInfo, userType }: Props) => {
   ]);
 
   return (
-    /* background blur window */
-    <div
-      className="overflow-auto transition-all
-      fixed inset-0 flex justify-center items-center backdrop-blur-sm">
-      {/* main modal window */}
-      <div className="relative space-y-4 flex flex-col w-1/3 min-w-fit min-h-fit p-6 bg-white dark:text-black">
-        <div className="flex justify-between items-center">
-          {/* title */}
-          <p className="lg:text-xl md:text-lg sm:text-md font-bold">
-            Edit Your Profile!
-          </p>
-          <AiOutlineClose
-            onClick={hide}
-            className="lg:text-3xl md:text-2xl sm:text-xl cursor-pointer"></AiOutlineClose>
-        </div>
-        <div className="space-y-6">
-          {/* profile avatar */}
-          {avatarUri ? (
-            /* if avatarUri is exist */
-            <div
-              className={
-                "rounded-full m-auto cursor-pointer border border-black overflow-hidden "
-              }
-              style={{ width: "96px", height: "96px" }}>
-              <Image
-                onClick={selectFile}
-                alt="profile"
-                width={96}
-                height={96}
-                layout="responsive"
-                src={
-                  avatarUri.startsWith("http://") ||
-                  avatarUri.startsWith("https://")
-                    ? avatarUri
-                    : "data:" + avatarUri
-                }></Image>
-            </div>
-          ) : (
-            /* if avatarUri isn't exist */
-            <div
-              className={
-                "rounded-full m-auto cursor-pointer border border-black overflow-hidden "
-              }
-              style={{ width: "96px", height: "96px" }}>
-              <Image
-                onClick={selectFile}
-                alt="profile"
-                width={96}
-                height={96}
-                layout="responsive"
-                src={API_ENDPOINT + "img/profile.png"}></Image>
-            </div>
-          )}
-          {/* main input */}
-          <input
-            className="hidden"
-            accept=".png , .svg , .jpg, .jpeg"
-            ref={fileInput}
-            type="file"
-            onChange={profileImgChanger}></input>
-          <InfoInput
-            Icon={FaRegUserCircle}
-            stateHandler={nickname}
-            label="nickname"></InfoInput>
-          <InfoInput
-            Icon={MdTransgender}
-            stateHandler={gender}
-            label="gender"></InfoInput>
-          <div>
-            <label
-              htmlFor="introduce"
-              className="flex space-x-2 mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
-              <MdOutlineDescription size={20} />
-              <span>introduce</span>
-            </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDiscription(e.target.value)}
-              id="introduce"
-              rows={4}
-              className="block resize-none p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="This message show when if you start random chatting"></textarea>
+    <ModalContainer>
+      <div className="flex justify-between items-center">
+        {/* title */}
+        <p className="lg:text-xl md:text-lg sm:text-md font-bold">
+          Edit Your Profile!
+        </p>
+        <AiOutlineClose
+          onClick={hide}
+          className="lg:text-3xl md:text-2xl sm:text-xl cursor-pointer"></AiOutlineClose>
+      </div>
+      <div className="space-y-6">
+        {/* profile avatar */}
+        {avatarUri ? (
+          /* if avatarUri is exist */
+          <div
+            className={
+              "rounded-full m-auto cursor-pointer border border-black overflow-hidden "
+            }
+            style={{ width: "96px", height: "96px" }}>
+            <Image
+              onClick={selectFile}
+              alt="profile"
+              width={96}
+              height={96}
+              layout="responsive"
+              src={
+                avatarUri.startsWith("http://") ||
+                avatarUri.startsWith("https://")
+                  ? avatarUri
+                  : "data:" + avatarUri
+              }></Image>
           </div>
-        </div>
-        {/* modal's tail */}
+        ) : (
+          /* if avatarUri isn't exist */
+          <div
+            className={
+              "rounded-full m-auto cursor-pointer border border-black overflow-hidden "
+            }
+            style={{ width: "96px", height: "96px" }}>
+            <Image
+              onClick={selectFile}
+              alt="profile"
+              width={96}
+              height={96}
+              layout="responsive"
+              src={API_ENDPOINT + "img/profile.png"}></Image>
+          </div>
+        )}
+        {/* main input */}
+        <input
+          className="hidden"
+          accept=".png , .svg , .jpg, .jpeg"
+          ref={fileInput}
+          type="file"
+          onChange={profileImgChanger}></input>
+        <InfoInput
+          Icon={FaRegUserCircle}
+          stateHandler={nickname}
+          label="nickname"></InfoInput>
+        <InfoRadio
+          items={["male", "female", "none"]}
+          stateHandler={gender}></InfoRadio>
         <div>
-          <button
-            onClick={() => updateUserInfo()}
-            className="w-full bg-blue-700 text-white ">
-            submit
-          </button>
+          <label
+            htmlFor="introduce"
+            className="flex space-x-2 mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+            <MdOutlineDescription size={20} />
+            <span>introduce</span>
+          </label>
+          <textarea
+            value={description}
+            onChange={(e) => setDiscription(e.target.value)}
+            id="introduce"
+            rows={4}
+            className="block resize-none p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="This message show when if you start random chatting"></textarea>
         </div>
       </div>
-    </div>
+      {/* modal's tail */}
+      <div>
+        <button
+          onClick={() => updateUserInfo()}
+          className="w-full bg-blue-700 text-white ">
+          submit
+        </button>
+      </div>
+    </ModalContainer>
   );
 };
 

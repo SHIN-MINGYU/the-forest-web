@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <div className="flex flex-col overflow-x-auto">
+    <div className="root flex flex-col overflow-x-auto">
       <ApolloProvider client={client}>
         {!loading && router.pathname != "/chat/private/video/[room]" && (
           <>

@@ -11,7 +11,7 @@ import { LOGIN_QUE } from "@query/publicChatQuery";
 
 // 4. associated with component
 import { FaRegUserCircle, RiLockPasswordLine } from "@components/icon";
-import InfoInput from "@components/signUp/InfoInput";
+import { InfoInput } from "@components/input";
 
 // 5. types
 import { NextPage } from "next";

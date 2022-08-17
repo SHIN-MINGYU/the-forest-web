@@ -29,7 +29,6 @@ export const useMyInfo = (): (() => UserFromHook) => {
     UserInfo | Omit<UserInfo, "_id" | "status">
   >(initailValue);
   const { data, loading, error } = useQuery(GET_USER);
-  console.log(data);
   useEffect(() => {
     if (data) {
       // if data is exist
