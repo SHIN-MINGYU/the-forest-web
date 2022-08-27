@@ -1,12 +1,12 @@
 // 1. hooks or react/next and ...etc built-in function
-import { RefObject, useCallback, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useMyInfo } from "hooks/useGetMyInfo";
 import { useMutation } from "@apollo/client";
 import Image from "next/image";
 import Peer from "peerjs";
 
 // 2. util or hand-made function
-import { PEER_ENDPOINT } from "utils/loadEnv";
+import { connectPeer, connectToVideo } from "./helper";
 
 // 3. query for graphql
 import { GET_OFF_CALL_MUT } from "query/privateChatQuery";
@@ -16,9 +16,11 @@ import { TiDeleteOutline } from "react-icons/ti";
 
 // 5. types
 import { UserInfo } from "types/user.type";
+import { useRouter } from "next/router";
+
 type Props = {
   chatRoom: string;
-  opponentInfo: Omit<UserInfo, "description" | "gender" | "status">;
+  opponentInfo?: Omit<UserInfo, "description" | "gender" | "status">;
 };
 
 const MainWindow = ({ chatRoom, opponentInfo }: Props) => {
@@ -27,40 +29,11 @@ const MainWindow = ({ chatRoom, opponentInfo }: Props) => {
   const [peer, setPeer] = useState<Peer | undefined>(undefined);
   const [waitForUser, setWaitForUser] = useState<boolean>(true);
 
+  const router = useRouter();
   const {
     userInfo: { _id },
   } = useMyInfo()();
   const [getOffCall] = useMutation(GET_OFF_CALL_MUT);
-
-  const connectToVideo = (
-    ref: RefObject<HTMLVideoElement>,
-    stream: MediaStream
-  ) => {
-    // connect to current stream on current video
-    if (ref === opponentVideo) {
-      setWaitForUser(false);
-    }
-    ref.current!.srcObject = stream;
-    ref.current!.onloadedmetadata = () => {
-      ref.current!.play();
-    };
-  };
-
-  const connectPeer = useCallback(async () => {
-    const { default: Peer } = await import("peerjs");
-    const peer = new Peer(_id, {
-      // peer server's option
-      host:
-        process.env.NODE_ENV === "production"
-          ? new URL(PEER_ENDPOINT!).pathname
-          : "localhost",
-      port: process.env.NODE_ENV === "production" ? 433 : 9000,
-      path: "/forest",
-      secure: process.env.NODE_ENV === "production" ? true : false,
-    });
-    // setState the own peer
-    setPeer(peer);
-  }, [_id]);
 
   const connectVideo = async (peer: Peer) => {
     // create peer that use my objectId in database
@@ -73,28 +46,34 @@ const MainWindow = ({ chatRoom, opponentInfo }: Props) => {
         audio: true,
       })
       .then((stream) => {
-        connectToVideo(myVideo, stream);
-        // connect To my Video
+        connectToVideo(myVideo, stream, setWaitForUser);
+
+        // connect To my Videoz
         peer.on("call", (call) => {
           // if the opponent enter My Room emit 'call' event
           call.answer(stream);
           // the call's answer is stream
           call.on("stream", (stream) => {
             // stream event is occured => send to opponentVideo what the stream
-            connectToVideo(opponentVideo, stream);
+            connectToVideo(opponentVideo, stream, setWaitForUser, true);
           });
         });
 
-        const call = peer.call(opponentInfo._id, stream);
+        const call = peer.call(
+          /* opponentInfo._id */ typeof router.query.uid === "string"
+            ? "123"
+            : "query",
+          stream
+        );
         call.on("stream", (stream) => {
-          connectToVideo(opponentVideo, stream);
+          connectToVideo(opponentVideo, stream, setWaitForUser, true);
         });
       });
   };
 
   useEffect(() => {
-    connectPeer();
-  }, [connectPeer]);
+    connectPeer(router, setPeer);
+  }, [router]);
 
   useEffect(() => {
     if (typeof peer != "undefined") connectVideo(peer);
@@ -106,7 +85,7 @@ const MainWindow = ({ chatRoom, opponentInfo }: Props) => {
       <video ref={opponentVideo} className="w-full h-full bg-black"></video>
       {waitForUser && (
         <div className="absolute inset-0 flex  flex-col justify-center items-center">
-          <div className="animate-bounce border-2 p-6 rounded-full max-w-40 max-h-40 flex flex-col justify-center items-center bg-blue-300">
+          {/*           <div className="animate-bounce border-2 p-6 rounded-full max-w-40 max-h-40 flex flex-col justify-center items-center bg-blue-300">
             <Image
               src={opponentInfo.imgPath}
               width={100}
@@ -116,7 +95,7 @@ const MainWindow = ({ chatRoom, opponentInfo }: Props) => {
               {opponentInfo.nickname}
             </p>
           </div>
-          <p className="text-white">waiting user...</p>
+          <p className="text-white">waiting user...</p> */}
         </div>
       )}
       <video ref={myVideo} className="absolute top-0 m-2w-32 h-32 z-20"></video>

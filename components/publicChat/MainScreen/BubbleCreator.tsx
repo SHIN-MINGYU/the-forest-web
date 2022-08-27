@@ -19,7 +19,7 @@ import { UserFromHook } from "../../../types/user.type";
 type Props = {
   chatRoom: string;
   uid: string;
-  opponentInfo: UserFromHook | UserFromHook[];
+  opponentInfo?: UserFromHook | UserFromHook[];
 };
 
 // View
@@ -53,14 +53,13 @@ const BubbleCreator = ({ chatRoom, uid, opponentInfo }: Props) => {
       }),
     [message, uid]
   );
-
   if (loading) {
     return <></>;
   }
   return (
     <div className="flex flex-col">
       {data && renderItem()}
-      {clickedID && (
+      {clickedID && opponentInfo && (
         <PortalToGNB>
           <OpponentInfoModal
             opponentInfo={

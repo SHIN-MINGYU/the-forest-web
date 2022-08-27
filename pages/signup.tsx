@@ -16,7 +16,8 @@ import {
   RiLockPasswordLine,
   AiOutlineMail,
 } from "@components/icon";
-import { SendButton, InfoInput } from "@components/signUp";
+import { InfoInput } from "@components/input";
+import { SendButton } from "@components/signUp";
 
 // 5. types
 import { NextPage } from "next";

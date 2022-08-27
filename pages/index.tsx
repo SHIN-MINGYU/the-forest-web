@@ -10,30 +10,14 @@ import { useRouter } from "next/router";
 
 // 4. associated with component
 import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
-import ChatCategoryCard from "@components/Card/ChatCategory";
+import ChatCategoryCard from "@components/card/ChatCategory";
+import { transferToLoading } from "../utils/transferPage";
 
 // 5. types
-type query = {
-  category: string;
-  type: string;
-};
 
 const Home: NextPage = () => {
   const videoRef: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
   const router = useRouter();
-  const transferToLoading = async ({ category, type }: query) => {
-    // transfre to loading page what have "type" query
-    router.push(
-      {
-        pathname: "/chat/loading",
-        query: {
-          category,
-          type,
-        },
-      },
-      "/chat/loading"
-    );
-  };
 
   const transferToPrivateWindow = async () => {
     router.push("/chat/private/main");
@@ -59,7 +43,11 @@ const Home: NextPage = () => {
               </p>
               <button
                 onClick={() =>
-                  transferToLoading({ category: "public", type: "oneonone" })
+                  transferToLoading({
+                    category: "public",
+                    type: "oneonone",
+                    router,
+                  })
                 }
                 className="bg-gradient-to-r  hover:from-green-500 hover:to-green-900 delay-100 mt-4 px-16 py-4 ">
                 <span className="text-white font-bold md:text-lg lg:text-2xl">
@@ -74,7 +62,11 @@ const Home: NextPage = () => {
           <div className="grid md:grid-cols-2 md:grid-flow-col px-2 mb-3 space-y-10 md:space-y-0">
             <ChatCategoryCard
               onClick={() =>
-                transferToLoading({ category: "public", type: "oneonone" })
+                transferToLoading({
+                  category: "public",
+                  type: "oneonone",
+                  router,
+                })
               }
               Icon={BsPeople}
               comment={"Chat with stranger"}
@@ -83,7 +75,7 @@ const Home: NextPage = () => {
             />
             <ChatCategoryCard
               onClick={() =>
-                transferToLoading({ category: "public", type: "group" })
+                transferToLoading({ category: "public", type: "group", router })
               }
               Icon={TiGroupOutline}
               comment={"Chat with strangers"}

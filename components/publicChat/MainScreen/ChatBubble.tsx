@@ -17,20 +17,26 @@ type Props = {
   // 0 : current user's img
   // 1 : opponent user's img
   uid: string;
-  onClick: Dispatch<SetStateAction<string>>;
+  onClick?: Dispatch<SetStateAction<string>>;
 };
 
 function ChatBubble({ chatLog, uid, onClick }: Props) {
   //Chat Bubble Component
-  const MY_CHAT: boolean = chatLog.uid === uid;
-
+  const MY_CHAT: boolean =
+    typeof chatLog.uid === "string"
+      ? chatLog.uid === uid
+      : chatLog.uid._id === uid;
   return (
     <div className={`flex items-start px-6 ${MY_CHAT ? "justify-end" : ""}`}>
       {!MY_CHAT && (
-        <div onClick={() => onClick(uid)} className="mt-2">
+        <div onClick={onClick ? () => onClick(uid) : () => {}} className="mt-2">
           <Image
             className="rounded-full"
-            src={chatLog.imgPath}
+            src={
+              typeof chatLog.uid != "string"
+                ? chatLog.uid.imgPath
+                : chatLog.imgPath!
+            }
             width={50}
             height={50}
             alt="user profile"></Image>
@@ -40,7 +46,11 @@ function ChatBubble({ chatLog, uid, onClick }: Props) {
       {/* profile image */}
       <div className={`flex flex-col m-2 mx-4 ${MY_CHAT && "items-end"}`}>
         {/* chat container */}
-        <p className="font-bold text-lg">{chatLog.nickname}</p>
+        <p className="font-bold text-lg">
+          {typeof chatLog.uid != "string"
+            ? chatLog.uid.nickname
+            : chatLog.nickname!}
+        </p>
         <div
           className={`relative w-fit max-w-lg px-5 py-2 rounded-xl ${
             MY_CHAT
@@ -64,7 +74,11 @@ function ChatBubble({ chatLog, uid, onClick }: Props) {
         <div className="mt-2">
           <Image
             className="rounded-full"
-            src={chatLog.imgPath}
+            src={
+              typeof chatLog.uid != "string"
+                ? chatLog.uid.imgPath
+                : chatLog.imgPath!
+            }
             width={50}
             height={50}
             alt="user profile"></Image>

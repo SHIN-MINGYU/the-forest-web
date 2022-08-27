@@ -32,6 +32,7 @@ const Video = ({ chatRoom }: Props) => {
     },
   });
 
+  useEffect(() => {});
   useEffect(() => {
     /*     if (typeof window != "undefined") {
       console.log(window.frames.name);
@@ -57,20 +58,20 @@ const Video = ({ chatRoom }: Props) => {
       <div className="relative w-screen h-screen">
         {data?.GetOffCall.leave && (
           <div className="flex flex-col bg-gray-200 w-full h-full justify-center items-center space-y-10">
-            <p>{user?.GetUserInChat[0].nickname}</p>
+            {/*  <p>{user?.GetUserInChat[0].nickname}</p>
             <Image
               src={user?.GetUserInChat[0].imgPath}
               width={300}
               height={300}
               alt="profile img"></Image>
             <p className="text-2xl">opponent user is getOff your call</p>
-            <p>this window will be close after 3 seconds</p>
+            <p>this window will be close after 3 seconds</p> */}
           </div>
         )}
         {!data?.GetOffCall.leave && user && (
           <MainWindow
             chatRoom={chatRoom}
-            opponentInfo={user?.GetUserInChat[0]}
+            //opponentInfo={user?.GetUserInChat[0]}
           />
         )}
       </div>
