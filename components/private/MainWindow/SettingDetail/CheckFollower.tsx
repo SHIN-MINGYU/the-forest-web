@@ -1,7 +1,7 @@
 import { useLazyQuery, gql } from "@apollo/client";
 import Image from "next/image";
 import { useEffect } from "react";
-import { userInfo } from "types/userInfo";
+import { UserInfo } from "types/user.type";
 import FollowerCard from "./Card/FollowerCard";
 
 const NOT_F4F_FOLLOWER = gql`
@@ -30,7 +30,7 @@ const CheckFollower = () => {
       </div>
       <div className="grid grid-flow-row lg:grid-cols-3 md:grid-cols-2">
         {data &&
-          data?.GetFollowerNotF4F.map((el: userInfo, index: number) => {
+          data?.GetFollowerNotF4F.map((el: UserInfo, index: number) => {
             return <FollowerCard key={index} {...el} />;
           })}
       </div>

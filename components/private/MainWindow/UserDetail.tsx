@@ -18,7 +18,7 @@ import { AiFillWechat } from "react-icons/ai";
 import { IoMdVideocam } from "react-icons/io";
 
 // 5. types
-import { ChatDetail, UserDetail } from "@type/privateRoom.type.";
+import { ChatDetail, UserDetail } from "@type/privateRoom.type";
 type Props = {
   data: UserDetail;
   setData: Dispatch<SetStateAction<ChatDetail>>;

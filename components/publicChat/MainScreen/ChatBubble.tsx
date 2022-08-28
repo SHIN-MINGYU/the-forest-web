@@ -11,6 +11,7 @@ import React, { Dispatch, SetStateAction } from "react";
 
 // 5. types
 import { ChatLog } from "@type/chat.type";
+import { getLocalStorage } from "../../../utils/localStorage";
 
 type Props = {
   chatLog: ChatLog;
@@ -26,6 +27,10 @@ function ChatBubble({ chatLog, uid, onClick }: Props) {
     typeof chatLog.uid === "string"
       ? chatLog.uid === uid
       : chatLog.uid._id === uid;
+
+  const myColor = getLocalStorage("myColor");
+  const opponentColor = getLocalStorage("opponentColor");
+
   return (
     <div className={`flex items-start px-6 ${MY_CHAT ? "justify-end" : ""}`}>
       {!MY_CHAT && (
@@ -54,8 +59,8 @@ function ChatBubble({ chatLog, uid, onClick }: Props) {
         <div
           className={`relative w-fit max-w-lg px-5 py-2 rounded-xl ${
             MY_CHAT
-              ? "rounded-tr-none bg-red-200"
-              : "rounded-tl-none bg-red-400"
+              ? `rounded-tr-none bg-${myColor}`
+              : `rounded-tl-none bg-${opponentColor}`
           } text-white`}>
           <p>{chatLog.log}</p>
           <div
@@ -63,8 +68,8 @@ function ChatBubble({ chatLog, uid, onClick }: Props) {
               MY_CHAT ? "translate-x-4" : "-translate-x-8"
             } border-b-[10px] border-b-transparent ${
               MY_CHAT
-                ? "border-l-[20px] border-l-red-200"
-                : "border-r-[20px] border-r-red-400"
+                ? `border-l-[20px] border-l-${myColor}`
+                : `border-r-[20px] border-r-${opponentColor}`
             }`}></div>
           {/* triangle for chatBubble */}
         </div>

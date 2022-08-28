@@ -15,7 +15,7 @@ import {
 } from "@components/private";
 
 // 5. types
-import { MainData } from "@type/privateRoom.type.";
+import { MainData } from "@type/privateRoom.type";
 
 const Main = () => {
   const getUser = useMyInfo();

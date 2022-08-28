@@ -11,7 +11,7 @@ import { GET_PRIVATE_ROOM_LIST_QUE } from "@query/privateChatQuery";
 import ChatRoomCard from "./Card/ChatRoomCard";
 
 // 5. types
-import { ChatDetail, ChatList, MainData } from "@type/privateRoom.type.";
+import { ChatDetail, ChatList, MainData } from "@type/privateRoom.type";
 type Props = {
   setData: Dispatch<SetStateAction<MainData>>;
 };

@@ -21,6 +21,7 @@ import type { AppProps } from "next/app";
 
 // 6. style
 import "../styles/globals.css";
+import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(true);
@@ -66,6 +67,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 const userCheck = () => {
   if (!getSessionStorage("user")) {
     setSessionStorage("user", new ObjectId().toString());
+  }
+  if (!getLocalStorage("myColor")) {
+    setLocalStorage("myColor", "red-200");
+  }
+  if (!getLocalStorage("opponentColor")) {
+    setLocalStorage("opponentColor", "red-400");
   }
 };
 

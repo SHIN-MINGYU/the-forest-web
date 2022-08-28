@@ -12,7 +12,7 @@ import { ChatInput } from "@components/publicChat/MainScreen";
 import BubbleCreator from "../../publicChat/MainScreen/BubbleCreator";
 
 // 5. types
-import { ChatDetail } from "@type/privateRoom.type.";
+import { ChatDetail } from "@type/privateRoom.type";
 import { UserInfo } from "types/user.type";
 type Props = {
   data: ChatDetail;

@@ -14,7 +14,7 @@ import {
   MainData,
   SettingDetail,
   UserDetail,
-} from "@type/privateRoom.type.";
+} from "@type/privateRoom.type";
 import { UserInfo } from "types/user.type";
 type Props = {
   data: MainData;
@@ -35,6 +35,7 @@ const MainWindow = ({ data, setData, userInfo }: Props) => {
 
   const SettingDetail: ComponentType<{
     data: SettingDetail;
+    userInfo: Omit<UserInfo, "status">;
   }> = dynamic(import("./MainWindow/SettingDetail"), { ssr: false });
   // @dynamic import end
 
@@ -51,7 +52,7 @@ const MainWindow = ({ data, setData, userInfo }: Props) => {
           }></UserDetail>
       )}
       {data?.type === "Setting Detail" && (
-        <SettingDetail data={data}></SettingDetail>
+        <SettingDetail userInfo={userInfo!} data={data}></SettingDetail>
       )}
     </div>
   );

@@ -12,7 +12,7 @@ import { CHECK_CHAT_ACTION_SUB } from "@query/publicChatQuery";
 import CardContainer from "./Container/CardContainer";
 
 // 5. types
-import { ChatList } from "@type/privateRoom.type.";
+import { ChatList } from "@type/privateRoom.type";
 type Props = {
   height: number;
   chatList: ChatList;

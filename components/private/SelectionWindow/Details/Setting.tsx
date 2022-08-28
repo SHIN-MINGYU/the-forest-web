@@ -10,7 +10,10 @@ import { RiUserFollowLine } from "react-icons/ri";
 import SettingCard from "./Card/SettingCard";
 
 // 5. types
-import { MainData } from "@type/privateRoom.type.";
+import { MainData } from "@type/privateRoom.type";
+import { MdInvertColors } from "react-icons/md";
+import { UserInfo } from "@type/user.type";
+
 type Props = {
   setData: Dispatch<SetStateAction<MainData>>;
 };
@@ -24,6 +27,12 @@ const Setting = ({ setData }: Props) => {
         value="check your followers (NOT F4F)"
         onClick={() =>
           setData({ type: "Setting Detail", category: "CheckFollower" })
+        }></SettingCard>
+      <SettingCard
+        Icon={MdInvertColors}
+        value="change message color"
+        onClick={() =>
+          setData({ type: "Setting Detail", category: "ChangeMessageColor" })
         }></SettingCard>
     </>
   );

@@ -8,6 +8,7 @@ import React, { useCallback, useState } from "react";
 // 4. associated with component
 
 // 5. types
+
 export interface CustomInputElement<T> {
   value: T;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
