@@ -9,8 +9,8 @@ import { useRouter } from "next/router";
 // 3. query for graphql
 
 // 4. associated with component
-import { BsPeople, TiGroupOutline, CgScreen } from "@components/icon";
-import ChatCategoryCard from "@components/card/ChatCategory";
+import { BsPeople, TiGroupOutline, CgScreen } from "../components/icon";
+import ChatCategoryCard from "../components/card/ChatCategory";
 import { transferToLoading } from "../utils/transferPage";
 
 // 5. types
@@ -34,7 +34,7 @@ const Home: NextPage = () => {
       <main>
         <div className="relative">
           <video className="min-w-full" ref={videoRef} loop autoPlay muted>
-            <source src="videos/mainVideo.mp4"></source>
+            <source src="videos/mainVideo.mp4" type="video/mp4"></source>
           </video>
           <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
             <div className="text-center">
