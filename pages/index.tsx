@@ -9,8 +9,8 @@ import { useRouter } from "next/router";
 // 3. query for graphql
 
 // 4. associated with component
-import { BsPeople, TiGroupOutline, CgScreen } from "../components/icon";
 import ChatCategoryCard from "../components/card/ChatCategory";
+import { BsPeople, TiGroupOutline, CgScreen } from "../components/icon";
 import { transferToLoading } from "../utils/transferPage";
 
 // 5. types
