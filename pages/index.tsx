@@ -28,6 +28,7 @@ const Home: NextPage = () => {
       <Head>
         <title>The Forest</title>
         <meta name="description" content="main page" />
+        <meta content="text/html; text/javascript"></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>

@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import type { NextPage } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import ArticleContent from "../components/about/AricleContent";
 import Article from "../components/about/Article";
@@ -10,6 +11,12 @@ const About: NextPage = () => {
 
   return (
     <div>
+      <Head>
+        <title>The Forest</title>
+        <meta name="description" content="about page" />
+        <meta content="text/html; text/javascript"></meta>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="max-w-7xl min-h-screen mx-auto px-8 border drop-shadow-xl">
         <div className="flex-col flex-auto">
           <div className="flex mt-6">
