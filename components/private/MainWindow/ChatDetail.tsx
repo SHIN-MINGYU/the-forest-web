@@ -37,7 +37,9 @@ const ChatDetail = ({ data, userInfo }: Props) => {
           <p className="">{opponentNickname}</p>
         </div>
         {/* header */}
-        <div className="flex-1 border-b-2 px-2 flex flex-col-reverse overflow-auto">
+        <div
+          className="flex-1 border-b-2 px-2 flex flex-col-reverse overflow-auto"
+          style={{ maxHeight: "80vh" }}>
           {/* myBubble */}
           <BubbleCreator chatRoom={chatRoom} uid={userInfo._id}></BubbleCreator>
           {coldChat!.map((el: any, index: number) => (

@@ -40,7 +40,7 @@ const MainWindow = ({ data, setData, userInfo }: Props) => {
   // @dynamic import end
 
   return (
-    <div className="hidden md:block md:basis-3/4">
+    <div className="hidden md:block md:basis-3/4 min-h-full overflow-visible">
       {data?.type === "ChatDetail" && (
         <ChatDetail data={data} userInfo={userInfo}></ChatDetail>
       )}

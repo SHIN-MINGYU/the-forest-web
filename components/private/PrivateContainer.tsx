@@ -16,7 +16,7 @@ const PrivateContainer = ({ children }: Props) => {
     <div
       className="w-full
       flex overflow-y-hidden justify-around items-around"
-      style={{ height: "90vh" }}>
+      style={{ minHeight: "90vh" }}>
       {children}
     </div>
   );
